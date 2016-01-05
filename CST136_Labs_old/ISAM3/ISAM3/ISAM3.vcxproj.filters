@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Employee">
+      <UniqueIdentifier>{832320e2-e15f-478f-abe2-f1dea4e7d5b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ISAM">
+      <UniqueIdentifier>{ee84509f-f979-4ff9-aa1d-07b58451c814}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ISAM\Iterator">
+      <UniqueIdentifier>{e216e6b7-41be-4108-a454-a15cf650ba78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controller">
+      <UniqueIdentifier>{637b9fda-735d-4e47-aca3-bf42eb443f6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Employee">
+      <UniqueIdentifier>{e3fe3504-1775-4002-bd09-9917bac662b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Controller">
+      <UniqueIdentifier>{f61108eb-d27a-48d6-a4a1-d286b617bf35}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ISAMController.cpp">
+      <Filter>Source Files\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Employee.cpp">
+      <Filter>Source Files\Employee</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Source Files\Employee</Filter>
+    </ClCompile>
+    <ClCompile Include="Salary.cpp">
+      <Filter>Source Files\Employee</Filter>
+    </ClCompile>
+    <ClCompile Include="Temporary.cpp">
+      <Filter>Source Files\Employee</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Salary.h">
+      <Filter>Header Files\Employee</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Header Files\Employee</Filter>
+    </ClInclude>
+    <ClInclude Include="Employee.h">
+      <Filter>Header Files\Employee</Filter>
+    </ClInclude>
+    <ClInclude Include="Temporary.h">
+      <Filter>Header Files\Employee</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipIterator.h">
+      <Filter>Header Files\ISAM\Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="RangeIterator.h">
+      <Filter>Header Files\ISAM\Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="ISAMIterator.h">
+      <Filter>Header Files\ISAM\Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericIterator.h">
+      <Filter>Header Files\ISAM\Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Iterator.h">
+      <Filter>Header Files\ISAM\Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Header Files\ISAM</Filter>
+    </ClInclude>
+    <ClInclude Include="ISAMController.h">
+      <Filter>Header Files\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="ISAM.h">
+      <Filter>Header Files\ISAM</Filter>
+    </ClInclude>
+    <ClInclude Include="ISAMBlock.h">
+      <Filter>Header Files\ISAM</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Input.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Output.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

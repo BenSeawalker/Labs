@@ -1,0 +1,218 @@
+Inserting: 2345 Montana Joe 091658 091678
+Inserting: 2446 Duck Daffy 091658 091678
+Inserting: 2345 Mouse Mighty 091658 091678
+Inserting: 1346 Johnson Jerry 091658 091678
+Inserting: 2846 Kettle PotDuck 091658 091678
+Inserting: 2386 After Math 091658 091678
+Inserting: 2348 Beer Thirty 091658 091678
+Inserting: 1346 Aftir Noon 091658 091678
+Inserting: 2146 Seeya Later 091658 091678
+
+===================Displaying Row: 0===================
+Row 0 contains: 9 items
+2386    After       Math        091658    091678    
+1346    Aftir       Noon        091658    091678    
+2348    Beer        Thirty      091658    091678    
+2446    Duck        Daffy       091658    091678    
+1346    Johnson     Jerry       091658    091678    
+2846    Kettle      PotDuck     091658    091678    
+2345    Montana     Joe         091658    091678    
+2345    Mouse       Mighty      091658    091678    
+2146    Seeya       Later       091658    091678    
+
+=======================================================
+
+Searching for: "Aftir"
+Found at: Element 1 of Row 0
+1346    Aftir       Noon        091658    091678    
+
+
+Searching for: "Seeya"
+Found at: Element 8 of Row 0
+2146    Seeya       Later       091658    091678    
+
+Inserting: 2316 Checkit Out 091658 091678
+Inserting: 2341 Zeena TheWarrior 091658 091678
+Inserting: 2246 Able ToCode 091658 091678
+Inserting: 2246 Wannabe Coder 091658 091678
+Inserting: 2246 ILove Progamming 091658 091678
+Inserting: 2246 Abcdefghij Letter 091658 091678
+Inserting: 2246 Insta Matic 091658 091678
+Inserting: 2246 Rice Jerry 091658 091678
+Inserting: 2246 McGuire Marck 091658 091678
+Inserting: 2246 Wonder Woman 091658 091678
+Inserting: 2246 Bat Man 091658 091678
+Inserting: 246 Gilmore Happy 091658 091678
+
+=============Displaying Rows: 1 through 2==============
+Row 1 contains: 1 item
+2246    Insta       Matic       091658    091678    
+
+
+Row 2 contains: 10 items
+1346    Johnson     Jerry       091658    091678    
+2846    Kettle      PotDuck     091658    091678    
+2246    McGuire     Marck       091658    091678    
+2345    Montana     Joe         091658    091678    
+2345    Mouse       Mighty      091658    091678    
+2246    Rice        Jerry       091658    091678    
+2146    Seeya       Later       091658    091678    
+2246    Wannabe     Coder       091658    091678    
+2246    Wonder      Woman       091658    091678    
+2341    Zeena       TheWarrior  091658    091678    
+
+=======================================================
+
+Searching for: "ILove"
+Found at: Element 9 of Row 0
+2246    ILove       Progamming  091658    091678    
+
+
+Deleting: "Duck"
+Success!
+
+Deleting: "McGuire"
+Success!
+
+Deleting: "NoinList"
+Failure!
+
+Deleting: "Duck"
+Failure!
+
+Deleting: "Wonder"
+Success!
+
+===================Displaying Row: 1===================
+Row 1 contains: 1 item
+2246    Insta       Matic       091658    091678    
+
+=======================================================
+
+Searching for: "McGuire"
+Unable to find "McGuire"...
+
+Inserting: 2246 ZXLast Name 091658 091678
+Inserting: 2246 Ansi Standard 091658 091678
+
+Deleting: "Abcdefghij"
+Success!
+
+Deleting: "Insta"
+Success!
+
+Deleting: "Rice"
+Success!
+
+Deleting: "McGuire"
+Failure!
+
+Deleting: "Bat"
+Success!
+
+===================Displaying Row: 0===================
+Row 0 contains: 8 items
+2246    Able        ToCode      091658    091678    
+2386    After       Math        091658    091678    
+1346    Aftir       Noon        091658    091678    
+2246    Ansi        Standard    091658    091678    
+2348    Beer        Thirty      091658    091678    
+2316    Checkit     Out         091658    091678    
+246     Gilmore     Happy       091658    091678    
+2246    ILove       Progamming  091658    091678    
+
+=======================================================
+
+Searching for: "Wonder"
+Unable to find "Wonder"...
+
+
+Deleting: "Gilmore"
+Success!
+
+Deleting: "Gilmore"
+Failure!
+
+Deleting: "Checkit"
+Success!
+
+Deleting: "Zeena"
+Success!
+
+Deleting: "ZXLast"
+Success!
+
+=============Displaying Rows: 0 through 1==============
+Row 0 contains: 6 items
+2246    Able        ToCode      091658    091678    
+2386    After       Math        091658    091678    
+1346    Aftir       Noon        091658    091678    
+2246    Ansi        Standard    091658    091678    
+2348    Beer        Thirty      091658    091678    
+2246    ILove       Progamming  091658    091678    
+
+
+Row 1 contains: 6 items
+1346    Johnson     Jerry       091658    091678    
+2846    Kettle      PotDuck     091658    091678    
+2345    Montana     Joe         091658    091678    
+2345    Mouse       Mighty      091658    091678    
+2146    Seeya       Later       091658    091678    
+2246    Wannabe     Coder       091658    091678    
+
+=======================================================
+Inserting: 2246 Albocore fish 091658 091678
+Inserting: 2246 Dee Sandra 091658 091678
+Inserting: 2246 Manilow Barry 091658 091678
+Inserting: 2246 Manson Marilyn 091658 091678
+Inserting: 2246 Sample Data 091658 091678
+Inserting: 2246 Sledge Omatic 091658 091678
+Inserting: 2246 Albert Sissy 091658 091678
+Inserting: 2246 Breedlove Toddman 091658 091678
+Inserting: 2246 Crazy Horse 091658 091678
+Inserting: 2246 You DaMan 091658 091678
+Inserting: 2246 Satisfy Customer 091658 091678
+Inserting: 2246 Excellent Day 091658 091678
+Inserting: 2246 Hopefor Thebest 091658 091678
+
+=============Displaying Rows: 0 through 3==============
+Row 0 contains: 10 items
+2246    Able        ToCode      091658    091678    
+2386    After       Math        091658    091678    
+1346    Aftir       Noon        091658    091678    
+2246    Albert      Sissy       091658    091678    
+2246    Albocore    fish        091658    091678    
+2246    Ansi        Standard    091658    091678    
+2348    Beer        Thirty      091658    091678    
+2246    Breedlove   Toddman     091658    091678    
+2246    Crazy       Horse       091658    091678    
+2246    Dee         Sandra      091658    091678    
+
+
+Row 1 contains: 3 items
+2246    Excellent   Day         091658    091678    
+2246    Hopefor     Thebest     091658    091678    
+2246    ILove       Progamming  091658    091678    
+
+
+Row 2 contains: 10 items
+1346    Johnson     Jerry       091658    091678    
+2846    Kettle      PotDuck     091658    091678    
+2246    Manilow     Barry       091658    091678    
+2246    Manson      Marilyn     091658    091678    
+2345    Montana     Joe         091658    091678    
+2345    Mouse       Mighty      091658    091678    
+2246    Sample      Data        091658    091678    
+2246    Satisfy     Customer    091658    091678    
+2146    Seeya       Later       091658    091678    
+2246    Sledge      Omatic      091658    091678    
+
+
+Row 3 contains: 2 items
+2246    Wannabe     Coder       091658    091678    
+2246    You         DaMan       091658    091678    
+
+=======================================================
+
+Program ending...
+

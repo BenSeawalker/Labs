@@ -1,0 +1,328 @@
+Inserting: 2345 Montana Joe 091658 091678 S 20000.00 .3
+Inserting: 2446 Duck Daffy 091658 091678 T 8.5 40
+Inserting: 2345 Mouse Mighty 091658 091678 M 30000.00 2000
+Inserting: 1346 Johnson Jerry 091658 091678 M 25000.00 1500
+Inserting: 2846 Kettle PotDuck 091658 091678 M 38000.00 4000
+Inserting: 2386 After Math 091658 091678 T 9.00 45
+Inserting: 2348 Beer Thirty 091658 091678 T 14.00 35
+Inserting: 1346 Aftir Noon 091658 091678 S 34876.00 .24
+Inserting: 2146 Seeya Later 091658 091678 S 46500.50 .32
+
+=================Paychecks for Row: 0==================
+Row 0 contains: 9 items
+After              405.00
+Aftir             8370.24
+Beer               490.00
+Duck               340.00
+Johnson          26500.00
+Kettle           42000.00
+Montana           6000.00
+Mouse            32000.00
+Seeya            14880.00
+
+=======================================================
+
+===============Employee Types in Row: 0================
+Row 0 contains: 9 items
+After        is a Temporary   employee
+Aftir        is a Salary      employee
+Beer         is a Temporary   employee
+Duck         is a Temporary   employee
+Johnson      is a Managerial  employee
+Kettle       is a Managerial  employee
+Montana      is a Salary      employee
+Mouse        is a Managerial  employee
+Seeya        is a Salary      employee
+
+=======================================================
+
+Moving iterator G's cursor to the first element
+
+Moving iterator S's cursor to the first element
+
+Moving iterator A's cursor to the first element
+
+Moving iterator M's cursor to the first element
+
+Searching for: "Aftir"
+Found at: Element 1 of Row 0
+1346    Aftir          Noon           091658    091678    Sales:        34876	Commission:     0.24
+
+
+Searching for: "Seeya"
+Found at: Element 8 of Row 0
+2146    Seeya          Later          091658    091678    Sales:        46500	Commission:     0.32
+
+Inserting: 2316 Checkit Out 091658 091678 S 20000.00 .15
+Inserting: 2341 Zeena TheWarrior 091658 091678 S 23456.15 .18
+Inserting: 2246 Able ToCode 091658 091678 T 10.50 40
+Inserting: 2246 Wannabe Coder 091658 091678 T 9.75 56
+Inserting: 2246 ILove Progamming 091658 091678 M 45000.50 1800
+Inserting: 2246 Abcdefghij Letter 091658 091678 M 45000.30 1800
+Inserting: 2246 Insta Matic 091658 091678 T 12.5 38
+Inserting: 2246 Rice Jerry 091658 091678	M 46456.40 3400
+Inserting: 2246 McGuire Marck 091658 091678 T 10.00 38
+Inserting: 2246 Wonder Woman 091658 091678 T 8.50 42
+Inserting: 2246 Bat Man 091658 091678 S 45500.00 .23
+Inserting: 2246 Gilmore Happy 091658 091678 S 34567.00 .45
+
+===========Paychecks for Rows: 1 through 2=============
+Row 1 contains: 1 item
+Insta              475.00
+
+
+Row 2 contains: 10 items
+Johnson          26500.00
+Kettle           42000.00
+McGuire            380.00
+Montana           6000.00
+Mouse            32000.00
+Rice             49856.40
+Seeya            14880.00
+Wannabe            546.00
+Wonder             357.00
+Zeena             4222.08
+
+=======================================================
+
+===============Employee Types in Row: 2================
+Row 2 contains: 10 items
+Johnson      is a Managerial  employee
+Kettle       is a Managerial  employee
+McGuire      is a Temporary   employee
+Montana      is a Salary      employee
+Mouse        is a Managerial  employee
+Rice         is a Managerial  employee
+Seeya        is a Salary      employee
+Wannabe      is a Temporary   employee
+Wonder       is a Temporary   employee
+Zeena        is a Salary      employee
+
+=======================================================
+
+Moving iterator G's cursor forward 4 spaces.
+
+Moving iterator S's cursor forward 4 spaces.
+
+Moving iterator A's cursor forward 4 spaces.
+
+Moving iterator M's cursor forward 4 spaces.
+
+=======Displaying current item for iterator "G"========
+2316    Checkit        Out            091658    091678    Sales:        20000	Commission:     0.15
+=======================================================
+
+=======Displaying current item for iterator "S"========
+2246    Insta          Matic          091658    091678    Rate:         12.50	Hours:         38.00
+=======================================================
+
+=======Displaying current item for iterator "A"========
+2316    Checkit        Out            091658    091678    Sales:        20000	Commission:     0.15
+=======================================================
+
+=======Displaying current item for iterator "M"========
+2246    Wannabe        Coder          091658    091678    Rate:          9.75	Hours:         56.00
+=======================================================
+
+Moving iterator G's cursor forward 4 spaces.
+
+Moving iterator S's cursor forward 14 spaces.
+
+Moving iterator A's cursor forward 4 spaces.
+
+Moving iterator M's cursor forward 3 spaces.
+
+=======Displaying current item for iterator "G"========
+2246    Insta          Matic          091658    091678    Rate:         12.50	Hours:         38.00
+=======================================================
+
+=======Displaying current item for iterator "S"========
+Done!
+=======================================================
+
+=======Displaying current item for iterator "A"========
+2246    Insta          Matic          091658    091678    Rate:         12.50	Hours:         38.00
+=======================================================
+
+=======Displaying current item for iterator "M"========
+2246    McGuire        Marck          091658    091678    Rate:         10.00	Hours:         38.00
+=======================================================
+
+Searching for: "ILove"
+Found at: Element 9 of Row 0
+2246    ILove          Progamming     091658    091678    Salary:    45000.50	Bonus:       1800.00
+
+
+Deleting: "Duck"
+Success!
+
+Deleting: "McGuire"
+Moving iterator "M"... 
+Success!
+
+Deleting: "NoinList"
+Failure!
+
+Deleting: "Duck"
+Failure!
+
+Deleting: "Wonder"
+Success!
+
+Searching for: "McGuire"
+Unable to find "McGuire"...
+
+Inserting: 2246 ZXLast Name 091658 091678 M 45333.00 5000
+Inserting: 2246 Ansi Standard 091658 091678 T 8.00 50
+
+Moving iterator S's cursor to the first element
+
+Moving iterator G's cursor forward 28 spaces.
+
+Moving iterator S's cursor forward 4 spaces.
+
+Moving iterator A's cursor forward 38 spaces.
+
+Moving iterator M's cursor forward 24 spaces.
+
+=======Displaying current item for iterator "G"========
+Done!
+=======================================================
+
+=======Displaying current item for iterator "S"========
+2246    Gilmore        Happy          091658    091678    Sales:        34567	Commission:     0.45
+=======================================================
+
+=======Displaying current item for iterator "A"========
+Done!
+=======================================================
+
+=======Displaying current item for iterator "M"========
+Done!
+=======================================================
+
+Deleting: "Abcdefghij"
+Success!
+
+Deleting: "Insta"
+Success!
+
+Deleting: "Rice"
+Success!
+
+Deleting: "McGuire"
+Failure!
+
+Deleting: "Bat"
+Success!
+
+=======Displaying current item for iterator "S"========
+2246    Gilmore        Happy          091658    091678    Sales:        34567	Commission:     0.45
+=======================================================
+
+Searching for: "Wonder"
+Unable to find "Wonder"...
+
+
+Deleting: "Gilmore"
+Moving iterator "S"... 
+Success!
+
+Deleting: "Gilmore"
+Failure!
+
+Deleting: "Checkit"
+Success!
+
+Deleting: "Zeena"
+Success!
+
+Deleting: "ZXLast"
+Success!
+Inserting: 2246 Albocore fish 091658 091678 M 40000.00 2000
+Inserting: 2246 Dee Sandra 091658 091678 M 30000.10 2500
+Inserting: 2246 Manilow Barry 091658 091678 S 67000.00 .2
+Inserting: 2246 Manson Marilyn 091658 091678 S 55555.55 .55
+Inserting: 2246 Sample Data 091658 091678 T 10.0 10
+Inserting: 2246 Sledge Omatic 091658 091678 T 20.00 20
+Inserting: 2246 Albert Sissy 091658 091678 T 15.00 15
+Inserting: 2246 Breedlove Toddman 091658 091678 M 20000.20 2222
+Inserting: 2246 Crazy Horse 091658 091678 M 444444.44 4444
+Inserting: 2246 You DaMan 091658 091678 S 22222.22 .22
+Inserting: 2246 Satisfy Customer 091658 091678 S 33333.33 .33
+Inserting: 2246 Excellent Day 091658 091678 S 55555.55 .15
+Inserting: 2246 Hopefor Thebest 091658 091678 T 16.16 41
+
+=============Displaying Rows: 0 through 3==============
+Row 0 contains: 10 items
+2246    Able           ToCode         091658    091678    Rate:         10.50	Hours:         40.00
+2386    After          Math           091658    091678    Rate:          9.00	Hours:         45.00
+1346    Aftir          Noon           091658    091678    Sales:        34876	Commission:     0.24
+2246    Albert         Sissy          091658    091678    Rate:         15.00	Hours:         15.00
+2246    Albocore       fish           091658    091678    Salary:    40000.00	Bonus:       2000.00
+2246    Ansi           Standard       091658    091678    Rate:          8.00	Hours:         50.00
+2348    Beer           Thirty         091658    091678    Rate:         14.00	Hours:         35.00
+2246    Breedlove      Toddman        091658    091678    Salary:    20000.20	Bonus:       2222.00
+2246    Crazy          Horse          091658    091678    Salary:   444444.44	Bonus:       4444.00
+2246    Dee            Sandra         091658    091678    Salary:    30000.10	Bonus:       2500.00
+
+
+Row 1 contains: 3 items
+2246    Excellent      Day            091658    091678    Sales:        55555	Commission:     0.15
+2246    Hopefor        Thebest        091658    091678    Rate:         16.16	Hours:         41.00
+2246    ILove          Progamming     091658    091678    Salary:    45000.50	Bonus:       1800.00
+
+
+Row 2 contains: 10 items
+1346    Johnson        Jerry          091658    091678    Salary:    25000.00	Bonus:       1500.00
+2846    Kettle         PotDuck        091658    091678    Salary:    38000.00	Bonus:       4000.00
+2246    Manilow        Barry          091658    091678    Sales:        67000	Commission:     0.20
+2246    Manson         Marilyn        091658    091678    Sales:        55555	Commission:     0.55
+2345    Montana        Joe            091658    091678    Sales:        20000	Commission:     0.30
+2345    Mouse          Mighty         091658    091678    Salary:    30000.00	Bonus:       2000.00
+2246    Sample         Data           091658    091678    Rate:         10.00	Hours:         10.00
+2246    Satisfy        Customer       091658    091678    Sales:        33333	Commission:     0.33
+2146    Seeya          Later          091658    091678    Sales:        46500	Commission:     0.32
+2246    Sledge         Omatic         091658    091678    Rate:         20.00	Hours:         20.00
+
+
+Row 3 contains: 2 items
+2246    Wannabe        Coder          091658    091678    Rate:          9.75	Hours:         56.00
+2246    You            DaMan          091658    091678    Sales:        22222	Commission:     0.22
+
+=======================================================
+
+Moving iterator G's cursor to the first element
+
+Moving iterator S's cursor to the first element
+
+Moving iterator A's cursor to the first element
+
+Moving iterator M's cursor to the first element
+
+Moving iterator G's cursor forward 14 spaces.
+
+Moving iterator S's cursor forward 7 spaces.
+
+Moving iterator A's cursor forward 14 spaces.
+
+Moving iterator M's cursor forward 8 spaces.
+
+=======Displaying current item for iterator "G"========
+2846    Kettle         PotDuck        091658    091678    Salary:    38000.00	Bonus:       4000.00
+=======================================================
+
+=======Displaying current item for iterator "S"========
+2846    Kettle         PotDuck        091658    091678    Salary:    38000.00	Bonus:       4000.00
+=======================================================
+
+=======Displaying current item for iterator "A"========
+2846    Kettle         PotDuck        091658    091678    Salary:    38000.00	Bonus:       4000.00
+=======================================================
+
+=======Displaying current item for iterator "M"========
+2246    Wannabe        Coder          091658    091678    Rate:          9.75	Hours:         56.00
+=======================================================
+
+Program ending...
+

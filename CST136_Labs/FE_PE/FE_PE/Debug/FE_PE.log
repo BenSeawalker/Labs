@@ -1,0 +1,16 @@
+﻿Build started 12/8/2015 11:49:52 AM.
+     1>Project "C:\Users\Ben Seawalker\Documents\Visual Studio 2015\Projects\Labs\CST136_Labs\FE_PE\FE_PE\FE_PE.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt ArrayController.cpp Main.cpp
+         ArrayController.cpp
+     1>c:\users\ben seawalker\documents\visual studio 2015\projects\labs\cst136_labs\fe_pe\fe_pe\arraycontroller.cpp(66): error C2100: illegal indirection
+     1>c:\users\ben seawalker\documents\visual studio 2015\projects\labs\cst136_labs\fe_pe\fe_pe\arraycontroller.cpp(66): error C2088: '<<': illegal for class
+         Generating Code...
+         Compiling...
+         Main.cpp
+         Generating Code...
+     1>Done Building Project "C:\Users\Ben Seawalker\Documents\Visual Studio 2015\Projects\Labs\CST136_Labs\FE_PE\FE_PE\FE_PE.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:04.76
