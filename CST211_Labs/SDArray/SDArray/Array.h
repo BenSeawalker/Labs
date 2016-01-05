@@ -1,13 +1,17 @@
-/*************************************************************
+/************************************************************************
 * Author:		Garrett Fleischer
 * Filename:		Array.h
 * Date Created:	1/4/16
 * Modifications:
 *	N/A
-**************************************************************/
+*************************************************************************/
 
-#ifndef Array_h__
-#define Array_h__
+#ifndef ARRAY_H
+#define ARRAY_H
+
+#include "Exception.h"
+
+#define MIN(arg1, arg2) ((arg1 <= arg2) ? arg1 : arg2)
 
 /************************************************************************
 * Class: Array
@@ -36,27 +40,29 @@
 template<typename T>
 class Array
 {
-public: // CTOR'S & D'TOR
+public:
+	// CTOR'S & D'TOR
 	Array();
 	Array(int length, int start_index = 0);
 	Array(const Array & copy);
 	~Array();
 
-public: // OPERATORS
-	Array & operator=(const Array &copy);
+	// OPERATORS
+	Array<T> & operator=(const Array & rhs);
 	T & operator[](int index) const;
 
-public: // GETTERS & SETTERS
-	int getStartIndex();
+	// GETTERS & SETTERS
+	int getStartIndex() const;
 	void setStartIndex(int index);
 	
-	void getLength();
+	int getLength() const;
 	void setLength(int length);
 
-private: //	METHODS
+private: 
+	//	METHODS
 	void CopyData(Array & dest, const Array & source);
 
-private: // MEMBERS
+	// MEMBERS
 	T * m_array;
 	int m_length;
 	int m_startIndex;
@@ -64,7 +70,7 @@ private: // MEMBERS
 
 
 
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //	C'TORS & D'TOR
 //////
 
@@ -75,13 +81,14 @@ Array<T>::Array()
 
 template<typename T>
 Array<T>::Array(int length, int start_index)
-	: m_length(length), m_startIndex(start_index)
+	: m_array(nullptr), m_length(length), m_startIndex(start_index)
 {
 	m_array = new T[m_length];
 }
 
 template<typename T>
 Array<T>::Array(const Array & copy)
+	: m_array(nullptr), m_length(0), m_startIndex(0)
 {
 	*this = copy;
 }
@@ -90,32 +97,38 @@ template<typename T>
 Array<T>::~Array()
 {
 	delete[] m_array;
+	m_array = nullptr;
+	m_length = 0;
+	m_startIndex = 0;
 }
 
 //////
 //	END C'TORS & D'TOR
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //	OPERATORS
 //////
 
 template<typename T>
-Array & Array<T>::operator=(const Array & copy)
+Array<T> & Array<T>::operator=(const Array & rhs)
 {
-	m_startIndex = copy.getStartIndex();
-	m_length = copy.getLength();
+	if (this != &rhs)
+	{
+		m_startIndex = rhs.getStartIndex();
+		m_length = rhs.getLength();
 
-	delete[] m_array;
-	m_array = new T[m_length];
-	
-	CopyData(*this, copy);
+		delete[] m_array;
+		m_array = new T[m_length + 1];
+
+		CopyData(*this, rhs);
+	}
 
 	return *this;
 }
 
 
-/**********************************************************************
+/************************************************************************
 * Purpose: To easily access values stored in the Array
 *
 * Precondition:
@@ -126,30 +139,30 @@ Array & Array<T>::operator=(const Array & copy)
 *		Throws:	Exception("index less than lower bound!")
 				Exception("index greater than upper bound!")
 *		Returns:	the value located at index
-************************************************************************/
+*************************************************************************/
 template<typename T>
 T & Array<T>::operator[](int index) const
 {
 	int delta = (index - m_startIndex);
 
 	if (delta < 0)
-		throw "index less than lower bound!";
+		throw Exception("index less than lower bound!");
 	else if (delta >= m_length)
-		throw "index greater than upper bound!";
+		throw Exception("index greater than upper bound!");
 		
 	return m_array[delta];
 }
 
 //////
 //	END OPERATORS
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //	GETTERS & SETTERS
 //////
 
 template<typename T>
-int Array<T>::getStartIndex()
+int Array<T>::getStartIndex() const
 {
 	return m_startIndex;
 }
@@ -161,7 +174,7 @@ void Array<T>::setStartIndex(int index)
 }
 
 template<typename T>
-void Array<T>::getLength()
+int Array<T>::getLength() const
 {
 	return m_length;
 }
@@ -169,22 +182,30 @@ void Array<T>::getLength()
 template<typename T>
 void Array<T>::setLength(int length)
 {
-	Array temp = Array(length, m_startIndex);
+	if (length != m_length)
+	{
+		T * temp = new T[length + 1];
+		
+		// copy everything up to length
+		for (size_t i = 0; i < length; ++i)
+			temp[i] = m_array[i];
 
-	CopyData(temp, *this);
+		delete[] m_array;
+		m_array = temp;
 
-	*this = temp;
+		m_length = length;
+	}
 }
 
 //////
 //	END GETTERS & SETTERS
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //	PRIVATE METHODS
 //////
 
-/**********************************************************************
+/************************************************************************
 * Purpose: Copies all data in the source Array to the dest Array
 *
 * Precondition:
@@ -193,17 +214,19 @@ void Array<T>::setLength(int length)
 * Postcondition:
 *		Modifies:	the elements of dest's templated array of values.
 *		Returns:	N/A
-************************************************************************/
+*************************************************************************/
 template<typename T>
 void Array<T>::CopyData(Array & dest, const Array & source)
 {
-	for (size_t i = 0; i < source.getLength(); ++i)
-		dest[i] = source[i];
+	size_t size = MIN(dest.getLength(), source.getLength());
+
+	for (size_t i = 0; i < size; ++i)
+		dest.m_array[i] = source.m_array[i];
 }
 
 //////
 //	END PRIVATE METHODS
-////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 
-#endif // Array_h__
+#endif // ARRAY_H
