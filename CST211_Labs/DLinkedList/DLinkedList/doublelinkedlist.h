@@ -3,6 +3,11 @@
 
 #include "listnode.h"
 
+// TESTING
+#include <iostream>
+using std::cout;
+using std::endl;
+
 template<typename T>
 class DoubleLinkedList
 {
@@ -35,6 +40,9 @@ public:
     // TESTING
     ListNode<T> * getHead();
     ListNode<T> * getTail();
+
+	void PrintForwards();
+	void PrintBackwards();
     
 private:
     // METHODS
@@ -47,6 +55,7 @@ private:
 };
 
 
+
 ///////////////////////////////////////////////////////////////
 // C'TORS & D'TOR
 //////
@@ -54,18 +63,22 @@ private:
 template<typename T>
 DoubleLinkedList<T>::DoubleLinkedList()
     : m_head(nullptr), m_tail(nullptr)
-{}
+{
+	cout << "DoubleLinkedList Default c'tor" << endl;
+}
 
 template<typename T>
 DoubleLinkedList<T>::DoubleLinkedList(const DoubleLinkedList & copy)
     : m_head(nullptr), m_tail(nullptr)
 {
+	cout << "DoubleLinkedList Copy c'tor" << endl;
     DeepCopyNodes(this, &copy);
 }
 
 template<typename T>
 DoubleLinkedList<T>::~DoubleLinkedList()
 {
+	cout << "DoubleLinkedList d'tor" << endl;
     Purge();
 }
 
@@ -80,6 +93,7 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 template<typename T>
 DoubleLinkedList<T> & DoubleLinkedList<T>::operator=(const DoubleLinkedList & rhs)
 {
+	cout << "DoubleLinkedList operator=" << endl;
     if(this != &rhs)
         DeepCopyNodes(this, &rhs);
 
@@ -114,8 +128,6 @@ const T & DoubleLinkedList<T>::Last() const
 {
     if(m_head == nullptr)
         throw "Cannot access last element: LIST_IS_EMPTY";
-    else if(m_tail == nullptr)
-        throw "Cannot access last element: LIST_CONTAINS_ONE_ELEMENT";
     
     return m_tail->Data();
 }
@@ -124,26 +136,34 @@ template<typename T>
 void DoubleLinkedList<T>::Prepend(const T & item)
 {
     ListNode<T> * node = new ListNode<T>(item);
-    node->Next() = m_head;
-    m_head->Prev() = node;
-    
-    m_head = node;
+
+	if (m_head == nullptr) // empty
+	{
+		m_head = node;
+		m_tail = node;
+	}
+	else
+	{
+		node->Next() = m_head;
+		m_head->Prev() = node;
+		m_head = node;
+	}
 }
 
 template<typename T>
 void DoubleLinkedList<T>::Append(const T & item)
 {
     ListNode<T> * node = new ListNode<T>(item);
-    ListNode<T> * last = ((m_tail) ? m_tail : m_head);
     
-    if(last == nullptr)
+    if(m_head == nullptr) // list is empty
     {
         m_head = node;
+		m_tail = node;
     }
     else
     {
-        node->Prev() = last;
-        last->Next() = node;
+        node->Prev() = m_tail;
+        m_tail->Next() = node;
         
         m_tail = node;
     }
@@ -157,14 +177,16 @@ void DoubleLinkedList<T>::InsertBefore(const T & item, const T & before)
     
     if(found_node == nullptr)
     {
-        throw "Before node not found!";
+        throw "Before item not found!";
     }
     else
     {
         ListNode<T> * node = new ListNode<T>(item);
         
-        if(found_node == m_head)
-            m_head = node;
+		if (found_node == m_head)
+		{
+			m_head = node;
+		}
         else
             found_node->Prev()->Next() = node;
          
@@ -183,13 +205,13 @@ void DoubleLinkedList<T>::InsertAfter(const T & item, const T & after)
     
     if(found_node == nullptr)
     {
-        throw "After node not found!";
+        throw "After item not found!";
     }
     else
     {
         ListNode<T> * node = new ListNode<T>(item);
         
-        if((found_node == m_tail) || (found_node == m_head && !m_tail))
+        if((found_node == m_tail))
             m_tail = node;
         else
             found_node->Next()->Prev() = node;
@@ -228,6 +250,9 @@ void DoubleLinkedList<T>::Purge()
         
         delete trail;
     }
+
+	m_head = nullptr;
+	m_tail = nullptr;
 }
 
 template<typename T>
@@ -244,21 +269,20 @@ void DoubleLinkedList<T>::Extract(const T & item)
         if(found_node == m_head)
         {
             m_head = m_head->Next();
-            m_head->Prev() = nullptr;
+			if (m_head)
+				m_head->Prev() = nullptr;
         }
         else if(found_node == m_tail)
         {
             m_tail = m_tail->Prev();
-            m_tail->Next() = nullptr;
+			if (m_tail)
+				m_tail->Next() = nullptr;
         }
         else
         {
             found_node->Next()->Prev() = found_node->Prev();
             found_node->Prev()->Next() = found_node->Next();
         }
-        
-        if(m_head == m_tail)
-            m_tail = nullptr;
         
         delete found_node;
     }
@@ -330,6 +354,35 @@ template<typename T>
 ListNode<T> * DoubleLinkedList<T>::getTail()
 {
     return m_tail;
+}
+
+
+template<typename T>
+void DoubleLinkedList<T>::PrintForwards()
+{
+	ListNode<T> * travel = m_head;
+
+	while (travel)
+	{
+		cout << travel->Data() << endl;
+		travel = travel->Next();
+	}
+
+	cout << endl;
+}
+
+template<typename T>
+void DoubleLinkedList<T>::PrintBackwards()
+{
+	ListNode<T> * travel = m_tail;
+
+	while (travel)
+	{
+		cout << travel->Data() << endl;
+		travel = travel->Prev();
+	}
+
+	cout << endl;
 }
 
 //////

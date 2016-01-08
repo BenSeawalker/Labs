@@ -1,0 +1,80 @@
+git		init
+		status
+		add
+		commit -m ""
+		log
+	
+vi 	 	vim filename
+
+	MOVE
+		h(left) j(down) k(up) l(right)
+		
+		e next word end
+		w next word beginning
+		
+		0 start of line
+		
+		G end of file
+		gg start of file
+		#G line #
+		
+		Ctrl-o previous pos
+		Ctrl-i Next pos
+		
+	FIND
+		/**
+		n(ext instance)
+		
+	REPLACE
+	#,#s/old/new/g replace between lines
+	%s/old/new/g replace in file
+	%s/old/new/gc prompt to replace in file
+		
+	QUIT
+		:q! quit without saving
+		:wq save and quit
+		
+	UNDO / REDO
+		u undo
+		Ctrl-r redo
+		U undo all changes on line
+		
+	DELETE
+		x delete at cursor
+		dd delete whole line
+		d$ delete to end of line
+		dw delete to start of next word
+		de delete to end of current word
+		
+	REPEAT
+		# before command repeats the command # times
+	
+	MOD Cursor
+		i insert before cursor
+		a append cursor
+		r replace cursor
+		R replace mode
+		
+		ce insert through end of word
+		cw insert through beginning of next line
+		c$ insert through end of line
+		
+	MOD LINE
+		A append line
+		
+		V(isual mode)
+		y(ank)
+		yw yank word
+		
+	INSERT LINE
+		o insert below
+		O insert above
+		
+		
+		
+	
+	
+emacs 	ctrl-x+ctrl-c 	exit
+	   		   u 		undo
+			   s 		save
+			   ctrl-f	file

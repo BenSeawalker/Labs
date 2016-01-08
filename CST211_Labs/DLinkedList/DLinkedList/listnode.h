@@ -1,8 +1,6 @@
 #ifndef LISTNODE_H
 #define LISTNODE_H
 
-#define nullptr NULL
-
 #include "doublelinkedlist.h"
 
 template<typename T>
@@ -46,23 +44,31 @@ private:
 template<typename T>
 ListNode<T>::ListNode()
     : m_prev(nullptr), m_next(nullptr)
-{}
+{
+	cout << "Node Default c'tor" << endl;
+}
 
 template<typename T>
 ListNode<T>::ListNode(const T & data)
     : m_data(data), m_prev(nullptr), m_next(nullptr)
 {
-    
+	cout << "Node Data c'tor" << endl;
 }
 
 template<typename T>
 ListNode<T>::ListNode(const ListNode & copy)
     : m_data(copy.Data()), m_prev(copy.Prev()), m_next(copy.Next())
-{}
+{
+	cout << "Node Copy c'tor" << endl;
+}
 
 template<typename T>
 ListNode<T>::~ListNode()
-{}
+{
+	cout << "Node d'tor" << endl;
+	m_prev = nullptr;
+	m_next = nullptr;
+}
 
 //////
 // END C'TORS & D'TOR
