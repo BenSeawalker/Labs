@@ -1,3 +1,11 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		main.cpp
+* Date Created:	1/6/16
+* Modifications:
+*	Added testing for complex data types (string)
+*************************************************************************/
+
 #include <iostream>
 using std::cout;
 using std::endl;

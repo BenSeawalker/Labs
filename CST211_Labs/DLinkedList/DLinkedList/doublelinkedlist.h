@@ -1,3 +1,11 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		doublelinkedlist.h
+* Date Created:	1/6/16
+* Modifications:
+*	N/A
+*************************************************************************/
+
 #ifndef DOUBLELINKEDLIST_H
 #define DOUBLELINKEDLIST_H
 
@@ -8,6 +16,43 @@
 using std::cout;
 using std::endl;
 
+
+/************************************************************************
+* Class: DoubleLinkedList
+*
+* Purpose: A Memory Efficient Data Structure
+*
+* Manager functions:
+* 	DoubleLinkedList ( )
+* 		The default head and tail values are nullptr
+*
+*	DoubleLinkedList (const DoubleLinkedList & copy)
+*	operator = (const DoubleLinkedList & rhs)
+*
+*	~ListNode()
+*
+* Methods:
+*	PUBLIC
+*		bool isEmpty() const;
+*		const T & First() const;
+*		const T & Last() const;
+*
+*		void Prepend(const T & item);
+*		void Append(const T & item);
+*
+*		void InsertAfter(const T & item, const T & after);
+*		void InsertBefore(const T & item, const T & before);
+*
+*		void Extract(const T & item);
+*		void Purge();
+*		
+*		void Traverse(void (*Visit)(const T &));
+*
+*	PRIVATE
+*		ListNode<T> * FindNode(const T & data);
+*		static void DeepCopyNodes(DoubleLinkedList * dest, const DoubleLinkedList * source);
+*
+*************************************************************************/
 template<typename T>
 class DoubleLinkedList
 {
@@ -29,8 +74,8 @@ public:
     void Prepend(const T & item);
     void Append(const T & item);
     
+	void InsertBefore(const T & item, const T & before);
     void InsertAfter(const T & item, const T & after);
-    void InsertBefore(const T & item, const T & before);
     
     void Purge();
     void Extract(const T & item);
@@ -64,21 +109,21 @@ template<typename T>
 DoubleLinkedList<T>::DoubleLinkedList()
     : m_head(nullptr), m_tail(nullptr)
 {
-	cout << "DoubleLinkedList Default c'tor" << endl;
+	cout << "IN DoubleLinkedList Default c'tor" << endl;
 }
 
 template<typename T>
 DoubleLinkedList<T>::DoubleLinkedList(const DoubleLinkedList & copy)
     : m_head(nullptr), m_tail(nullptr)
 {
-	cout << "DoubleLinkedList Copy c'tor" << endl;
+	cout << "IN DoubleLinkedList Copy c'tor" << endl;
     DeepCopyNodes(this, &copy);
 }
 
 template<typename T>
 DoubleLinkedList<T>::~DoubleLinkedList()
 {
-	cout << "DoubleLinkedList d'tor" << endl;
+	cout << "IN DoubleLinkedList d'tor" << endl;
     Purge();
 }
 
@@ -93,7 +138,7 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 template<typename T>
 DoubleLinkedList<T> & DoubleLinkedList<T>::operator=(const DoubleLinkedList & rhs)
 {
-	cout << "DoubleLinkedList operator=" << endl;
+	cout << "IN DoubleLinkedList operator=" << endl;
     if(this != &rhs)
         DeepCopyNodes(this, &rhs);
 
@@ -114,6 +159,18 @@ bool DoubleLinkedList<T>::isEmpty() const
     return (m_head == nullptr);
 }
 
+
+/************************************************************************
+* Purpose: To access the first data value in the list
+*
+* Precondition:
+*		The list may NOT be empty
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:	"Cannot access first element: LIST_IS_EMPTY"
+*		Returns:	A const reference to the first data value
+*************************************************************************/
 template<typename T>
 const T & DoubleLinkedList<T>::First() const
 {
@@ -123,6 +180,17 @@ const T & DoubleLinkedList<T>::First() const
     return m_head->Data();
 }
 
+/************************************************************************
+* Purpose: To access the last data value in the list
+*
+* Precondition:
+*		The list may NOT be empty
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:	"Cannot access last element: LIST_IS_EMPTY"
+*		Returns:	A const reference to the last data value
+*************************************************************************/
 template<typename T>
 const T & DoubleLinkedList<T>::Last() const
 {
@@ -170,6 +238,18 @@ void DoubleLinkedList<T>::Append(const T & item)
     
 }
 
+
+/************************************************************************
+* Purpose: To insert a new item before a matching item in the list
+*
+* Precondition:
+*		before - must have a matching item in the list
+*
+* Postcondition:
+*		Modifies:	Nodes in the list
+*		Throws:	"Item to insert before not found!"
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void DoubleLinkedList<T>::InsertBefore(const T & item, const T & before)
 {
@@ -177,7 +257,7 @@ void DoubleLinkedList<T>::InsertBefore(const T & item, const T & before)
     
     if(found_node == nullptr)
     {
-        throw "Before item not found!";
+        throw "Item to insert before not found!";
     }
     else
     {
@@ -196,8 +276,17 @@ void DoubleLinkedList<T>::InsertBefore(const T & item, const T & before)
     }
 }
 
-
-
+/************************************************************************
+* Purpose: To insert a new item after a matching item in the list
+*
+* Precondition:
+*		after - must have a matching item in the list
+*
+* Postcondition:
+*		Modifies:	Nodes in the list
+*		Throws:	"Item to insert after not found!"
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void DoubleLinkedList<T>::InsertAfter(const T & item, const T & after)
 {
@@ -205,7 +294,7 @@ void DoubleLinkedList<T>::InsertAfter(const T & item, const T & after)
     
     if(found_node == nullptr)
     {
-        throw "After item not found!";
+        throw "Item to insert after not found!";
     }
     else
     {
@@ -236,7 +325,6 @@ void DoubleLinkedList<T>::Traverse(void (*Visit)(const T &))
 }
 
 
-
 template<typename T>
 void DoubleLinkedList<T>::Purge()
 {
@@ -255,6 +343,17 @@ void DoubleLinkedList<T>::Purge()
 	m_tail = nullptr;
 }
 
+/************************************************************************
+* Purpose: To delete a matching item in the list
+*
+* Precondition:
+*		item - must have a matching item in the list
+*
+* Postcondition:
+*		Modifies:	Nodes in the list
+*		Throws:	"Item to extract not found!"
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void DoubleLinkedList<T>::Extract(const T & item)
 {
@@ -262,7 +361,7 @@ void DoubleLinkedList<T>::Extract(const T & item)
     
     if(found_node == nullptr)
     {
-        throw "Extract node not found!";
+        throw "Item to extract not found!";
     }
     else
     {
@@ -313,25 +412,33 @@ ListNode<T> * DoubleLinkedList<T>::FindNode(const T & data)
     return travel;
 }
 
+
+/************************************************************************
+* Purpose: To deep copy all data from source into dest
+*
+* Precondition:
+*		dest & source - must exist
+*
+* Postcondition:
+*		Modifies:	Purges dest before copying data into it
+*		Throws:	"Destination DoubleLinkedList does not exist!"
+*				"Source DoubleLinkedList does not exist!"
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void DoubleLinkedList<T>::DeepCopyNodes(DoubleLinkedList * dest, const DoubleLinkedList * source)
 {
+	if (!dest)
+		throw "Destination DoubleLinkedList does not exist!";
+	else if (!source)
+		throw "Source DoubleLinkedList does not exist!";
+
     ListNode<T> * travel_copy = source->m_head;
-    ListNode<T> * trail = nullptr;
+	dest->Purge();
     
     while(travel_copy)
     {
-        ListNode<T> * node = new ListNode<T>(travel_copy->Data());
-        node->Prev() = trail;
-        if(trail)
-            trail->Next() = node;
-        
-        if(travel_copy == source->m_head)
-            dest->m_head = node;
-        else if(travel_copy == source->m_tail)
-            dest->m_tail = node;
-        
-        trail = node;
+		dest->Append(travel_copy->Data());
         travel_copy = travel_copy->Next();
     }
 }

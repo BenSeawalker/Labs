@@ -1,8 +1,44 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		listnode.h
+* Date Created:	1/6/16
+* Modifications:
+*	N/A
+*************************************************************************/
+
 #ifndef LISTNODE_H
 #define LISTNODE_H
 
-#include "doublelinkedlist.h"
+/*#include "doublelinkedlist.h"*/
 
+
+/************************************************************************
+* Class: ListNode
+*
+* Purpose: Necessary for DoubleLinkedList to function
+*
+* Manager functions:
+* 	ListNode ( )
+* 		The default next and prev values are nullptr
+*
+*	ListNode (const T & data)
+*		Convenience C'tor for initializing with data
+*
+*	ListNode (const ListNode & copy)
+*	operator = (const ListNode & rhs)
+*
+*	~ListNode()
+*
+* Methods:
+*	PUBLIC
+*		T & Data();
+*		void SetData(const T & data);
+*
+*	PRIVATE
+*		ListNode<T> *& Prev();
+*		ListNode<T> *& Next();
+*
+*************************************************************************/
 template<typename T>
 class ListNode
 { 
@@ -12,9 +48,7 @@ class ListNode
 public:
     // METHODS
     T & Data();
-    
-    ListNode<T> *& Prev();
-    ListNode<T> *& Next();
+	void SetData(const T & data);
     
 private:
     // C'TORS & D'TOR
@@ -28,7 +62,8 @@ private:
     ListNode<T> & operator=(const ListNode & rhs);
     
     // METHODS
-    
+	ListNode<T> *& Prev();
+	ListNode<T> *& Next();
     
     // MEMBERS
     T m_data;
@@ -45,27 +80,27 @@ template<typename T>
 ListNode<T>::ListNode()
     : m_prev(nullptr), m_next(nullptr)
 {
-	cout << "Node Default c'tor" << endl;
+	cout << "IN Node Default c'tor" << endl;
 }
 
 template<typename T>
 ListNode<T>::ListNode(const T & data)
     : m_data(data), m_prev(nullptr), m_next(nullptr)
 {
-	cout << "Node Data c'tor" << endl;
+	cout << "IN Node Data c'tor" << endl;
 }
 
 template<typename T>
 ListNode<T>::ListNode(const ListNode & copy)
     : m_data(copy.Data()), m_prev(copy.Prev()), m_next(copy.Next())
 {
-	cout << "Node Copy c'tor" << endl;
+	cout << "IN Node Copy c'tor" << endl;
 }
 
 template<typename T>
 ListNode<T>::~ListNode()
 {
-	cout << "Node d'tor" << endl;
+	cout << "IN Node d'tor" << endl;
 	m_prev = nullptr;
 	m_next = nullptr;
 }
@@ -101,15 +136,9 @@ T & ListNode<T>::Data()
 }
 
 template<typename T>
-ListNode<T> *& ListNode<T>::Prev()
+void ListNode<T>::SetData(const T & data)
 {
-    return m_prev;
-}
-
-template<typename T>
-ListNode<T> *& ListNode<T>::Next()
-{
-    return m_next;
+	m_data = data;
 }
 
 //////
@@ -119,6 +148,18 @@ ListNode<T> *& ListNode<T>::Next()
 ///////////////////////////////////////////////////////////////
 // PRIVATE METHODS
 //////
+
+template<typename T>
+ListNode<T> *& ListNode<T>::Prev()
+{
+	return m_prev;
+}
+
+template<typename T>
+ListNode<T> *& ListNode<T>::Next()
+{
+	return m_next;
+}
 
 //////
 // END PRIVATE METHODS
