@@ -45,8 +45,6 @@ using std::endl;
 *
 *		void Extract(const T & item);
 *		void Purge();
-*		
-*		void Traverse(void (*Visit)(const T &));
 *
 *	PRIVATE
 *		ListNode<T> * FindNode(const T & data);
@@ -79,8 +77,6 @@ public:
     
     void Purge();
     void Extract(const T & item);
-    
-    void Traverse(void (*Visit)(const T &));
     
     // TESTING
     ListNode<T> * getHead();
@@ -135,6 +131,17 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 // OPERATORS
 //////
 
+/************************************************************************
+* Purpose: To perform a deep copy of rhs's data to this list
+*
+* Precondition:
+*		N/A
+*
+* Postcondition:
+*		Modifies:	Purges all data in this list before copying
+*		Throws:		N/A
+*		Returns:	The updated list
+*************************************************************************/
 template<typename T>
 DoubleLinkedList<T> & DoubleLinkedList<T>::operator=(const DoubleLinkedList & rhs)
 {
@@ -200,6 +207,18 @@ const T & DoubleLinkedList<T>::Last() const
     return m_tail->Data();
 }
 
+
+/************************************************************************
+* Purpose: To insert an item into the beginning of the list
+*
+* Precondition:
+*		N/A
+*
+* Postcondition:
+*		Modifies:	The head and/or tail pointer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void DoubleLinkedList<T>::Prepend(const T & item)
 {
@@ -218,6 +237,17 @@ void DoubleLinkedList<T>::Prepend(const T & item)
 	}
 }
 
+/************************************************************************
+* Purpose: To add an item onto the end of the list
+*
+* Precondition:
+*		N/A
+*
+* Postcondition:
+*		Modifies:	The tail and/or head pointer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void DoubleLinkedList<T>::Append(const T & item)
 {
@@ -246,7 +276,7 @@ void DoubleLinkedList<T>::Append(const T & item)
 *		before - must have a matching item in the list
 *
 * Postcondition:
-*		Modifies:	Nodes in the list
+*		Modifies:	The head pointer
 *		Throws:	"Item to insert before not found!"
 *		Returns:	N/A
 *************************************************************************/
@@ -283,7 +313,7 @@ void DoubleLinkedList<T>::InsertBefore(const T & item, const T & before)
 *		after - must have a matching item in the list
 *
 * Postcondition:
-*		Modifies:	Nodes in the list
+*		Modifies:	The tail pointer
 *		Throws:	"Item to insert after not found!"
 *		Returns:	N/A
 *************************************************************************/
@@ -312,19 +342,17 @@ void DoubleLinkedList<T>::InsertAfter(const T & item, const T & after)
 }
 
 
-template<typename T>
-void DoubleLinkedList<T>::Traverse(void (*Visit)(const T &))
-{
-    ListNode<T> * travel = m_head;
-    
-    while(travel)
-    {
-        Visit(travel->Data());
-        travel = travel->Next();
-    }
-}
-
-
+/************************************************************************
+* Purpose: To return the list to its default state
+*
+* Precondition:
+*		N/A
+*
+* Postcondition:
+*		Modifies:	The head and tail pointers
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void DoubleLinkedList<T>::Purge()
 {
@@ -395,6 +423,18 @@ void DoubleLinkedList<T>::Extract(const T & item)
 // PRIVATE METHODS
 //////
 
+
+/************************************************************************
+* Purpose: To find a node that contains matching data
+*
+* Precondition:
+*		N/A
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The matching node OR nullptr if not found
+*************************************************************************/
 template<typename T>
 ListNode<T> * DoubleLinkedList<T>::FindNode(const T & data)
 {

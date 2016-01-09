@@ -4,8 +4,10 @@
 * Date Created:	1/6/16
 * Modifications:
 *	Added testing for complex data types (string)
+*	(Uncomment/Comment the specified lines (10 & 329) to test string class) 
 *************************************************************************/
 
+///*  // UNCOMMENT THIS LINE TO TEST STRING CLASS
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -322,7 +324,9 @@ void TestExtract()
 	}
 }
 
-/*
+//*/
+
+/*	// COMMENT OUT THIS LINE TO TEST STRING CLASS
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -639,4 +643,5 @@ void TestExtract()
 	{
 		std::cout << msg << std::endl;
 	}
-}*/
+}
+//*/
