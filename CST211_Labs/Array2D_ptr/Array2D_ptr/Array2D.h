@@ -1,8 +1,7 @@
 #ifndef ARRAY2D_H
 #define ARRAY2D_H
 
-#include "Array.h"
-
+#define MIN(arg1, arg2) ((arg1 <= arg2) ? arg1 : arg2)
 
 /************************************************************************
 * Class: Array2D
@@ -50,10 +49,14 @@ public:
 
 	// METHODS
 	T & Select(int row, int column) const;
+	void Purge();
 
 private:
+	// METHODS
+	void DeepCopy(const Array2D<T> & source);
+
 	// MEMBERS
-	Array<T> m_array;
+	T ** m_array;
 	int m_rows;
 	int m_cols;
 };
@@ -65,17 +68,27 @@ private:
 
 template<typename T>
 Array2D<T>::Array2D(int rows, int cols)
-	: m_rows(rows), m_cols(cols), m_array(rows * cols)
-{}
+	: m_rows(rows), m_cols(cols), m_array(nullptr)
+{
+	if ((rows * cols) < 0)
+		throw Exception("Array size must be non-negative!");
+
+	m_array = new T *[m_rows];
+	for (int i = 0; i < (m_rows); ++i)
+		m_array[i] = new T[m_cols];
+}
 
 template<typename T>
 Array2D<T>::Array2D(const Array2D<T> & copy)
-	: m_rows(copy.m_rows), m_cols(copy.m_cols), m_array(copy.m_array)
-{}
+{
+	DeepCopy(copy);
+}
 
 template<typename T>
 Array2D<T>::~Array2D()
-{}
+{
+	Purge();
+}
 
 //////
 // END C'TORS AND D'TOR
@@ -88,9 +101,7 @@ Array2D<T>::~Array2D()
 template<typename T>
 Array2D<T> & Array2D<T>::operator=(const Array2D<T> & rhs)
 {
-	m_rows(rhs.m_rows);
-	m_cols(rhs.m_cols);
-	m_array(rhs.m_array);
+	DeepCopy(rhs);
 }
 
 
@@ -103,7 +114,7 @@ Array2D<T> & Array2D<T>::operator=(const Array2D<T> & rhs)
 * Postcondition:
 *		Modifies:	N/A
 *		Throws:	Exception("Row index out of bounds!")
-*		Returns:	the Row located at index
+*		Returns:	the specified Row
 *************************************************************************/
 template<typename T>
 const Row<T> Array2D<T>::operator[](int row) const
@@ -147,8 +158,22 @@ void Array2D<T>::setRows(int rows)
 
 	if (rows != m_rows)
 	{
+		int min_len = MIN(m_rows, rows);
+		T ** temp = new T *[rows];
+
+		for (int i = 0; i < min_len; ++i)
+			temp[i] = m_array[i];
+
+		for (int i = min_len; i < rows; ++i)
+			temp[i] = new T[m_cols];
+
+		for (int i = min_len; i < m_rows; i++)
+			delete[] m_array[i];
+
+		delete[] m_array;
+		m_array = temp;
+
 		m_rows = rows;
-		m_array.setLength(rows * m_cols);
 	}
 }
 
@@ -178,28 +203,18 @@ void Array2D<T>::setColumns(int columns)
 
 	if (columns != m_cols)
 	{
-		// create a temporary array with the new size
-		Array<T> temp(m_rows * columns);
-		int cols = MIN(m_cols, columns);
-		int new_row = 0;
-		int new_index;
-
-		// starting at the beginning
-		// jump to the first item of each row
-		for (int row = 0; row < m_array.getLength(); row += m_cols)
+		int min_len = MIN(m_cols, columns);
+		for (int i = 0; i < m_rows; ++i)
 		{
-			// move each item in the column to their new index
-			for (int i = row; i < (row + cols); ++i)
-			{
-				new_index = (new_row + (i - row));
-				temp[new_index] = m_array[i];
-			}
+			T * temp = new T[columns];
 
-			// shift new_row to the next row
-			new_row += columns;
+			for (int j = 0; j < min_len; ++j)
+				temp[j] = m_array[i][j];
+
+			delete[] m_array[i];
+			m_array[i] = temp;
 		}
 
-		m_array = temp;
 		m_cols = columns;
 	}
 }
@@ -207,8 +222,8 @@ void Array2D<T>::setColumns(int columns)
 template<typename T>
 void Array2D<T>::setSize(int rows, int columns)
 {
-	setRows(rows);
 	setColumns(columns);
+	setRows(rows);
 }
 
 //////
@@ -241,11 +256,50 @@ T & Array2D<T>::Select(int row, int column) const
 		throw Exception("Column index out of bounds!");
 
 	int index = ((row * m_cols) + column);
-	return m_array[index];
+	return *(m_array[index]);
+}
+
+
+template<typename T>
+void Array2D<T>::Purge()
+{
+	for (int i = 0; i < m_rows; ++i)
+		delete[] m_array[i];
+
+	delete[] m_array;
+	m_array = nullptr;
+
+	m_rows = 0;
+	m_cols = 0;
 }
 
 //////
 // END PUBLIC METHODS
+/////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////
+// PRIVATE METHODS
+//////
+
+template<typename T>
+void Array2D<T>::DeepCopy(const Array2D<T> & source)
+{
+	Purge();
+	m_cols = source.m_cols;
+	m_rows = source.m_rows;
+
+	m_array = new T *[m_rows];
+	for (int i = 0; i < m_rows; ++i)
+	{
+		m_array[i] = new T[m_cols];
+
+		for (int j = 0; j < m_cols; ++j)
+			m_array[i][j] = source.m_array[i][j];
+	}
+}
+
+//////
+// END PRIVATE METHODS
 /////////////////////////////////////////////////////////
 
 #endif // ARRAY2D_H

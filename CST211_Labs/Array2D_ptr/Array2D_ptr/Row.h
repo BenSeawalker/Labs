@@ -59,8 +59,7 @@ T & Row<T>::operator[](int column) const
 	if ((column < 0) || (column >= m_array2D.m_cols))
 		throw Exception("Column index out of bounds!");
 
-	int index = ((m_array2D.m_cols * m_row) + column);
-	return m_array2D.m_array[index];
+	return m_array2D.m_array[m_row][column];
 }
 
 //////

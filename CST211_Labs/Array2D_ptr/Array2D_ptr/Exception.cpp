@@ -35,6 +35,7 @@ Exception::Exception(const Exception & copy)
 Exception::~Exception()
 {
 	delete[] m_message;
+	m_message = nullptr;
 }
 
 //////

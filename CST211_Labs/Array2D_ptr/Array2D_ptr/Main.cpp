@@ -36,31 +36,39 @@ int main()
 
 		Array2D<Exception> ra(5, 5);
 
-		for (size_t i = 0; i < ra.getRows(); ++i)
-			for (size_t j = 0; j < ra.getColumns(); ++j)
+		for (int i = 0; i < ra.getRows(); ++i)
+			for (int j = 0; j < ra.getColumns(); ++j)
 			{
 				char c[2];
-				c[0] = 'A' + i;
+				c[0] = 'A' + j;
 				c[1] = '\0';
 				ra[i][j] = Exception(c);
 			}
 
-		PrintArray2D(ra);
-		ra.setColumns(8);
-		ra.setRows(8);
-		PrintArray2D(ra);
-		ra.setColumns(1);
-		ra.setRows(1);
+		ra.setSize(8, 8);
 		PrintArray2D(ra);
 
+		ra.setSize(3, 3);
+		PrintArray2D(ra);
+
+		ra.setSize(5, 5);
+		PrintArray2D(ra);
+
+		/*PrintArray2D(ra);
 		ra.setColumns(8);
+		PrintArray2D(ra);
+		ra.setColumns(1);
+		PrintArray2D(ra);
+		ra.setColumns(5);
 		PrintArray2D(ra);
 
 		cout << "\nROWS\n" << endl;
-		ra.setRows(4);
-		PrintArray2D(ra);
 		ra.setRows(8);
 		PrintArray2D(ra);
+		ra.setRows(1);
+		PrintArray2D(ra);
+		ra.setRows(5);
+		PrintArray2D(ra);*/
 	}
 	catch (const Exception & e)
 	{
@@ -76,24 +84,20 @@ int main()
 void TestSetRows(Array2D<Exception> & ra, int rows)
 {
 	ra.setRows(rows);
-
-	for (size_t i = 0; i < ra.getRows(); ++i)
-		for (size_t j = 0; j < ra.getColumns(); ++j)
-			ra[i][j] = Exception(to_string(i).c_str());
 }
 
 
 
 void PrintArray2D(const Array2D<Exception> & ra)
 {
-	for (size_t i = 0; i < ra.getRows(); ++i)
+	for (int i = 0; i < ra.getRows(); ++i)
 	{
-		for (size_t j = 0; j < ra.getColumns(); ++j)
-			cout << ra[i][j] << '\t';
+		for (int j = 0; j < ra.getColumns(); ++j)
+			cout << ra[i][j];
 
 		cout << endl;
 	}
 
-	cout << "DONE!\n" << endl;
+	cout << "\nDONE!\n" << endl;
 }
 

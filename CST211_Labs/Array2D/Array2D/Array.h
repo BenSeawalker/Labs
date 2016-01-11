@@ -3,7 +3,7 @@
 * Filename:		Array.h
 * Date Created:	1/4/16
 * Modifications:
-*	N/A
+*	1/9/16 - Fixed out of bounds error in setLength()
 *************************************************************************/
 
 #ifndef ARRAY_H
@@ -136,8 +136,7 @@ Array<T> & Array<T>::operator=(const Array & rhs)
 *
 * Postcondition:
 *		Modifies:	N/A
-*		Throws:	Exception("index less than lower bound!")
-				Exception("index greater than upper bound!")
+*		Throws:	Exception("Index out of bounds!")
 *		Returns:	the value located at index
 *************************************************************************/
 template<typename T>
@@ -145,10 +144,8 @@ T & Array<T>::operator[](int index) const
 {
 	int delta = (index - m_startIndex);
 
-	if (delta < 0)
-		throw Exception("index less than lower bound!");
-	else if (delta >= m_length)
-		throw Exception("index greater than upper bound!");
+	if ((delta < 0) || (delta >= m_length))
+		throw Exception("Array index out of bounds!");
 		
 	return m_array[delta];
 }
