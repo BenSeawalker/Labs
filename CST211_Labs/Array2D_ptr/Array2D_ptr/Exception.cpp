@@ -3,7 +3,8 @@
 * Filename:		Exception.cpp
 * Date Created:	1/5/16
 * Modifications:
-*	N/A
+*	1/12/16 - Fixed default c'tor behaviour
+*			- Fixed operator<< behaviour with empty message
 *************************************************************************/
 #include "Exception.h"
 
@@ -16,9 +17,7 @@
 
 Exception::Exception()
 	: m_message(nullptr)
-{
-	SetMessage("");
-}
+{}
 
 Exception::Exception(const char * msg)
 	: m_message(nullptr)
@@ -55,7 +54,7 @@ Exception & Exception::operator=(const Exception & rhs)
 
 ostream & operator<<(ostream & stream, const Exception & excep)
 {
-	return (stream << excep.m_message);
+	return (stream << ((excep.m_message) ? excep.m_message : ""));
 }
 
 //////

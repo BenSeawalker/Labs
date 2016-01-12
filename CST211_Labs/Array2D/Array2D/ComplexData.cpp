@@ -22,10 +22,11 @@ ComplexData::~ComplexData()
 
 ComplexData & ComplexData::operator=(const ComplexData & rhs)
 {
-	m_data = rhs.m_data;
+	if (this != &rhs)
+		m_data = rhs.m_data;
+
 	return *this;
 }
-
 
 ostream & operator<<(ostream & stream, const ComplexData & complex)
 {

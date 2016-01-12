@@ -61,6 +61,9 @@ public:
 	void SetLength(int length);
 
 private:
+	//	METHODS
+	static void CopyData(Array & dest, const Array & source);
+
 	// MEMBERS
 	T * m_array;
 	int m_length;
@@ -81,7 +84,7 @@ private:
 *
 * Postcondition:
 *		Modifies:	N/A
-*		Throws:	Exception("Error: Cannot set length to a negative value!")
+*		Throws:	Exception("Cannot set length to a negative value!")
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
@@ -89,7 +92,7 @@ Array<T>::Array(int length, int start_index)
 	: m_array(nullptr), m_length(length), m_startIndex(start_index)
 {
 	if (m_length < 0)
-		throw Exception("Error: Cannot set length to a negative value!");
+		throw Exception("Cannot set length to a negative value!");
 
 	if (m_length > 0)
 		m_array = new T[m_length];
@@ -119,17 +122,6 @@ Array<T>::~Array()
 //	OPERATORS
 //////
 
-/************************************************************************
-* Purpose: To deep copy another array into this array
-*
-* Precondition:
-*		rhs - should not be the same instance as this
-*
-* Postcondition:
-*		Modifies:	N/A
-*		Throws:		N/A
-*		Returns:	this array after it has been modified
-*************************************************************************/
 template<typename T>
 Array<T> & Array<T>::operator=(const Array & rhs)
 {
@@ -139,11 +131,9 @@ Array<T> & Array<T>::operator=(const Array & rhs)
 		m_length = rhs.Length();
 
 		delete[] m_array;
-		m_array = new T[m_length];
+		m_array = new T[m_length + 1];
 
-		size_t size = MIN(Length(), rhs.Length());
-		for (size_t i = 0; i < size; ++i)
-			m_array[i] = rhs.m_array[i];
+		CopyData(*this, rhs);
 	}
 
 	return *this;
@@ -219,27 +209,12 @@ int Array<T>::Length() const
 	return m_length;
 }
 
-/************************************************************************
-* Purpose: To change the length of the array
-*
-* Precondition:
-*		length - must be non-negative
-*
-* Postcondition:
-*		Modifies:	the length of the array
-*		Throws:	Exception("Error: Cannot set length to a negative value!")
-*		Returns:	N/A
-*************************************************************************/
 template<typename T>
 void Array<T>::SetLength(int length)
 {
 	if (length != m_length)
 	{
-		if (length < 0)
-		{
-			throw Exception("Error: Cannot set length to a negative value!");
-		}
-		else if (length == 0)
+		if (length == 0)
 		{
 			delete[] m_array;
 			m_array = nullptr;
@@ -268,6 +243,25 @@ void Array<T>::SetLength(int length)
 ///////////////////////////////////////////////////////////////
 //	PRIVATE METHODS
 //////
+
+/************************************************************************
+* Purpose: Copies all data in the source Array to the dest Array
+*
+* Precondition:
+*		dest - must have a size >= the size of the source Array
+*
+* Postcondition:
+*		Modifies:	the elements of dest's templated array of values.
+*		Returns:	N/A
+*************************************************************************/
+template<typename T>
+void Array<T>::CopyData(Array & dest, const Array & source)
+{
+	size_t size = MIN(dest.Length(), source.Length());
+
+	for (size_t i = 0; i < size; ++i)
+		dest.m_array[i] = source.m_array[i];
+}
 
 //////
 //	END PRIVATE METHODS
