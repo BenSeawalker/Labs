@@ -17,13 +17,13 @@
 Exception::Exception()
 	: m_message(nullptr)
 {
-	setMessage("*");
+	SetMessage("");
 }
 
 Exception::Exception(const char * msg)
 	: m_message(nullptr)
 {
-	setMessage(msg);
+	SetMessage(msg);
 }
 
 Exception::Exception(const Exception & copy)
@@ -35,7 +35,6 @@ Exception::Exception(const Exception & copy)
 Exception::~Exception()
 {
 	delete[] m_message;
-	m_message = nullptr;
 }
 
 //////
@@ -49,15 +48,14 @@ Exception::~Exception()
 Exception & Exception::operator=(const Exception & rhs)
 {
 	if (this != &rhs)
-		setMessage(rhs.m_message);
+		SetMessage(rhs.m_message);
 
 	return *this;
 }
 
-std::ostream & operator<<(std::ostream & stream, const Exception & excep)
+ostream & operator<<(ostream & stream, const Exception & excep)
 {
-	stream << excep.m_message;
-	return stream;
+	return (stream << excep.m_message);
 }
 
 //////
@@ -68,12 +66,12 @@ std::ostream & operator<<(std::ostream & stream, const Exception & excep)
 //	GETTERS & SETTERS
 //////
 
-const char * Exception::getMessage() const
+const char * Exception::Message() const
 {
 	return m_message;
 }
 
-void Exception::setMessage(const char * msg)
+void Exception::SetMessage(const char * msg)
 {
 	delete[] m_message;
 	m_message = new char[strlen(msg) + 1];

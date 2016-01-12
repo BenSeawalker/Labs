@@ -13,31 +13,37 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\SDArray">
-      <UniqueIdentifier>{7ed2a1d7-cc9c-42de-9cfb-abec3158a9c3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Exception">
       <UniqueIdentifier>{74835ce7-6b45-459d-8979-2b7731d10ba1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Exception">
       <UniqueIdentifier>{b78f3e29-206b-424e-91d4-0f4e5ed0d8af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Array2D">
+    <Filter Include="Header Files\Testing">
+      <UniqueIdentifier>{738a1e63-c4a6-442a-aeda-2766720724de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Testing">
+      <UniqueIdentifier>{e7556922-c0bb-46c7-b9b3-4731c92d5f76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Array">
       <UniqueIdentifier>{773c2ad6-6c70-4ba9-963b-770ee85b8d07}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Array.h">
-      <Filter>Header Files\SDArray</Filter>
-    </ClInclude>
     <ClInclude Include="Exception.h">
       <Filter>Header Files\Exception</Filter>
     </ClInclude>
     <ClInclude Include="Array2D.h">
-      <Filter>Header Files\Array2D</Filter>
+      <Filter>Header Files\Array</Filter>
     </ClInclude>
     <ClInclude Include="Row.h">
-      <Filter>Header Files\Array2D</Filter>
+      <Filter>Header Files\Array</Filter>
+    </ClInclude>
+    <ClInclude Include="ComplexData.h">
+      <Filter>Header Files\Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="Array.h">
+      <Filter>Header Files\Array</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="Exception.cpp">
       <Filter>Source Files\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="ComplexData.cpp">
+      <Filter>Source Files\Testing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

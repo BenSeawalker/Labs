@@ -6,7 +6,7 @@
 /************************************************************************
 * Class: Array2D
 *
-* Purpose: This class provides two dimensional functionality using a single dimensional Array.
+* Purpose: This class provides two dimensional functionality using an array of arrays of T's
 *
 * Manager functions:
 * 	Array2D (int rows = 0, int columns = 0 )
@@ -19,6 +19,16 @@
 * Methods:
 *	operator [ ] (int row)
 *		Returns an instance of Row which has operator [ ] (int column)
+*
+*	Rows()
+*	SetRows ( int rows )
+*	Columns()
+*	SetColumns ( int columns )
+*	SetSize ( int rows, int columns )
+*
+*	Select ( int row, int column )
+*	Contains( int row, int column )
+*	Purge()
 *
 *************************************************************************/
 template<typename T>
@@ -39,16 +49,19 @@ public:
 	const Row<T> operator[](int row) const;
 
 	// GETTERS AND SETTERS
-	int getRows() const;
-	void setRows(int rows);
+	int Rows() const;
+	void SetRows(int rows);
 
-	int getColumns() const;
-	void setColumns(int columns);
+	int Columns() const;
+	void SetColumns(int columns);
 
-	void setSize(int rows, int columns);
+	void SetSize(int rows, int columns);
 
 	// METHODS
 	T & Select(int row, int column) const;
+
+	bool Contains(int row, int column) const;
+
 	void Purge();
 
 private:
@@ -58,7 +71,7 @@ private:
 	// MEMBERS
 	T ** m_array;
 	int m_rows;
-	int m_cols;
+	int m_columns;
 };
 
 
@@ -68,18 +81,19 @@ private:
 
 template<typename T>
 Array2D<T>::Array2D(int rows, int cols)
-	: m_rows(rows), m_cols(cols), m_array(nullptr)
+	: m_rows(rows), m_columns(cols), m_array(nullptr)
 {
 	if ((rows * cols) < 0)
 		throw Exception("Array size must be non-negative!");
 
 	m_array = new T *[m_rows];
 	for (int i = 0; i < (m_rows); ++i)
-		m_array[i] = new T[m_cols];
+		m_array[i] = new T[m_columns];
 }
 
 template<typename T>
 Array2D<T>::Array2D(const Array2D<T> & copy)
+	: m_rows(0), m_columns(0), m_array(nullptr)
 {
 	DeepCopy(copy);
 }
@@ -102,6 +116,7 @@ template<typename T>
 Array2D<T> & Array2D<T>::operator=(const Array2D<T> & rhs)
 {
 	DeepCopy(rhs);
+	return *this;
 }
 
 
@@ -134,7 +149,7 @@ const Row<T> Array2D<T>::operator[](int row) const
 //////
 
 template<typename T>
-int Array2D<T>::getRows() const
+int Array2D<T>::Rows() const
 {
 	return m_rows;
 }
@@ -151,7 +166,7 @@ int Array2D<T>::getRows() const
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::setRows(int rows)
+void Array2D<T>::SetRows(int rows)
 {
 	if (rows < 0)
 		throw Exception("Error: Cannot set rows to a value less than zero!");
@@ -165,7 +180,7 @@ void Array2D<T>::setRows(int rows)
 			temp[i] = m_array[i];
 
 		for (int i = min_len; i < rows; ++i)
-			temp[i] = new T[m_cols];
+			temp[i] = new T[m_columns];
 
 		for (int i = min_len; i < m_rows; i++)
 			delete[] m_array[i];
@@ -178,9 +193,9 @@ void Array2D<T>::setRows(int rows)
 }
 
 template<typename T>
-int Array2D<T>::getColumns() const
+int Array2D<T>::Columns() const
 {
-	return m_cols;
+	return m_columns;
 }
 
 /************************************************************************
@@ -196,14 +211,14 @@ int Array2D<T>::getColumns() const
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::setColumns(int columns)
+void Array2D<T>::SetColumns(int columns)
 {
 	if (columns < 0)
 		throw Exception("Error: Cannot set columns to a value less than zero!");
 
-	if (columns != m_cols)
+	if (columns != m_columns)
 	{
-		int min_len = MIN(m_cols, columns);
+		int min_len = MIN(m_columns, columns);
 		for (int i = 0; i < m_rows; ++i)
 		{
 			T * temp = new T[columns];
@@ -215,15 +230,15 @@ void Array2D<T>::setColumns(int columns)
 			m_array[i] = temp;
 		}
 
-		m_cols = columns;
+		m_columns = columns;
 	}
 }
 
 template<typename T>
-void Array2D<T>::setSize(int rows, int columns)
+void Array2D<T>::SetSize(int rows, int columns)
 {
-	setColumns(columns);
-	setRows(rows);
+	SetColumns(columns);
+	SetRows(rows);
 }
 
 //////
@@ -245,20 +260,35 @@ void Array2D<T>::setSize(int rows, int columns)
 *		Modifies:	N/A
 *		Throws:	Exception("Row index out of bounds!")
 				Exception("Column index out of bounds!")
-*		Returns:	N/A
+*		Returns:	The specified item by reference
 *************************************************************************/
 template<typename T>
 T & Array2D<T>::Select(int row, int column) const
 {
 	if (row < 0 || row >= m_rows)
 		throw Exception("Row index out of bounds!");
-	else if (column < 0 || column >= m_cols)
+	else if (column < 0 || column >= m_columns)
 		throw Exception("Column index out of bounds!");
 
-	int index = ((row * m_cols) + column);
-	return *(m_array[index]);
+	return m_array[row][column];
 }
 
+/************************************************************************
+* Purpose: To determine if a specified row and column
+*		   are within the bounds of the array
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if row and column are within the bounds of the array
+*************************************************************************/
+template<typename T>
+bool Array2D<T>::Contains(int row, int column) const
+{
+	return ((row >= 0 && row < m_rows) && (column >= 0 && column < m_columns));
+}
 
 template<typename T>
 void Array2D<T>::Purge()
@@ -270,7 +300,7 @@ void Array2D<T>::Purge()
 	m_array = nullptr;
 
 	m_rows = 0;
-	m_cols = 0;
+	m_columns = 0;
 }
 
 //////
@@ -285,15 +315,15 @@ template<typename T>
 void Array2D<T>::DeepCopy(const Array2D<T> & source)
 {
 	Purge();
-	m_cols = source.m_cols;
+	m_columns = source.m_columns;
 	m_rows = source.m_rows;
 
 	m_array = new T *[m_rows];
 	for (int i = 0; i < m_rows; ++i)
 	{
-		m_array[i] = new T[m_cols];
+		m_array[i] = new T[m_columns];
 
-		for (int j = 0; j < m_cols; ++j)
+		for (int j = 0; j < m_columns; ++j)
 			m_array[i][j] = source.m_array[i][j];
 	}
 }

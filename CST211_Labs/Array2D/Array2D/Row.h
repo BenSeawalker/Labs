@@ -3,18 +3,41 @@
 
 #include "Array2D.h"
 
+
+/************************************************************************
+* Class: Row
+*
+* Purpose: This class provides a way to call [][] on an Array2D
+*
+* Manager functions:
+* 	Row (const Array2D<T> & ra, int row)
+*
+*	Row (const Row & copy)
+*	operator = (const Row & rhs)
+*
+*	~Row()
+*
+* Methods:
+*	operator [ ] (int column)
+*
+*************************************************************************/
 template<typename T>
 class Row
 {
+	template<typename RT>
+	friend class Array2D;
+
 public:
-	// C'TORS & D'TOR
-	Row(const Array2D<T> & ra, int row);
+	// D'TOR
 	~Row();
 
 	// OPERATORS
 	T & operator[](int column) const;
 
 private:
+	// C'TOR
+	Row(const Array2D<T> & ra, int row);
+
 	// MEMBERS
 	const Array2D<T> & m_array2D;
 	int m_row;
@@ -56,10 +79,10 @@ Row<T>::~Row()
 template<typename T>
 T & Row<T>::operator[](int column) const
 {
-	if ((column < 0) || (column >= m_array2D.m_cols))
+	if ((column < 0) || (column >= m_array2D.m_columns))
 		throw Exception("Column index out of bounds!");
 
-	int index = ((m_array2D.m_cols * m_row) + column);
+	int index = ((m_array2D.m_columns * m_row) + column);
 	return m_array2D.m_array[index];
 }
 

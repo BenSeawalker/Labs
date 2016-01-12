@@ -78,10 +78,12 @@
   <ItemGroup>
     <ClInclude Include="Array.h" />
     <ClInclude Include="Array2D.h" />
+    <ClInclude Include="ComplexData.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Row.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ComplexData.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>

@@ -13,24 +13,45 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Array">
+      <UniqueIdentifier>{c7fa66dc-639b-4bb1-8c52-83674fca1f13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Exception">
+      <UniqueIdentifier>{b0057074-5833-429c-bdff-ee7b43258276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Testing">
+      <UniqueIdentifier>{d2725d34-c052-4895-ae39-52cdb1b73bee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Testing">
+      <UniqueIdentifier>{6b319bfd-a5c1-4a2a-a7b1-3df2bb4189f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Exception">
+      <UniqueIdentifier>{4f64fbf4-9095-43b2-bc5a-3c591f9d918e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Array2D.h">
+      <Filter>Header Files\Array</Filter>
+    </ClInclude>
     <ClInclude Include="Row.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Array</Filter>
     </ClInclude>
     <ClInclude Include="Exception.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Array2D.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ComplexData.h">
+      <Filter>Header Files\Testing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ComplexData.cpp">
+      <Filter>Source Files\Testing</Filter>
+    </ClCompile>
     <ClCompile Include="Exception.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Exception</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

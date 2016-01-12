@@ -9,6 +9,7 @@
 #define EXCEPTION_H
 
 #include <ostream>
+using std::ostream;
 
 
 /************************************************************************
@@ -47,11 +48,11 @@ public:
 
 	// OPERATORS
 	Exception & operator=(const Exception & rhs);
-	friend std::ostream & operator<<(std::ostream & stream, const Exception & excep);
+	friend ostream & operator<<(ostream & stream, const Exception & excep);
 
 	// GETTERS AND SETTERS
-	const char * getMessage() const;
-	void setMessage(const char *msg);
+	const char * Message() const;
+	void SetMessage(const char *msg);
 
 private:
 	// MEMBERS

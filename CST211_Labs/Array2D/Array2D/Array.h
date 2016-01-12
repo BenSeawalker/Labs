@@ -3,7 +3,7 @@
 * Filename:		Array.h
 * Date Created:	1/4/16
 * Modifications:
-*	1/9/16 - Fixed out of bounds error in setLength()
+*	1/9/16 - Fixed out of bounds error in SetLength()
 *************************************************************************/
 
 #ifndef ARRAY_H
@@ -42,8 +42,7 @@ class Array
 {
 public:
 	// CTOR'S & D'TOR
-	Array();
-	Array(int length, int start_index = 0);
+	Array(int length = 0, int start_index = 0);
 	Array(const Array & copy);
 	~Array();
 
@@ -52,15 +51,15 @@ public:
 	T & operator[](int index) const;
 
 	// GETTERS & SETTERS
-	int getStartIndex() const;
-	void setStartIndex(int index);
+	int StartIndex() const;
+	void SetStartIndex(int index);
 	
-	int getLength() const;
-	void setLength(int length);
+	int Length() const;
+	void SetLength(int length);
 
 private: 
 	//	METHODS
-	void CopyData(Array & dest, const Array & source);
+	static void CopyData(Array & dest, const Array & source);
 
 	// MEMBERS
 	T * m_array;
@@ -73,11 +72,6 @@ private:
 ///////////////////////////////////////////////////////////////
 //	C'TORS & D'TOR
 //////
-
-template<typename T>
-Array<T>::Array()
-	: m_array(nullptr), m_length(0), m_startIndex(0)
-{}
 
 template<typename T>
 Array<T>::Array(int length, int start_index)
@@ -115,8 +109,8 @@ Array<T> & Array<T>::operator=(const Array & rhs)
 {
 	if (this != &rhs)
 	{
-		m_startIndex = rhs.getStartIndex();
-		m_length = rhs.getLength();
+		m_startIndex = rhs.StartIndex();
+		m_length = rhs.Length();
 
 		delete[] m_array;
 		m_array = new T[m_length + 1];
@@ -159,25 +153,25 @@ T & Array<T>::operator[](int index) const
 //////
 
 template<typename T>
-int Array<T>::getStartIndex() const
+int Array<T>::StartIndex() const
 {
 	return m_startIndex;
 }
 
 template<typename T>
-void Array<T>::setStartIndex(int index)
+void Array<T>::SetStartIndex(int index)
 {
 	m_startIndex = index;
 }
 
 template<typename T>
-int Array<T>::getLength() const
+int Array<T>::Length() const
 {
 	return m_length;
 }
 
 template<typename T>
-void Array<T>::setLength(int length)
+void Array<T>::SetLength(int length)
 {
 	if (length != m_length)
 	{
@@ -216,7 +210,7 @@ void Array<T>::setLength(int length)
 template<typename T>
 void Array<T>::CopyData(Array & dest, const Array & source)
 {
-	size_t size = MIN(dest.getLength(), source.getLength());
+	size_t size = MIN(dest.Length(), source.Length());
 
 	for (size_t i = 0; i < size; ++i)
 		dest.m_array[i] = source.m_array[i];
