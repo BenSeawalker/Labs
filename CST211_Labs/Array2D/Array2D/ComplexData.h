@@ -40,7 +40,7 @@ public:
 
 	// OPERATORS
 	ComplexData & operator=(const ComplexData & rhs);
-	friend ostream & operator<<(ostream & stream, const ComplexData & excep);
+	friend ostream & operator<<(ostream & stream, const ComplexData & complex);
 
 private:
 	string m_data;

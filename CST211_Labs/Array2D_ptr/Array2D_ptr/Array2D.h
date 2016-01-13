@@ -10,6 +10,9 @@
 #ifndef ARRAY2D_H
 #define ARRAY2D_H
 
+#include "Row.h"
+#include "Exception.h"
+
 #define MIN(arg1, arg2) ((arg1 <= arg2) ? arg1 : arg2)
 
 /************************************************************************
@@ -59,13 +62,13 @@ public:
 	const Row<T> operator[](int row) const;
 
 	// GETTERS AND SETTERS
-	int Rows() const;
-	void SetRows(int rows);
+	int getRow() const;
+	void setRow(int rows);
 
-	int Columns() const;
-	void SetColumns(int columns);
+	int getColumn() const;
+	void setColumn(int columns);
 
-	void SetSize(int rows, int columns);
+	void setSize(int rows, int columns);
 
 	// METHODS
 	T & Select(int row, int column);
@@ -104,8 +107,8 @@ private:
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-Array2D<T>::Array2D(int rows, int cols)
-	: m_rows(rows), m_columns(cols), m_array(nullptr)
+Array2D<T>::Array2D(int rows, int columns)
+	: m_rows(rows), m_columns(columns), m_array(nullptr)
 {
 	if (rows < 0)
 		throw Exception("Error: Cannot set rows to a negative value!");
@@ -207,7 +210,7 @@ const Row<T> Array2D<T>::operator[](int row) const
 //////
 
 template<typename T>
-int Array2D<T>::Rows() const
+int Array2D<T>::getRow() const
 {
 	return m_rows;
 }
@@ -224,7 +227,7 @@ int Array2D<T>::Rows() const
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::SetRows(int rows)
+void Array2D<T>::setRow(int rows)
 {
 	if (rows < 0)
 		throw Exception("Error: Cannot set rows to a value less than zero!");
@@ -251,7 +254,7 @@ void Array2D<T>::SetRows(int rows)
 }
 
 template<typename T>
-int Array2D<T>::Columns() const
+int Array2D<T>::getColumn() const
 {
 	return m_columns;
 }
@@ -269,7 +272,7 @@ int Array2D<T>::Columns() const
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::SetColumns(int columns)
+void Array2D<T>::setColumn(int columns)
 {
 	if (columns < 0)
 		throw Exception("Error: Cannot set columns to a value less than zero!");
@@ -307,10 +310,10 @@ void Array2D<T>::SetColumns(int columns)
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::SetSize(int rows, int columns)
+void Array2D<T>::setSize(int rows, int columns)
 {
-	SetRows(rows);
-	SetColumns(columns);
+	setRow(rows);
+	setColumn(columns);
 }
 
 //////
