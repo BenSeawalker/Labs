@@ -2,25 +2,40 @@
 #define MOUSE_H
 
 #include <Windows.h>
+#include "Array.h"
 
 class Mouse
 {
 public:
 	enum BUTTON { LEFT, MIDDLE, RIGHT };
 
-	Mouse(HANDLE & input_handle, void(*MousePressed)(BUTTON btn));
+	//Mouse(HANDLE & input_handle, void(*MousePressed)(BUTTON btn));
 
-	void UpdateMouseState();
+	static void UpdateMouseState(HANDLE & input_handle);
 
-	UINT x();
-	UINT y();
+	static bool BtnUp(BUTTON btn);
+
+	static bool BtnDown(BUTTON btn);
+
+	static bool BtnPressed(BUTTON btn);
+
+	static bool BtnReleased(BUTTON btn);
+
+	static bool Moved();
+
+	static int x();
+	static int y();
 
 private:
-	void (*m_MousePressed)(BUTTON btn);
+	static const int NUM_BTNS = 3;
+	//void (*m_MousePressed)(BUTTON btn);
 
-	HANDLE & m_handle;
-	UINT m_x;
-	UINT m_y;
+	static int m_x;
+	static int m_y;
+	static bool m_moved;
+
+	static Array<bool> previous_mouse_state;
+	static Array<bool> current_mouse_state;
 };
 
 

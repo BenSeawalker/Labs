@@ -8,32 +8,48 @@
 using std::cin;
 
 #define KeyPressed Keyboard::KeyPressed
+#define  Block 0xDB
 
 void MousePressed(Mouse::BUTTON btn);
 
-Console & console = Console::GetInstance();
-Mouse mouse(console.InputHandle(), &MousePressed);
-
 int main()
 {
-
-	console.Write({ 5, 10 }, "лллллллллллллллллллллллллллллллллллл", Color::fgrey);
-	console.Write({ 5, 11 }, "лллллллллллллллллллллллллллллллллллл", Color::fwhite);
+	Console & console = Console::GetInstance();
+	console.Resize(80, 40);
 
 	console.SetCursor(5, 12);
 	while (!KeyPressed(VK_ESCAPE))
 	{
-		mouse.UpdateMouseState();
+		Mouse::UpdateMouseState(console.InputHandle());
+		if (Mouse::BtnDown(Mouse::LEFT))
+		{
+			int mx = Mouse::x();
+			int my = Mouse::y();
+
+			console.SetCursor(mx, my);
+			console.Write(console.GetCursor(), 0xDB, Color::fred);
+		}
 
 		Keyboard::UpdateKeyboardState();
-		int dx = KeyPressed(VK_RIGHT) - KeyPressed(VK_LEFT);
-		int dy = KeyPressed(VK_DOWN) - KeyPressed(VK_UP);
+		int dx = (KeyPressed(VK_RIGHT) - KeyPressed(VK_LEFT)) * 2;
+		int dy = (KeyPressed(VK_DOWN) - KeyPressed(VK_UP)) * 2;
 
 		// if a key was actually pressed...
-		if (dx || dy)
+		if (dx != 0 || dy != 0)
 		{
 			console.MoveCursor(dx, dy);
-			console.Write(console.GetCursor(), 0xDB, Color::fcyan);
+
+			int x1 = console.GetCursor().X,
+				x2 = x1 + 1,
+				y1 = console.GetCursor().Y,
+				y2 = y1 + 1;
+
+			console.Write({x1, y1}, Block, Color::fcyan);
+			console.Write({ x2, y1 }, Block, Color::fcyan);
+			console.Write({ x1, y2 }, Block, Color::fcyan);
+			console.Write({ x2, y2 }, Block, Color::fcyan);
+
+			console.SetCursor(x1, y1);
 		}
 	}
 
@@ -41,14 +57,4 @@ int main()
 	cin.ignore();
 
 	return 0;
-}
-
-
-void MousePressed(Mouse::BUTTON btn)
-{
-	int mx = mouse.x();
-	int my = mouse.y();
-
-	console.SetCursor(mx, my);
-	console.Write(console.GetCursor(), 0xDB, Color::fred);
 }
