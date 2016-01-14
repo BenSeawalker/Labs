@@ -13,14 +13,24 @@
   <ItemGroup>
     <ClInclude Include="Array.h" />
     <ClInclude Include="Array2D.h" />
+    <ClInclude Include="Board.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="Console.h" />
     <ClInclude Include="Exception.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="MineSweeper.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="Row.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Console.cpp" />
     <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MineSweeper.cpp" />
+    <ClCompile Include="Mouse.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{19B5D351-98B9-44BD-9072-A00004AB8BA5}</ProjectGuid>

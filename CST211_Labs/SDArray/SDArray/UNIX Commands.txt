@@ -78,3 +78,9 @@ emacs 	ctrl-x+ctrl-c 	exit
 	   		   u 		undo
 			   s 		save
 			   ctrl-f	file
+			   
+			   
+test file
+echo file size
+echo rwx
+if x the execute

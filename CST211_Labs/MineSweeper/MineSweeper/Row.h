@@ -103,7 +103,7 @@ T & Row<T>::operator[](int column)
 * Postcondition:
 *		Modifies:	N/A
 *		Throws:	Exception("Column index out of bounds!")
-*		Returns:	the item located at the specified row and column by reference
+*		Returns:	the item located at the specified row and column by const reference
 *************************************************************************/
 template<typename T>
 const T & Row<T>::operator[](int column) const

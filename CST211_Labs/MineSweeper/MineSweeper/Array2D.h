@@ -5,12 +5,14 @@
 * Modifications:
 *	1/12/16 - Fixed constness of operator[]
 *			- Fixed constness of Select()
+*			- Fixed self-assignment in op=
 *************************************************************************/
 #ifndef ARRAY2D_H
 #define ARRAY2D_H
 
 #include "Array.h"
-
+#include "Row.h"
+#include "Exception.h"
 
 /************************************************************************
 * Class: Array2D
@@ -34,11 +36,11 @@
 *	Columns()
 *	SetColumns ( int columns )
 *	SetSize ( int rows, int columns )
-*
+*	
 *	Select ( int row, int column )
 *	Contains( int row, int column )
 *	Purge()
-*
+*	
 *************************************************************************/
 template<typename T>
 class Array2D
@@ -51,29 +53,31 @@ public:
 	Array2D(int rows = 0, int columns = 0);
 	Array2D(const Array2D<T> & copy);
 
-	~Array2D();
+	virtual ~Array2D();
 
 	// OPERATORS
-	Array2D<T> & operator=(const Array2D<T> & rhs);
+	virtual Array2D<T> & operator=(const Array2D<T> & rhs);
 	const Row<T> operator[](int row) const;
 	Row<T> operator[](int row);
 
 	// GETTERS AND SETTERS
-	int Rows() const;
-	void SetRows(int rows);
+	int getRow() const;
+	void setRow(int rows);
 
-	int Columns() const;
-	void SetColumns(int columns);
+	int getColumn() const;
+	void setColumn(int columns);
 
-	void SetSize(int rows, int columns);
+	void setSize(int rows, int columns);
 
 	// METHODS
-	const T & Select(int row, int column) const;
 	T & Select(int row, int column);
+	const T & Select(int row, int column) const;
 
 	bool Contains(int row, int column) const;
 
 	void Purge();
+
+	Array<T> ToArray();
 
 private:
 	// MEMBERS
@@ -87,10 +91,30 @@ private:
 // C'TORS & D'TOR
 //////
 
+/************************************************************************
+* Purpose: To initialize an Array2D with specified rows and columns
+*
+* Precondition:
+*		rows	- must be non-negative
+*		columns	- must be non-negative
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:	Exception("Error: Cannot set rows to a negative value!")
+*				Exception("Error: Cannot set columns to a negative value!")
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 Array2D<T>::Array2D(int rows, int columns)
-	: m_rows(rows), m_columns(columns), m_array(rows * columns)
-{}
+	: m_rows(rows), m_columns(columns)
+{
+	if (rows < 0)
+		throw Exception("Error: Cannot set rows to a negative value!");
+	else if (columns < 0)
+		throw Exception("Error: Cannot set columns to a negative value!");
+
+	m_array = Array<T>(m_rows * m_columns);
+}
 
 template<typename T>
 Array2D<T>::Array2D(const Array2D<T> & copy)
@@ -99,7 +123,9 @@ Array2D<T>::Array2D(const Array2D<T> & copy)
 
 template<typename T>
 Array2D<T>::~Array2D()
-{}
+{
+	Purge();
+}
 
 //////
 // END C'TORS AND D'TOR
@@ -109,12 +135,26 @@ Array2D<T>::~Array2D()
 // OPERATORS
 //////
 
+/************************************************************************
+* Purpose: To deep copy another array into this array
+*
+* Precondition:
+*		rhs - should not be the same instance as this
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	this array after it has been modified
+*************************************************************************/
 template<typename T>
 Array2D<T> & Array2D<T>::operator=(const Array2D<T> & rhs)
 {
-	m_rows = rhs.m_rows;
-	m_columns = rhs.m_columns;
-	m_array = rhs.m_array;
+	if (this != &rhs)
+	{
+		m_rows = rhs.m_rows;
+		m_columns = rhs.m_columns;
+		m_array = rhs.m_array;
+	}
 
 	return *this;
 }
@@ -168,7 +208,7 @@ const Row<T> Array2D<T>::operator[](int row) const
 //////
 
 template<typename T>
-int Array2D<T>::Rows() const
+int Array2D<T>::getRow() const
 {
 	return m_rows;
 }
@@ -185,7 +225,7 @@ int Array2D<T>::Rows() const
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::SetRows(int rows)
+void Array2D<T>::setRow(int rows)
 {
 	if (rows < 0)
 		throw Exception("Error: Cannot set rows to a value less than zero!");
@@ -198,7 +238,7 @@ void Array2D<T>::SetRows(int rows)
 }
 
 template<typename T>
-int Array2D<T>::Columns() const
+int Array2D<T>::getColumn() const
 {
 	return m_columns;
 }
@@ -216,7 +256,7 @@ int Array2D<T>::Columns() const
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::SetColumns(int columns)
+void Array2D<T>::setColumn(int columns)
 {
 	if (columns < 0)
 		throw Exception("Error: Cannot set columns to a value less than zero!");
@@ -249,11 +289,25 @@ void Array2D<T>::SetColumns(int columns)
 	}
 }
 
+
+/************************************************************************
+* Purpose: To resize the array
+*
+* Precondition:
+*		rows	- must be greater than zero
+*		columns	- must be greater than zero
+*
+* Postcondition:
+*		Modifies:	The length of the Array
+*		Throws:	Exception("Error: Cannot set rows to a value less than zero!")
+*				Exception("Error: Cannot set columns to a value less than zero!")
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
-void Array2D<T>::SetSize(int rows, int columns)
+void Array2D<T>::setSize(int rows, int columns)
 {
-	SetRows(rows);
-	SetColumns(columns);
+	setRow(rows);
+	setColumn(columns);
 }
 
 //////
@@ -264,6 +318,19 @@ void Array2D<T>::SetSize(int rows, int columns)
 // PUBLIC METHODS
 //////
 
+/************************************************************************
+* Purpose: To access or modify an item in the array
+*
+* Precondition:
+*		row		- must be within the bounds of the array
+*		column	- must be within the bounds of the array
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:	Exception("Row index out of bounds!")
+Exception("Column index out of bounds!")
+*		Returns:	The specified item by reference
+*************************************************************************/
 template<typename T>
 T & Array2D<T>::Select(int row, int column)
 {
@@ -277,7 +344,7 @@ T & Array2D<T>::Select(int row, int column)
 }
 
 /************************************************************************
-* Purpose: To grab an item in the array
+* Purpose: To access an item in a const array
 *
 * Precondition:
 *		row		- must be within the bounds of the array
@@ -287,7 +354,7 @@ T & Array2D<T>::Select(int row, int column)
 *		Modifies:	N/A
 *		Throws:	Exception("Row index out of bounds!")
 Exception("Column index out of bounds!")
-*		Returns:	The specified item by reference
+*		Returns:	The specified item by const reference
 *************************************************************************/
 template<typename T>
 const T & Array2D<T>::Select(int row, int column) const
@@ -318,12 +385,31 @@ bool Array2D<T>::Contains(int row, int column) const
 	return ((row >= 0 && row < m_rows) && (column >= 0 && column < m_columns));
 }
 
+
+/************************************************************************
+* Purpose: To reset the array to its default values
+*			rows(0), columns(0)
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The specified item by reference
+*************************************************************************/
 template<typename T>
 void Array2D<T>::Purge()
 {
 	m_array = Array<T>();
 	m_rows = 0;
 	m_columns = 0;
+}
+
+
+template<typename T>
+Array<T> Array2D<T>::ToArray()
+{
+	return m_array;
 }
 
 //////

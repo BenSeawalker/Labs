@@ -22,12 +22,33 @@
     <Filter Include="Source Files\Exception">
       <UniqueIdentifier>{73d1a88d-82cd-443a-bc0a-f93986224edb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Board">
+      <UniqueIdentifier>{fd45cb44-4f61-4b43-89e8-2687bc667448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Board">
+      <UniqueIdentifier>{c5f33051-8165-4079-84ad-ccc0383b7f49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Games">
+      <UniqueIdentifier>{7ccb8578-76b8-4420-9c61-f3f3d74a239e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Games">
+      <UniqueIdentifier>{29ce0c3b-e983-425e-afbd-2923ad5d268b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{4c4cc967-78ad-4470-a10d-50a3081b622c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{42e636c7-7288-4965-8a75-af4bc9b5a40e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Array2D.h">
-      <Filter>Header Files\Array</Filter>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files\Board</Filter>
     </ClInclude>
     <ClInclude Include="Array.h">
+      <Filter>Header Files\Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Array2D.h">
       <Filter>Header Files\Array</Filter>
     </ClInclude>
     <ClInclude Include="Row.h">
@@ -36,19 +57,46 @@
     <ClInclude Include="Exception.h">
       <Filter>Header Files\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Cell.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="MineSweeper.h">
+      <Filter>Header Files\Games</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Exception.cpp">
-      <Filter>Source Files\Exception</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Cell.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Exception.cpp">
+      <Filter>Source Files\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source Files\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="MineSweeper.cpp">
+      <Filter>Source Files\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

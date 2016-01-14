@@ -5,9 +5,10 @@
 class Cell
 {
 public:
-	enum TYPE { BOMB = -1, COVERED = 0};
+	enum { BOMB = -1, EMPTY = 0 };
+
 	// C'TORS AND D'TOR
-	Cell();
+	Cell(int value = int(EMPTY));
 	Cell(const Cell & copy);
 	~Cell();
 
@@ -15,8 +16,9 @@ public:
 	Cell & operator=(const Cell & rhs);
 
 private:
-	bool m_checked;
 	int m_value;
+	bool m_checked;
+	
 };
 
 #endif // Cell_h__
