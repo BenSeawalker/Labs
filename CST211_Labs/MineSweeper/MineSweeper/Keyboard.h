@@ -3,13 +3,16 @@
 
 
 #include <Windows.h>
+#include <conio.h>
+#include <string>
+using std::string;
 
 #include "Array.h"
 
 class Keyboard
 {
 public:
-	static void UpdateKeyboardState();
+	static void UpdateKeyboardState(HANDLE & input_handle);
 
 	static bool KeyUp(int key);
 
@@ -19,10 +22,18 @@ public:
 
 	static bool KeyReleased(int key);
 
+	static string String();
+
 private:
+	// METHODS
+	static void UpdateString(HANDLE & input_handle);
+
+	// MEMBERS
 	static const int NUM_KEYS = 256;
-	static Array<bool> previous_keyboard_state;
-	static Array<bool> current_keyboard_state;
+	static Array<SHORT> m_previous_state;
+	static Array<SHORT> m_current_state;
+
+	static string m_string;
 };
 
 

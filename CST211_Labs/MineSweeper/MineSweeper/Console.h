@@ -9,38 +9,27 @@ typedef WORD COLOR;
 struct Color
 {
 	static const COLOR
-		fdarkblue = 1,
-		fgreen = 2,
-		fcyan = 3,
-		fdarkred = 4,
-		fpurple = 5,
-		fdarkyellow = 6,
-		fwhite = 7,
-		fgrey = 8,
-		fblue = 9,
-		flime = 10,
-		fturquoise = 11,
-		fred = 12,
-		fpink = 13,
-		fyellow = 14,
-		fbrightwhite = 15,
-
-		bdarkblue = 16,
-		bgreen = 17,
-		bcyan = 18,
-		bdarkred = 19,
-		bpurple = 20,
-		bdarkyellow = 21,
-		bwhite = 22,
-		bgrey = 23,
-		bblue = 24,
-		blime = 25,
-		bturquoise = 26,
-		bred = 27,
-		bpink = 28,
-		byellow = 29,
-		bbrightwhite = 30;
+		black = 0,
+		dark_blue = 1,
+		green = 2,
+		cyan = 3,
+		dark_red = 4,
+		purple = 5,
+		dark_yellow = 6,
+		white = 7,
+		grey = 8,
+		blue = 9,
+		lime = 10,
+		turquoise = 11,
+		red = 12,
+		pink = 13,
+		yellow = 14,
+		bright_white = 15;
 };
+
+
+#define MakeColor Console::CMakeColor
+#define MakeBackground Console::CMakeBackground
 
 
 class Console
@@ -50,13 +39,20 @@ public:
 	static Console & GetInstance();
 
 	// METHODS
-	void SetCursorVisibility(bool visible);
+	void SetCursorVisibility(BOOL visible);
 	void SetConsoleEncoding(UINT encoding);
 
 	void Resize(UINT width, UINT height);
 
-	void Write(COORD pos, const char & txt, COLOR color = Color::fwhite, bool draw = true);
-	void Write(COORD pos, const char * txt, COLOR color = Color::fwhite);
+	static COLOR CMakeColor(COLOR foreground = Color::white, COLOR background = Color::black);
+	static COLOR CMakeBackground(COLOR background);
+
+	void Write(COORD pos, const char & txt, COLOR color = Color::white, bool draw = true);
+	void Write(COORD pos, const char * txt, COLOR color = Color::white);
+
+	void Clear(COLOR color = Color::black);
+	void ClearLine(UINT line, COLOR color = Color::black);
+	void ClearRect(int x1, int y1, int x2, int y2, COLOR color = Color::black);
 
 	COORD GetCursor();
 	void SetCursor(int x, int y);
@@ -68,6 +64,8 @@ public:
 	HANDLE & OutputHandle();
 	HANDLE & InputHandle();
 
+	
+
 private:
 	// CTOR AND DTOR
 	Console(UINT width = 80, UINT height = 40, bool visible = false, UINT encoding = 437);
@@ -77,7 +75,7 @@ private:
 	void CopyBuffer(CHAR_INFO * dest, CHAR_INFO * source, UINT destWidth, UINT destHeight, UINT sourceWidth, UINT sourceHeight);
 	void ClearBuffer(CHAR_INFO * buffer, UINT size, COLOR color);
 
-	void Bound(int & x, int & y);
+	void Bound(SHORT & x, SHORT & y);
 
 	void Draw();
 

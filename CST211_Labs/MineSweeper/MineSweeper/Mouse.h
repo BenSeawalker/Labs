@@ -23,19 +23,23 @@ public:
 
 	static bool Moved();
 
-	static int x();
-	static int y();
+	static int X();
+	static int Y();
 
 private:
+	// METHODS
+	static void UpdatePosition(HANDLE & input_handle);
+
+	// MEMBERS
 	static const int NUM_BTNS = 3;
-	//void (*m_MousePressed)(BUTTON btn);
+	static Array<SHORT> m_previous_state;
+	static Array<SHORT> m_current_state;
 
 	static int m_x;
 	static int m_y;
 	static bool m_moved;
 
-	static Array<bool> previous_mouse_state;
-	static Array<bool> current_mouse_state;
+	
 };
 
 

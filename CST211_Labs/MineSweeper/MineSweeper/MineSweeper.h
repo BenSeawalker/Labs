@@ -7,6 +7,9 @@ class MineSweeper
 public:
 	MineSweeper();
 	~MineSweeper();
+
+private:
+
 };
 
 

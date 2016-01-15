@@ -9,7 +9,7 @@ Console * Console::m_instance = nullptr;
 //////
 
 Console::Console(UINT width, UINT height, bool visible, UINT encoding)
-	: m_ohandle(GetStdHandle(STD_OUTPUT_HANDLE)), m_ihandle(GetStdHandle(STD_INPUT_HANDLE)), m_width(0), m_height(0), m_buffer(nullptr)
+	: m_ohandle(GetStdHandle(STD_OUTPUT_HANDLE)), m_ihandle(GetStdHandle(STD_INPUT_HANDLE)), m_width(width), m_height(height), m_buffer(nullptr)
 {
 	// ensure that the console is in the correct encoding
 	SetConsoleEncoding(encoding);
@@ -38,7 +38,7 @@ Console & Console::GetInstance()
 	return *m_instance;
 }
 
-void Console::SetCursorVisibility(bool visible)
+void Console::SetCursorVisibility(BOOL visible)
 {
 	if (visible != m_cinf.bVisible)
 	{
@@ -61,18 +61,15 @@ void Console::Resize(UINT width, UINT height)
 	m_csbi.srWindow.Top = 0;
 	m_csbi.srWindow.Right = width - 1;
 	m_csbi.srWindow.Bottom = height - 1;
-	SetConsoleWindowInfo(m_ohandle, TRUE, &m_csbi.srWindow);
-
-	// window size
+	// buffer size
 	SetConsoleScreenBufferSize(m_ohandle, { width, height });
 
+	// window size
+	SetConsoleWindowInfo(m_ohandle, TRUE, &m_csbi.srWindow);
 
 	// new buffer with new size
 	CHAR_INFO * temp = new CHAR_INFO[width * height];
-	ClearBuffer(temp, width * height, Color::fwhite);
-
-	// copy old data to new buffer
-	//CopyBuffer(temp, m_buffer, width, height, m_width, m_height);
+	ClearBuffer(temp, width * height, Color::white);
 
 	// update old buffer
 	delete[] m_buffer;
@@ -87,10 +84,12 @@ void Console::Resize(UINT width, UINT height)
 
 void Console::Write(COORD pos, const char & c, COLOR color, bool draw)
 {
+	Bound(pos.X, pos.Y);
 	SetCursor(pos.X, pos.Y);
 
-	(m_buffer[m_cursor.X + (m_cursor.Y * m_width)]).Char.AsciiChar = c;
-	(m_buffer[m_cursor.X + (m_cursor.Y * m_width)]).Attributes = color;
+	int index = (m_cursor.X + (m_cursor.Y * m_width));
+	(m_buffer[index]).Char.AsciiChar = c;
+	(m_buffer[index]).Attributes = color;
 
 	if (draw)
 		Draw();
@@ -99,11 +98,47 @@ void Console::Write(COORD pos, const char & c, COLOR color, bool draw)
 void Console::Write(COORD pos, const char * txt, COLOR color)
 {
 	for (UINT i = 0; i < strlen(txt); ++i)
-		Write({ pos.X + i, pos.Y }, txt[i], color, false);
+	{
+		SetCursor(pos.X + i, pos.Y);
+		int index = (m_cursor.X + (m_cursor.Y * m_width));
+		(m_buffer[index]).Char.AsciiChar = txt[i];
+		(m_buffer[index]).Attributes = color;
+	}
 
 	Draw();
 }
 
+
+void Console::Clear(COLOR color)
+{
+	ClearBuffer(m_buffer, (m_width * m_height), color);
+	Draw();
+}
+
+void Console::ClearLine(UINT line, COLOR color)
+{
+	UINT y = (line * m_width);
+	for (UINT i = y; i < y + m_width; ++i)
+	{
+		m_buffer[i].Char.AsciiChar = ' ';
+		m_buffer[i].Attributes = color;
+	}
+
+	Draw();
+}
+
+void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
+{
+	for (int y = y1; y < y2; ++y)
+	{
+		for (int x = x1; x < x2; ++x)
+		{
+			int index = (x + (y * m_width));
+			m_buffer[index].Char.AsciiChar = ' ';
+			m_buffer[index].Attributes = color;
+		}
+	}
+}
 
 void Console::CopyBuffer(CHAR_INFO * dest, CHAR_INFO * source, UINT destWidth, UINT destHeight, UINT sourceWidth, UINT sourceHeight)
 {
@@ -115,21 +150,21 @@ void Console::ClearBuffer(CHAR_INFO * buffer, UINT size, COLOR color)
 {
 	for (UINT i = 0; i < size; ++i)
 	{
-		buffer[i].Char.AsciiChar = '\0';
+		buffer[i].Char.AsciiChar = ' ';
 		buffer[i].Attributes = color;
 	}
 }
 
-void Console::Bound(int & x, int & y)
+void Console::Bound(SHORT & x, SHORT & y)
 {
 	if (x < 0)
 		x = 0;
-	else if (x >= m_width)
+	else if (x >= SHORT(m_width))
 		x = m_width - 1;
 
 	if (y < 0)
 		y = 0;
-	else if (y >= m_height)
+	else if (y >= SHORT(m_height))
 		y = m_height - 1;
 }
 
@@ -140,7 +175,6 @@ COORD Console::GetCursor()
 
 void Console::SetCursor(int x, int y)
 {
-	Bound(x, y);
 	m_cursor.X = x;
 	m_cursor.Y = y;
 	SetConsoleCursorPosition(m_ohandle, m_cursor);
@@ -173,6 +207,16 @@ HANDLE & Console::InputHandle()
 	return m_ihandle;
 }
 
+
+COLOR Console::CMakeColor(COLOR foreground, COLOR background)
+{
+	return (foreground + CMakeBackground(background));
+}
+
+COLOR Console::CMakeBackground(COLOR background)
+{
+	return background * 16;
+}
 
 void Console::Draw()
 {
