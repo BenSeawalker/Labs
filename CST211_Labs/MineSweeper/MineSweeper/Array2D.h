@@ -61,13 +61,13 @@ public:
 	Row<T> operator[](int row);
 
 	// GETTERS AND SETTERS
-	int getRow() const;
-	void setRow(int rows);
+	int Rows() const;
+	void SetRows(int rows);
 
-	int getColumn() const;
-	void setColumn(int columns);
+	int Columns() const;
+	void SetColumns(int columns);
 
-	void setSize(int rows, int columns);
+	void Resize(int rows, int columns);
 
 	// METHODS
 	T & Select(int row, int column);
@@ -208,7 +208,7 @@ const Row<T> Array2D<T>::operator[](int row) const
 //////
 
 template<typename T>
-int Array2D<T>::getRow() const
+int Array2D<T>::Rows() const
 {
 	return m_rows;
 }
@@ -225,7 +225,7 @@ int Array2D<T>::getRow() const
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::setRow(int rows)
+void Array2D<T>::SetRows(int rows)
 {
 	if (rows < 0)
 		throw Exception("Error: Cannot set rows to a value less than zero!");
@@ -238,7 +238,7 @@ void Array2D<T>::setRow(int rows)
 }
 
 template<typename T>
-int Array2D<T>::getColumn() const
+int Array2D<T>::Columns() const
 {
 	return m_columns;
 }
@@ -256,7 +256,7 @@ int Array2D<T>::getColumn() const
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::setColumn(int columns)
+void Array2D<T>::SetColumns(int columns)
 {
 	if (columns < 0)
 		throw Exception("Error: Cannot set columns to a value less than zero!");
@@ -304,10 +304,10 @@ void Array2D<T>::setColumn(int columns)
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void Array2D<T>::setSize(int rows, int columns)
+void Array2D<T>::Resize(int rows, int columns)
 {
-	setRow(rows);
-	setColumn(columns);
+	SetRows(rows);
+	SetColumns(columns);
 }
 
 //////

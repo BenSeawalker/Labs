@@ -5,20 +5,32 @@
 class Cell
 {
 public:
-	enum { BOMB = -1, EMPTY = 0 };
+	static const int MINE = -1;
 
 	// C'TORS AND D'TOR
-	Cell(int value = int(EMPTY));
+	Cell(int value = 0);
 	Cell(const Cell & copy);
 	~Cell();
 
 	// OPERATORS
 	Cell & operator=(const Cell & rhs);
 
+	// GETTERS AND SETTERS
+	int Value() const;
+	void SetValue(int value);
+
+	bool Checked() const;
+	void SetChecked(bool checked);
+
+	bool Flagged() const;
+	void SetFlagged(bool flagged);
+
 private:
 	int m_value;
 	bool m_checked;
-	
+	bool m_flagged;
+
 };
 
-#endif // Cell_h__
+
+#endif // CELL_H

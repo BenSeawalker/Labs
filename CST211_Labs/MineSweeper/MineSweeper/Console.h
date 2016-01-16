@@ -3,6 +3,7 @@
 
 #include <Windows.h>
 #include <cstring>
+#include "Exception.h"
 
 typedef WORD COLOR;
 
@@ -39,7 +40,7 @@ public:
 	static Console & GetInstance();
 
 	// METHODS
-	void SetCursorVisibility(BOOL visible);
+	void SetCursorVisibility(BOOL visiblity);
 	void SetConsoleEncoding(UINT encoding);
 
 	void Resize(UINT width, UINT height);
@@ -64,11 +65,11 @@ public:
 	HANDLE & OutputHandle();
 	HANDLE & InputHandle();
 
-	
+	bool InBounds(COORD pos);
 
 private:
 	// CTOR AND DTOR
-	Console(UINT width = 80, UINT height = 40, bool visible = false, UINT encoding = 437);
+	Console(UINT width = 80, UINT height = 40, bool visiblity = false, UINT encoding = 437);
 	~Console();
 
 	// METHODS

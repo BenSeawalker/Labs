@@ -40,6 +40,9 @@
     <Filter Include="Source Files\Utilities">
       <UniqueIdentifier>{42e636c7-7288-4965-8a75-af4bc9b5a40e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Stack">
+      <UniqueIdentifier>{1a9a833d-0e53-43b7-a65c-75df475eff7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h">

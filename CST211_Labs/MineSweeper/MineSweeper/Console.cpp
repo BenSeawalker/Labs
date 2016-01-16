@@ -8,7 +8,7 @@ Console * Console::m_instance = nullptr;
 //	C'TORS & D'TOR
 //////
 
-Console::Console(UINT width, UINT height, bool visible, UINT encoding)
+Console::Console(UINT width, UINT height, bool visiblity, UINT encoding)
 	: m_ohandle(GetStdHandle(STD_OUTPUT_HANDLE)), m_ihandle(GetStdHandle(STD_INPUT_HANDLE)), m_width(width), m_height(height), m_buffer(nullptr)
 {
 	// ensure that the console is in the correct encoding
@@ -18,7 +18,7 @@ Console::Console(UINT width, UINT height, bool visible, UINT encoding)
 	Resize(width, height);
 
 	// cursor visibility
-	SetCursorVisibility(visible);
+	SetCursorVisibility(visiblity);
 }
 
 Console::~Console()
@@ -69,7 +69,7 @@ void Console::Resize(UINT width, UINT height)
 
 	// new buffer with new size
 	CHAR_INFO * temp = new CHAR_INFO[width * height];
-	ClearBuffer(temp, width * height, Color::white);
+	ClearBuffer(temp, width * height, CMakeColor(Color::white, Color::black));
 
 	// update old buffer
 	delete[] m_buffer;
@@ -84,25 +84,30 @@ void Console::Resize(UINT width, UINT height)
 
 void Console::Write(COORD pos, const char & c, COLOR color, bool draw)
 {
-	Bound(pos.X, pos.Y);
-	SetCursor(pos.X, pos.Y);
+	if (InBounds(pos))
+	{
+		SetCursor(pos.X, pos.Y);
 
-	int index = (m_cursor.X + (m_cursor.Y * m_width));
-	(m_buffer[index]).Char.AsciiChar = c;
-	(m_buffer[index]).Attributes = color;
+		int index = (m_cursor.X + (m_cursor.Y * m_width));
+		(m_buffer[index]).Char.AsciiChar = c;
+		(m_buffer[index]).Attributes = color;
 
-	if (draw)
-		Draw();
+		if (draw)
+			Draw();
+	}
 }
 
 void Console::Write(COORD pos, const char * txt, COLOR color)
 {
 	for (UINT i = 0; i < strlen(txt); ++i)
 	{
-		SetCursor(pos.X + i, pos.Y);
-		int index = (m_cursor.X + (m_cursor.Y * m_width));
-		(m_buffer[index]).Char.AsciiChar = txt[i];
-		(m_buffer[index]).Attributes = color;
+		if (InBounds({ pos.X + i, pos.Y }))
+		{
+			SetCursor(pos.X + i, pos.Y);
+			int index = (m_cursor.X + (m_cursor.Y * m_width));
+			(m_buffer[index]).Char.AsciiChar = txt[i];
+			(m_buffer[index]).Attributes = color;
+		}
 	}
 
 	Draw();
@@ -118,24 +123,30 @@ void Console::Clear(COLOR color)
 void Console::ClearLine(UINT line, COLOR color)
 {
 	UINT y = (line * m_width);
-	for (UINT i = y; i < y + m_width; ++i)
+	if (y < m_height)
 	{
-		m_buffer[i].Char.AsciiChar = ' ';
-		m_buffer[i].Attributes = color;
-	}
+		for (UINT i = y; i < y + m_width && i < (m_width * m_height); ++i)
+		{
+			m_buffer[i].Char.AsciiChar = ' ';
+			m_buffer[i].Attributes = color;
+		}
 
-	Draw();
+		Draw();
+	}
 }
 
 void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
 {
-	for (int y = y1; y < y2; ++y)
+	for (int y = y1; y < y2 && y < m_height; ++y)
 	{
-		for (int x = x1; x < x2; ++x)
+		for (int x = x1; x < x2 && x < m_width; ++x)
 		{
-			int index = (x + (y * m_width));
-			m_buffer[index].Char.AsciiChar = ' ';
-			m_buffer[index].Attributes = color;
+			if (InBounds({ x, y }))
+			{
+				int index = (x + (y * m_width));
+				m_buffer[index].Char.AsciiChar = ' ';
+				m_buffer[index].Attributes = color;
+			}
 		}
 	}
 }
@@ -177,6 +188,8 @@ void Console::SetCursor(int x, int y)
 {
 	m_cursor.X = x;
 	m_cursor.Y = y;
+	Bound(m_cursor.X, m_cursor.Y);
+
 	SetConsoleCursorPosition(m_ohandle, m_cursor);
 }
 
@@ -207,6 +220,11 @@ HANDLE & Console::InputHandle()
 	return m_ihandle;
 }
 
+
+bool Console::InBounds(COORD pos)
+{
+	return (((pos.X >= 0) && (pos.X < m_width)) && ((pos.Y >= 0) && (pos.Y < m_height)));
+}
 
 COLOR Console::CMakeColor(COLOR foreground, COLOR background)
 {
