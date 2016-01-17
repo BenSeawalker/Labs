@@ -400,7 +400,7 @@ bool Array2D<T>::Contains(int row, int column) const
 template<typename T>
 void Array2D<T>::Purge()
 {
-	m_array = Array<T>();
+	m_array.Purge();
 	m_rows = 0;
 	m_columns = 0;
 }

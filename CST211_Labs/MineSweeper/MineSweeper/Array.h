@@ -61,8 +61,7 @@ public:
 	void SetLength(int length);
 
 	void Swap(Array<T> & other);
-
-	T * ToBase();
+	void Purge();
 
 private:
 	// MEMBERS
@@ -281,14 +280,11 @@ void Array<T>::Swap(Array<T> & other)
 	other = temp;
 }
 
-template<typename T>
-T * Array<T>::ToBase()
-{
-	T * temp = new T[m_length];
-	for (int i = 0; i < m_length; ++i)
-		temp[i] = m_array[i];
 
-	return temp;
+template<typename T>
+void Array<T>::Purge()
+{
+	SetLength(0);
 }
 
 //////
