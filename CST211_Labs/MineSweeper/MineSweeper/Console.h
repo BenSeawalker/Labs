@@ -39,6 +39,9 @@ public:
 	// SINGLETON
 	static Console & GetInstance();
 
+	// DTOR
+	~Console();
+
 	// METHODS
 	void SetCursorVisibility(BOOL visiblity);
 	void SetConsoleEncoding(UINT encoding);
@@ -52,7 +55,7 @@ public:
 	void Write(COORD pos, const char * txt, COLOR color = Color::white);
 
 	void Clear(COLOR color = Color::black);
-	void ClearLine(UINT line, COLOR color = Color::black);
+	void ClearLine(int line, COLOR color = Color::black);
 	void ClearRect(int x1, int y1, int x2, int y2, COLOR color = Color::black);
 
 	COORD GetCursor();
@@ -68,9 +71,8 @@ public:
 	bool InBounds(COORD pos);
 
 private:
-	// CTOR AND DTOR
-	Console(UINT width = 80, UINT height = 40, bool visiblity = false, UINT encoding = 437);
-	~Console();
+	// CTOR
+	Console(UINT width = 80, UINT height = 40, BOOL visiblity = false, UINT encoding = 437);
 
 	// METHODS
 	void CopyBuffer(CHAR_INFO * dest, CHAR_INFO * source, UINT destWidth, UINT destHeight, UINT sourceWidth, UINT sourceHeight);
@@ -81,7 +83,7 @@ private:
 	void Draw();
 
 	// SINGLETON
-	static Console * m_instance;
+	static Console m_instance;
 
 	// MEMBERS
 	HANDLE						m_ohandle;
@@ -89,8 +91,8 @@ private:
 	CONSOLE_SCREEN_BUFFER_INFO	m_csbi;
 	CONSOLE_CURSOR_INFO			m_cinf;
 	COORD						m_cursor;
-	UINT						m_width;
-	UINT						m_height;
+	int							m_width;
+	int							m_height;
 	CHAR_INFO *					m_buffer;
 	
 };

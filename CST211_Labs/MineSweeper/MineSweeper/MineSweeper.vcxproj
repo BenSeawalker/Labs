@@ -15,8 +15,10 @@
     <ClInclude Include="Array2D.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonGroup.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="crtdbg_new.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MineSweeper.h" />
@@ -26,6 +28,7 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ButtonGroup.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Exception.cpp" />
@@ -76,9 +79,9 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

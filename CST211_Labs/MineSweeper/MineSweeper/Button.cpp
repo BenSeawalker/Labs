@@ -109,7 +109,7 @@ char * Button::TrimText()
 {
 	char * str = nullptr;
 
-	if (m_text.length() >= m_width - (2 * (m_width > 2)))
+	if (int(m_text.length()) >= m_width - (2 * (m_width > 2)))
 	{
 		str = new char[m_width - 1];
 		for (int i = 0; i < m_width - 1; ++i)

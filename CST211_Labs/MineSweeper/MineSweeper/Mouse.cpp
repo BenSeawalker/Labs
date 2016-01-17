@@ -1,6 +1,5 @@
 #include "Mouse.h"
 
-
 Array<SHORT> Mouse::m_previous_state = Array<SHORT>(NUM_BTNS);
 Array<SHORT> Mouse::m_current_state = Array<SHORT>(NUM_BTNS);
 
@@ -93,5 +92,7 @@ void Mouse::UpdatePosition(HANDLE & input_handle)
 				mouse_handled = true;
 			}
 		}
+
+		delete[] eventBuffer;
 	}
 }

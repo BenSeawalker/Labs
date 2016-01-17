@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Stack">
       <UniqueIdentifier>{1a9a833d-0e53-43b7-a65c-75df475eff7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\DEBUG">
+      <UniqueIdentifier>{75c334b7-d965-4e4b-9c84-7d562a6c741e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h">
@@ -78,6 +81,12 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crtdbg_new.h">
+      <Filter>Header Files\DEBUG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -106,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonGroup.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -284,7 +284,9 @@ void Array<T>::Swap(Array<T> & other)
 template<typename T>
 void Array<T>::Purge()
 {
-	SetLength(0);
+	delete[] m_array;
+	m_array = nullptr;
+	m_length = 0;
 }
 
 //////

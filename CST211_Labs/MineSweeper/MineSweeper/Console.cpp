@@ -1,14 +1,14 @@
 #include "Console.h"
 
 // INITIALIZE STATIC VARS
-Console * Console::m_instance = nullptr;
+Console Console::m_instance = Console();
 
 
 ///////////////////////////////////////////////////////////////
 //	C'TORS & D'TOR
 //////
 
-Console::Console(UINT width, UINT height, bool visiblity, UINT encoding)
+Console::Console(UINT width, UINT height, BOOL visiblity, UINT encoding)
 	: m_ohandle(GetStdHandle(STD_OUTPUT_HANDLE)), m_ihandle(GetStdHandle(STD_INPUT_HANDLE)), m_width(width), m_height(height), m_buffer(nullptr)
 {
 	// ensure that the console is in the correct encoding
@@ -23,7 +23,8 @@ Console::Console(UINT width, UINT height, bool visiblity, UINT encoding)
 
 Console::~Console()
 {
-	m_instance = nullptr;
+	delete[] m_buffer;
+	m_buffer = nullptr;
 }
 
 //////
@@ -32,20 +33,14 @@ Console::~Console()
 
 Console & Console::GetInstance()
 {
-	if (!m_instance)
-		m_instance = new Console();
-
-	return *m_instance;
+	return m_instance;
 }
 
 void Console::SetCursorVisibility(BOOL visible)
 {
-	if (visible != m_cinf.bVisible)
-	{
-		GetConsoleCursorInfo(m_ohandle, &m_cinf);
-		m_cinf.bVisible = visible;
-		SetConsoleCursorInfo(m_ohandle, &m_cinf);
-	}
+	GetConsoleCursorInfo(m_ohandle, &m_cinf);
+	m_cinf.bVisible = visible;
+	SetConsoleCursorInfo(m_ohandle, &m_cinf);
 }
 
 void Console::SetConsoleEncoding(UINT encoding)
@@ -120,12 +115,12 @@ void Console::Clear(COLOR color)
 	Draw();
 }
 
-void Console::ClearLine(UINT line, COLOR color)
+void Console::ClearLine(int line, COLOR color /*= Color::black*/)
 {
-	UINT y = (line * m_width);
-	if (y < m_height)
+	if (line < m_height)
 	{
-		for (UINT i = y; i < y + m_width && i < (m_width * m_height); ++i)
+		int y = (line * m_width);
+		for (int i = y; i < y + m_width && i < (m_width * m_height); ++i)
 		{
 			m_buffer[i].Char.AsciiChar = ' ';
 			m_buffer[i].Attributes = color;

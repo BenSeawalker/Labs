@@ -38,6 +38,7 @@ private:
 	//	METHODS
 	void ShowMenu();
 	void ShowGame();
+	void ShowMessage(const string & message, COLOR color = Color::white);
 
 	void MenuButtonClicked(Button & btn);
 	void CellButtonClicked(Button & btn);

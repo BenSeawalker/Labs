@@ -1,5 +1,4 @@
-#include <crtdbg.h> 
-#define _CRTDBG_MAP_ALLOC
+#include "crtdbg_new.h"
 
 #include "MineSweeper.h"
 
@@ -12,12 +11,12 @@ int main()
 	MineSweeper ms;
 
 	bool running = true;
-	while (running && !Keyboard::KeyPressed(VK_ESCAPE))
+	while (running)
 	{
 		Mouse::UpdateMouseState(console.InputHandle());
 		Keyboard::UpdateKeyboardState(console.InputHandle());
 
-		running = ms.Update();
+		running = (!Keyboard::KeyPressed(VK_ESCAPE) && ms.Update());
 	}
 
 	return 0;
