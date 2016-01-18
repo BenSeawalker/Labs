@@ -24,13 +24,16 @@ Console Console::m_instance = Console();
 Console::Console(UINT width, UINT height, BOOL visiblity, UINT encoding)
 	: m_ohandle(GetStdHandle(STD_OUTPUT_HANDLE)), m_ihandle(GetStdHandle(STD_INPUT_HANDLE)), m_width(width), m_height(height), m_buffer(nullptr)
 {
-	// ensure that the console is in the correct encoding
+	// Ensure that the console is in the correct encoding
 	SetConsoleEncoding(encoding);
 
-	// resize the window
+	// Ensure that the console can receive mouse events...
+	EnableMouseEvents();
+
+	// Resize the window
 	Resize(width, height);
 
-	// cursor visibility
+	// Cursor visibility
 	SetCursorVisibility(visiblity);
 }
 
@@ -436,6 +439,25 @@ HANDLE & Console::InputHandle()
 ///////////////////////////////////////////////////////////////
 //	PRIVATE METHODS
 //////
+
+/************************************************************************
+* Purpose: To set the console mode to accept mouse events
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The console mode
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::EnableMouseEvents()
+{
+	DWORD dwPreviousMode;
+	GetConsoleMode(m_ohandle, &dwPreviousMode);
+
+	DWORD dwNewMode = dwPreviousMode | ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS & ~ENABLE_QUICK_EDIT_MODE;
+	SetConsoleMode(m_ohandle, dwNewMode);
+}
 
 /************************************************************************
 * Purpose: To clear out the given buffer with null characters of the specified color

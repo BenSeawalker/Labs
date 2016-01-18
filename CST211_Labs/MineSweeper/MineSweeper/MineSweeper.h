@@ -35,34 +35,38 @@ private:
 
 	static Console & console;
 
-	//	METHODS
-	void ShowMenu();
-	void ShowGame();
-	void ShowMessage(const string & message, COLOR color = Color::white);
+	// METHODS
+		// UI
+		void ShowMenu();
+		void ShowGame();
+		void ShowMessage(const string & message, COLOR color = Color::white);
+		void SetClicks(int clicks);
 
-	void MenuButtonClicked(Button & btn);
-	void CellButtonClicked(Button & btn);
-	void CellButtonRightClicked(Button & btn);
+		void CreateMenus();
+		void MenuButtonClicked(Button & btn);
+		void CellButtonClicked(Button & btn);
+		void CellButtonRightClicked(Button & btn);
+	
+		// CELL LOGIC
+		bool IsMine(int x, int y);
+		bool IsChecked(int x, int y);
+		bool IsEmpty(int x, int y);
+		bool IsFlagged(int x, int y);
 
-	void SetClicks(int clicks);
+		int CalcCellValue(int x, int y);
+		COLOR CalcCellColor(int value);
 
-	void Populate(int rows, int columns, int fc_x, int fc_y);
+		void UncoverCell(int x, int y);
+		void FlagCell(int x, int y);
+	
+		// GAME LOGIC
+		void CheckVictory();
+		void WinGame();
+		void LoseGame(int mine_x, int mine_y);
 
-	int CalcCellValue(int x, int y);
-	bool IsMine(int x, int y);
-	bool IsChecked(int x, int y);
-	bool IsEmpty(int x, int y);
-	bool IsFlagged(int x, int y);
-
-	void UncoverCell(int x, int y);
-	void FlagCell(int x, int y);
-
-	void CheckVictory();
-	void WinGame();
-	void LoseGame(int mine_x, int mine_y);
-
-	void Cleanup();
-
+		void Populate(int rows, int columns, int fc_x, int fc_y);
+		void Cleanup();
+	
 	// MEMBERS
 	Board m_board;
 	Array2D<Button> m_cellButtons;

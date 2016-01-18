@@ -52,6 +52,8 @@ Button & Button::operator=(const Button & rhs)
 	m_y = rhs.m_y;
 	m_width = rhs.m_width;
 	m_height = rhs.m_height;
+
+	return *this;
 }
 
 //////

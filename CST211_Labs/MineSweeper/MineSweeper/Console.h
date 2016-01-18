@@ -124,6 +124,8 @@ private:
 	Console(UINT width = 80, UINT height = 40, BOOL visiblity = false, UINT encoding = 437);
 
 	// METHODS
+	void EnableMouseEvents();
+
 	void ClearBuffer(CHAR_INFO * buffer, UINT size, COLOR color);
 
 	void Bound(SHORT & x, SHORT & y);

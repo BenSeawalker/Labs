@@ -1,5 +1,9 @@
 #include "MineSweeper.h"
 
+///////////////////////////////////////////////////////////////
+//	INITIALIZE STATIC VARS
+//////
+
 Console & MineSweeper::console = Console::GetInstance();
 const double MineSweeper::PI = (atan(1) * 4);
 
@@ -7,40 +11,52 @@ const double MineSweeper::PI = (atan(1) * 4);
 #define DEAD  "\x02"
 #define HEART "\x03"
 
+//////
+//	END INITIALIZE STATIC VARS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	CTORS AND DTOR
+//////
+
 MineSweeper::MineSweeper()
 	: m_menu(4), m_onMenu(true), m_paused(false), m_firstClick(true), m_clicks(0), m_mines(0), m_flags(0)
 {
-	// Main Menu
-	m_menu[BEGINNER] = Button(40, 15, BEGINNER, "Easy");
-	m_menu[BEGINNER].Resize(14, 3);
-
-	m_menu[INTERMEDIATE] = Button(40, 19, INTERMEDIATE, "Intermediate");
-
-	m_menu[EXPERT] = Button(40, 23, EXPERT, "Hard");
-	m_menu[EXPERT].Resize(14, 3);
-
-	m_menu[3] = Button(40, 27, 3, "Quit");
-	m_menu[3].Resize(14, 3);
-
-	// Game Menu
-	m_btnQuit = Button(OFFSET_X + 1, OFFSET_Y - 4, 0, "X", Color::dark_red, Color::white, Color::red, Color::bright_white);
-	m_btnReset = Button(OFFSET_X + 8, OFFSET_Y - 4, 0, SMILE, Color::grey, Color::yellow, Color::white, Color::yellow);
-	m_btnScore = Button(OFFSET_X + 15, OFFSET_Y - 4, 0, "Clicks: 0", Color::white, Color::blue, Color::white, Color::blue);
-
 	// rename console window
 	SetConsoleTitle(L"Bomb Scrubber");
 
 	// Set the Console to the appropriate size
 	console.Resize(100, 50);
 
+	// Instantiate all menu buttons
+	CreateMenus();
+
+	// Display the Main Menu
 	ShowMenu();
 }
+
+		// TODO: ADD COPY CTOR
 
 MineSweeper::~MineSweeper()
 {
 	Cleanup();
 }
 
+//////
+//	END CTORS AND DTOR
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	OPERATORS
+//////
+			// TODO: ADD OP=
+//////
+//	END OPERATORS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PUBLIC METHODS
+//////
 
 bool MineSweeper::Update()
 {
@@ -106,7 +122,17 @@ bool MineSweeper::Update()
 	return m_gameRunning;
 }
 
+//////
+//	END PUBLIC METHODS
+///////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////
+//	PRIVATE METHODS
+//////
+
+///////////////////////////////////////////////////////////////
+//	UI
+//////
 void MineSweeper::ShowMenu()
 {
 	m_onMenu = true;
@@ -190,6 +216,34 @@ void MineSweeper::ShowMessage(const string & message, COLOR color)
 	console.Write({ 5, line + 2 }, "Press \"Q\" to return to Menu, \"R\" to Restart, or \"Esc\" to Exit...");
 }
 
+void MineSweeper::SetClicks(int clicks)
+{
+	m_clicks = clicks;
+	string txt = string("Clicks: ").append(to_string(m_clicks));
+	m_btnScore.SetText(txt);
+}
+
+void MineSweeper::CreateMenus()
+{
+	// Instantiate Main Menu Buttons
+	// and ensure that they are all the same width...
+	m_menu[BEGINNER] = Button(40, 15, BEGINNER, "Easy");
+	m_menu[BEGINNER].Resize(14, 3);
+
+	m_menu[INTERMEDIATE] = Button(40, 19, INTERMEDIATE, "Intermediate");
+
+	m_menu[EXPERT] = Button(40, 23, EXPERT, "Hard");
+	m_menu[EXPERT].Resize(14, 3);
+
+	m_menu[3] = Button(40, 27, 3, "Quit");
+	m_menu[3].Resize(14, 3);
+
+	// Instantiate Game Menu Buttons
+	m_btnQuit = Button(OFFSET_X + 1, OFFSET_Y - 4, 0, "X", Color::dark_red, Color::white, Color::red, Color::bright_white);
+	m_btnReset = Button(OFFSET_X + 8, OFFSET_Y - 4, 0, SMILE, Color::grey, Color::yellow, Color::white, Color::yellow);
+	m_btnScore = Button(OFFSET_X + 15, OFFSET_Y - 4, 0, "Clicks: 0", Color::white, Color::blue, Color::white, Color::blue);
+}
+
 void MineSweeper::MenuButtonClicked(Button & btn)
 {
 	if (btn.ID() == 3)
@@ -236,40 +290,32 @@ void MineSweeper::CellButtonRightClicked(Button & btn)
 	CheckVictory();
 }
 
-void MineSweeper::SetClicks(int clicks)
+//////
+//	END UI
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	CELL LOGIC
+//////
+
+bool MineSweeper::IsMine(int x, int y)
 {
-	m_clicks = clicks;
-	string txt = string("Clicks: ").append(to_string(m_clicks));
-	m_btnScore.SetText(txt);
+	return (m_board[y][x].Value() == Cell::MINE);
 }
 
-void MineSweeper::Populate(int rows, int columns, int fc_x, int fc_y)
+bool MineSweeper::IsChecked(int x, int y)
 {
-	// Place mines
-	srand((unsigned)time(NULL));
-	for (int i = 0; i < m_mines; ++i)
-	{
-		int x = rand() % (columns);
-		int y = rand() % (rows);
+	return m_board[y][x].Checked();
+}
 
-		while (((x == fc_x) && (y == fc_y)) || m_board[y][x].Value() == Cell::MINE)
-		{
-			x = rand() % (columns);
-			y = rand() % (rows);
-		}
+bool MineSweeper::IsEmpty(int x, int y)
+{
+	return (m_board[y][x].Value() == 0);
+}
 
-		m_mineCoords[i] = { x, y };
-		m_board[y][x].SetValue(Cell::MINE);
-	}
-
-	for (int y = 0; y < rows; ++y)
-	{
-		for (int x = 0; x < columns; ++x)
-		{
-			m_board[y][x].SetValue(CalcCellValue(x, y));
-		}
-	}
-	
+bool MineSweeper::IsFlagged(int x, int y)
+{
+	return m_board[y][x].Flagged();
 }
 
 int MineSweeper::CalcCellValue(int x, int y)
@@ -294,24 +340,32 @@ int MineSweeper::CalcCellValue(int x, int y)
 	return value;
 }
 
-bool MineSweeper::IsMine(int x, int y)
-{
-	return (m_board[y][x].Value() == Cell::MINE);
-}
 
-bool MineSweeper::IsChecked(int x, int y)
+COLOR MineSweeper::CalcCellColor(int value)
 {
-	return m_board[y][x].Checked();
-}
+	COLOR foreground = Color::grey;
 
-bool MineSweeper::IsEmpty(int x, int y)
-{
-	return (m_board[y][x].Value() == 0);
-}
+	if (value > 0)
+	{
+		if (value == 1)
+			foreground = Color::blue;
+		else if (value == 2)
+			foreground = Color::green;
+		else if (value == 3)
+			foreground = Color::dark_red;
+		else if (value == 4)
+			foreground = Color::dark_blue;
+		else if (value == 5)
+			foreground = Color::purple;
+		else if (value == 6)
+			foreground = Color::turquoise;
+		else if (value == 7)
+			foreground = Color::lime;
+		else if (value == 8)
+			foreground = Color::red;
+	}
 
-bool MineSweeper::IsFlagged(int x, int y)
-{
-	return m_board[y][x].Flagged();
+	return foreground;
 }
 
 void MineSweeper::UncoverCell(int x, int y)
@@ -321,7 +375,6 @@ void MineSweeper::UncoverCell(int x, int y)
 	{
 		if (IsMine(x, y))
 		{
-			// You lose...
 			LoseGame(x, y);
 		}
 		else
@@ -331,30 +384,15 @@ void MineSweeper::UncoverCell(int x, int y)
 
 			// CELL BUTTON
 			int value = m_board[y][x].Value();
+			COLOR foreground = CalcCellColor(value);
+
+			m_cellButtons[y][x].SetColors(Color::grey, foreground, Color::grey, foreground);
 
 			if (value > 0)
 				m_cellButtons[y][x].SetText(to_string(value), false);
-
-			if (value < 2)
-				m_cellButtons[y][x].SetColors(Color::grey, Color::blue, Color::grey, Color::blue);
-			else if (value == 2)
-				m_cellButtons[y][x].SetColors(Color::grey, Color::green, Color::grey, Color::green);
-			else if (value == 3)
-				m_cellButtons[y][x].SetColors(Color::grey, Color::dark_red, Color::grey, Color::dark_red);
-			else if (value == 4)
-				m_cellButtons[y][x].SetColors(Color::grey, Color::dark_blue, Color::grey, Color::dark_blue);
-			else if (value == 5)
-				m_cellButtons[y][x].SetColors(Color::grey, Color::purple, Color::grey, Color::purple);
-			else if (value == 6)
-				m_cellButtons[y][x].SetColors(Color::grey, Color::turquoise, Color::grey, Color::turquoise);
-			else if (value == 7)
-				m_cellButtons[y][x].SetColors(Color::grey, Color::lime, Color::grey, Color::lime);
-			else if (value == 8)
-				m_cellButtons[y][x].SetColors(Color::grey, Color::red, Color::grey, Color::red);
 		}
 	}
 
-	// Uncover surrounding areas
 	if (IsEmpty(x, y) && !IsFlagged(x, y))
 	{
 		// Uncover the surrounding cells in the 8 cardinal directions
@@ -362,7 +400,7 @@ void MineSweeper::UncoverCell(int x, int y)
 		{
 			int dx = x + int(round(cos((PI / 4) * i)));
 			int dy = y + int(round(sin((PI / 4) * i)));
-			
+
 			if (m_board.Contains(dy, dx) && !IsMine(dx, dy) && !IsChecked(dx, dy))
 				UncoverCell(dx, dy);
 		}
@@ -391,6 +429,14 @@ void MineSweeper::FlagCell(int x, int y)
 		}
 	}
 }
+
+//////
+//	END CELL LOGIC
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	GAME LOGIC
+//////
 
 void MineSweeper::CheckVictory()
 {
@@ -496,13 +542,44 @@ void MineSweeper::LoseGame(int mine_x, int mine_y)
 
 	// Write the Losing Message
 	ShowMessage("Violent death! (And probable loss of limb)", MakeColor(Color::red, Color::black));
-	
+
 	m_paused = true;
+}
+
+void MineSweeper::Populate(int rows, int columns, int fc_x, int fc_y)
+{
+	// Place mines
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < m_mines; ++i)
+	{
+		int x = rand() % columns;
+		int y = rand() % rows;
+
+		// find a new cell while there is a mine here, or is at the first click coords
+		while (((x == fc_x) && (y == fc_y)) || IsMine(x, y))
+		{
+			x = rand() % columns;
+			y = rand() % rows;
+		}
+
+		m_mineCoords[i] = { x, y };
+		m_board[y][x].SetValue(Cell::MINE);
+	}
+
+	// Calculate values
+	for (int y = 0; y < rows; ++y)
+	{
+		for (int x = 0; x < columns; ++x)
+		{
+			m_board[y][x].SetValue(CalcCellValue(x, y));
+		}
+	}
+
 }
 
 void MineSweeper::Cleanup()
 {
-	SetClicks(0);
+	m_clicks = 0;
 	m_firstClick = true;
 	m_mines = 0;
 	m_flags = 0;
@@ -510,5 +587,14 @@ void MineSweeper::Cleanup()
 	m_board.Purge();
 	m_cellButtons.Purge();
 	m_mineCoords.Purge();
+
+	console.Clear();
 }
 
+//////
+//	END GAME LOGIC
+///////////////////////////////////////////////////////////////
+
+//////
+//	END PRIVATE METHODS
+///////////////////////////////////////////////////////////////

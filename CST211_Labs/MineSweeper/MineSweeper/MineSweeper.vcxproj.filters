@@ -40,9 +40,6 @@
     <Filter Include="Source Files\Utilities">
       <UniqueIdentifier>{42e636c7-7288-4965-8a75-af4bc9b5a40e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Stack">
-      <UniqueIdentifier>{1a9a833d-0e53-43b7-a65c-75df475eff7b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\DEBUG">
       <UniqueIdentifier>{75c334b7-d965-4e4b-9c84-7d562a6c741e}</UniqueIdentifier>
     </Filter>
