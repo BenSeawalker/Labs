@@ -1,14 +1,38 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Cell.cpp
+* Date Created:	1/15/16
+* Modifications: N/A
+*************************************************************************/
+
 #include "Cell.h"
 
+
+///////////////////////////////////////////////////////////////
+//	CTORS AND DTOR
+//////
 
 Cell::Cell(int value)
 	: m_value(value), m_checked(false), m_flagged(false)
 {}
 
 
+Cell::Cell(const Cell & copy)
+{
+	*this = copy;
+}
+
 Cell::~Cell()
 {
 }
+
+//////
+//	END CTORS AND DTOR
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	OPERATORS
+//////
 
 Cell & Cell::operator=(const Cell & rhs)
 {
@@ -17,6 +41,14 @@ Cell & Cell::operator=(const Cell & rhs)
 
 	return *this;
 }
+
+//////
+//	END OPERATORS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	SETTERS AND GETTERS
+//////
 
 int Cell::Value() const
 {
@@ -48,4 +80,6 @@ void Cell::SetFlagged(bool flagged)
 	m_flagged = flagged;
 }
 
-
+//////
+//	END SETTERS AND GETTERS
+///////////////////////////////////////////////////////////////

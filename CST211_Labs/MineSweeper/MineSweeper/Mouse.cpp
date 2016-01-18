@@ -1,4 +1,16 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Mouse.cpp
+* Date Created:	1/15/16
+* Modifications: N/A
+*************************************************************************/
+
 #include "Mouse.h"
+
+
+///////////////////////////////////////////////////////////////
+//	INITIALIZE STATIC VARS
+//////
 
 Array<SHORT> Mouse::m_previous_state = Array<SHORT>(NUM_BTNS);
 Array<SHORT> Mouse::m_current_state = Array<SHORT>(NUM_BTNS);
@@ -7,6 +19,26 @@ int Mouse::m_x = 0;
 int Mouse::m_y = 0;
 bool Mouse::m_moved = false;
 
+//////
+//	END INITIALIZE STATIC VARS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PUBLIC STATIC METHODS
+//////
+
+/************************************************************************
+* Purpose: To update the current state of the mouse buttons
+*			and the location of the cursor
+*
+* Precondition:
+*		input_handle - must be provided by console.InputHandle()
+*
+* Postcondition:
+*		Modifies:	The current and previous state of the mouse buttons
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Mouse::UpdateMouseState(HANDLE & input_handle)
 {
 	// swap the current state into the previous
@@ -20,44 +52,142 @@ void Mouse::UpdateMouseState(HANDLE & input_handle)
 	UpdatePosition(input_handle);
 }
 
+/************************************************************************
+* Purpose: To check if the given button is not pressed
+*
+* Precondition:
+*		btn - the mouse button to check against
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the given button is not pressed
+*************************************************************************/
 bool Mouse::BtnUp(BUTTON btn)
 {
 	return !m_current_state[btn];
 }
 
+/************************************************************************
+* Purpose: To check if the given button is held down
+*
+* Precondition:
+*		btn - the mouse button to check against
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the given button is held down
+*************************************************************************/
 bool Mouse::BtnDown(BUTTON btn)
 {
-	return (m_current_state[btn] > 0);
+	return (m_previous_state[btn] != 0 && m_current_state[btn] != 0);
 }
 
+/************************************************************************
+* Purpose: To check if the given button was just pressed
+*
+* Precondition:
+*		btn - the mouse button to check against
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the given button was just pressed
+*************************************************************************/
 bool Mouse::BtnPressed(BUTTON btn)
 {
 	return (!m_previous_state[btn] && m_current_state[btn]);
 }
 
+/************************************************************************
+* Purpose: To check if the given button was just released
+*
+* Precondition:
+*		btn - the mouse button to check against
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the given button was just released
+*************************************************************************/
 bool Mouse::BtnReleased(BUTTON btn)
 {
 	return (m_previous_state[btn] && !m_current_state[btn]);
 }
 
+//////
+//	END PUBLIC STATIC METHODS
+///////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////
+//	GETTERS
+//////
+
+/************************************************************************
+* Purpose: To check if the mouse moved since the last update
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the mouse changed position since the last update
+*************************************************************************/
 bool Mouse::Moved()
 {
 	return m_moved;
 }
 
+/************************************************************************
+* Purpose: To get the current x coordinate of the mouse in the console
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The current column the mouse is in
+*************************************************************************/
 int Mouse::X()
 {
 	return m_x;
 }
 
+
+/************************************************************************
+* Purpose: To get the current y coordinate of the mouse in the console
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The current row the mouse is in
+*************************************************************************/
 int Mouse::Y()
 {
 	return m_y;
 }
 
+//////
+//	END GETTERS
+///////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////
+//	PRIVATE STATIC METHODS
+//////
 
+/************************************************************************
+* Purpose: To update the coordinates of the mouse in the console
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The x and y coords as well as if the mouse moved
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Mouse::UpdatePosition(HANDLE & input_handle)
 {
 	DWORD numEvents = 0;
@@ -96,3 +226,7 @@ void Mouse::UpdatePosition(HANDLE & input_handle)
 		delete[] eventBuffer;
 	}
 }
+
+//////
+//	END PRIVATE STATIC METHODS
+///////////////////////////////////////////////////////////////

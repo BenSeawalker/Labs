@@ -1,11 +1,24 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Console.cpp
+* Date Created:	1/15/16
+* Modifications: N/A
+*************************************************************************/
+
 #include "Console.h"
 
-// INITIALIZE STATIC VARS
+///////////////////////////////////////////////////////////////
+//	INITIALIZE SINGLETON
+//////
+
 Console Console::m_instance = Console();
 
+//////
+//	END INITIALIZE SINGLETON
+///////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////
-//	C'TORS & D'TOR
+//	CTOR AND DTOR
 //////
 
 Console::Console(UINT width, UINT height, BOOL visiblity, UINT encoding)
@@ -28,14 +41,218 @@ Console::~Console()
 }
 
 //////
-//	END C'TORS & D'TOR
+//	END CTOR AND DTOR
 ///////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////
+//	SINGLETON
+//////
+
+/************************************************************************
+* Purpose: To get the singleton instance of this class
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	A reference to the singleton instance
+*************************************************************************/
 Console & Console::GetInstance()
 {
 	return m_instance;
 }
 
+//////
+//	END SINGLETON
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PUBLIC STATIC METHODS
+//////
+
+/************************************************************************
+* Purpose: To create a color of the specified foreground and background
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The specified color
+*************************************************************************/
+COLOR Console::CMakeColor(COLOR foreground, COLOR background)
+{
+	return (foreground + CMakeBackground(background));
+}
+
+/************************************************************************
+* Purpose: To create a color of the specified background
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The specified background with a black foreground
+*************************************************************************/
+COLOR Console::CMakeBackground(COLOR background)
+{
+	return background * 16;
+}
+
+//////
+//	END PUBLIC STATIC METHODS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PUBLIC METHODS
+//////
+
+/************************************************************************
+* Purpose: To write a single character to the console at a specified position
+*
+* Precondition:
+*		draw - whether or not to defer rendering
+*
+* Postcondition:
+*		Modifies:	The console screen buffer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::Write(COORD pos, const char & c, COLOR color, bool draw)
+{
+	if (InBounds(pos))
+	{
+		SetCursor(pos.X, pos.Y);
+
+		int index = (m_cursor.X + (m_cursor.Y * m_width));
+		(m_buffer[index]).Char.AsciiChar = c;
+		(m_buffer[index]).Attributes = color;
+
+		if (draw)
+			Draw();
+	}
+}
+
+/************************************************************************
+* Purpose: To write a string of characters to the console at a specified position
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The console screen buffer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::Write(COORD pos, const char * txt, COLOR color)
+{
+	for (UINT i = 0; i < strlen(txt); ++i)
+		Write({ pos.X + i, pos.Y }, txt[i], color, false);
+
+	Draw();
+}
+
+/************************************************************************
+* Purpose: To completely clear the screen with the given color
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The console screen buffer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::Clear(COLOR color)
+{
+	ClearBuffer(m_buffer, (m_width * m_height), color);
+	Draw();
+}
+
+/************************************************************************
+* Purpose: To clear a line on the screen with the given color
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The console screen buffer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::ClearLine(int line, COLOR color /*= Color::black*/)
+{
+	if (line < m_height)
+	{
+		int y = (line * m_width);
+		for (int i = y; i < y + m_width && i < (m_width * m_height); ++i)
+		{
+			m_buffer[i].Char.AsciiChar = ' ';
+			m_buffer[i].Attributes = color;
+		}
+
+		Draw();
+	}
+}
+
+/************************************************************************
+* Purpose: To clear a region on the screen with the given color
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The console screen buffer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
+{
+	for (int y = y1; y < y2 && y < m_height; ++y)
+	{
+		for (int x = x1; x < x2 && x < m_width; ++x)
+		{
+			if (InBounds({ x, y }))
+			{
+				int index = (x + (y * m_width));
+				m_buffer[index].Char.AsciiChar = ' ';
+				m_buffer[index].Attributes = color;
+			}
+		}
+	}
+}
+
+/************************************************************************
+* Purpose: To check if a given coordinate is within the bounds of the console
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the given coordinate is inside the bounds of the console
+*************************************************************************/
+bool Console::InBounds(COORD pos)
+{
+	return (((pos.X >= 0) && (pos.X < m_width)) && ((pos.Y >= 0) && (pos.Y < m_height)));
+}
+
+//////
+//	END PUBLIC METHODS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	GETTERS AND SETTERS
+//////
+
+/************************************************************************
+* Purpose: To change whether or not the blinking cursor is visible
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The console cursor info
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Console::SetCursorVisibility(BOOL visible)
 {
 	GetConsoleCursorInfo(m_ohandle, &m_cinf);
@@ -43,12 +260,33 @@ void Console::SetCursorVisibility(BOOL visible)
 	SetConsoleCursorInfo(m_ohandle, &m_cinf);
 }
 
+/************************************************************************
+* Purpose: To change the encoding of all characters on the screen
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The console screen buffer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Console::SetConsoleEncoding(UINT encoding)
 {
 	SetConsoleCP(encoding);
 	SetConsoleOutputCP(encoding);
 }
 
+/************************************************************************
+* Purpose: To resize BOTH the console window and the screen buffer
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The console screen buffer
+*					The screen will be completely cleared with a white foreground and black background
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Console::Resize(UINT width, UINT height)
 {
 	// inner size
@@ -70,97 +308,164 @@ void Console::Resize(UINT width, UINT height)
 	delete[] m_buffer;
 	m_buffer = temp;
 
-	Draw();
-	
 	// set the new width and height
 	m_width = width;
 	m_height = height;
-}
 
-void Console::Write(COORD pos, const char & c, COLOR color, bool draw)
-{
-	if (InBounds(pos))
-	{
-		SetCursor(pos.X, pos.Y);
-
-		int index = (m_cursor.X + (m_cursor.Y * m_width));
-		(m_buffer[index]).Char.AsciiChar = c;
-		(m_buffer[index]).Attributes = color;
-
-		if (draw)
-			Draw();
-	}
-}
-
-void Console::Write(COORD pos, const char * txt, COLOR color)
-{
-	for (UINT i = 0; i < strlen(txt); ++i)
-	{
-		if (InBounds({ pos.X + i, pos.Y }))
-		{
-			SetCursor(pos.X + i, pos.Y);
-			int index = (m_cursor.X + (m_cursor.Y * m_width));
-			(m_buffer[index]).Char.AsciiChar = txt[i];
-			(m_buffer[index]).Attributes = color;
-		}
-	}
-
+	// redraw the screen
 	Draw();
 }
 
-
-void Console::Clear(COLOR color)
+/************************************************************************
+* Purpose: To get the position of the text cursor in the window
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The position of the text cursor
+*************************************************************************/
+COORD Console::GetCursor()
 {
-	ClearBuffer(m_buffer, (m_width * m_height), color);
-	Draw();
+	return m_cursor;
 }
 
-void Console::ClearLine(int line, COLOR color /*= Color::black*/)
+/************************************************************************
+* Purpose: To set the position of the text cursor in the window
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The position of the text cursor
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::SetCursor(int x, int y)
 {
-	if (line < m_height)
-	{
-		int y = (line * m_width);
-		for (int i = y; i < y + m_width && i < (m_width * m_height); ++i)
-		{
-			m_buffer[i].Char.AsciiChar = ' ';
-			m_buffer[i].Attributes = color;
-		}
+	m_cursor.X = x;
+	m_cursor.Y = y;
+	Bound(m_cursor.X, m_cursor.Y);
 
-		Draw();
-	}
+	SetConsoleCursorPosition(m_ohandle, m_cursor);
 }
 
-void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
+/************************************************************************
+* Purpose: To move the text cursor relative to its current position
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The position of the text cursor
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::MoveCursor(int dx, int dy)
 {
-	for (int y = y1; y < y2 && y < m_height; ++y)
-	{
-		for (int x = x1; x < x2 && x < m_width; ++x)
-		{
-			if (InBounds({ x, y }))
-			{
-				int index = (x + (y * m_width));
-				m_buffer[index].Char.AsciiChar = ' ';
-				m_buffer[index].Attributes = color;
-			}
-		}
-	}
+	m_cursor.X += dx;
+	m_cursor.Y += dy;
+	Bound(m_cursor.X, m_cursor.Y);
+
+	SetConsoleCursorPosition(m_ohandle, m_cursor);
 }
 
-void Console::CopyBuffer(CHAR_INFO * dest, CHAR_INFO * source, UINT destWidth, UINT destHeight, UINT sourceWidth, UINT sourceHeight)
+/************************************************************************
+* Purpose: To get the current width of the console
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The current width of the console
+*************************************************************************/
+UINT Console::Width()
 {
-	for (UINT i = 0; i < min(destWidth * destHeight, sourceWidth * sourceHeight); ++i)
-		dest[i] = source[i];
+	return m_width;
 }
 
+/************************************************************************
+* Purpose: To get the current height of the console
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The current height of the console
+*************************************************************************/
+UINT Console::Height()
+{
+	return m_height;
+}
+
+/************************************************************************
+* Purpose: To get the output handle of the console
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The output handle of the console
+*************************************************************************/
+HANDLE & Console::OutputHandle()
+{
+	return m_ohandle;
+}
+
+/************************************************************************
+* Purpose: To get the input handle of the console
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The input handle of the console
+*************************************************************************/
+HANDLE & Console::InputHandle()
+{
+	return m_ihandle;
+}
+
+//////
+//	END GETTERS AND SETTERS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PRIVATE METHODS
+//////
+
+/************************************************************************
+* Purpose: To clear out the given buffer with null characters of the specified color
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The given buffer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Console::ClearBuffer(CHAR_INFO * buffer, UINT size, COLOR color)
 {
 	for (UINT i = 0; i < size; ++i)
 	{
-		buffer[i].Char.AsciiChar = ' ';
+		buffer[i].Char.AsciiChar = '\0';
 		buffer[i].Attributes = color;
 	}
 }
 
+/************************************************************************
+* Purpose: To bound a given set of coordinates to the width and height of the console
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The given coordinates
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Console::Bound(SHORT & x, SHORT & y)
 {
 	if (x < 0)
@@ -174,67 +479,22 @@ void Console::Bound(SHORT & x, SHORT & y)
 		y = m_height - 1;
 }
 
-COORD Console::GetCursor()
-{
-	return m_cursor;
-}
-
-void Console::SetCursor(int x, int y)
-{
-	m_cursor.X = x;
-	m_cursor.Y = y;
-	Bound(m_cursor.X, m_cursor.Y);
-
-	SetConsoleCursorPosition(m_ohandle, m_cursor);
-}
-
-void Console::MoveCursor(int dx, int dy)
-{
-	m_cursor.X += dx;
-	m_cursor.Y += dy;
-	SetConsoleCursorPosition(m_ohandle, m_cursor);
-}
-
-UINT Console::Width()
-{
-	return m_width;
-}
-
-UINT Console::Height()
-{
-	return m_height;
-}
-
-HANDLE & Console::OutputHandle()
-{
-	return m_ohandle;
-}
-
-HANDLE & Console::InputHandle()
-{
-	return m_ihandle;
-}
-
-
-bool Console::InBounds(COORD pos)
-{
-	return (((pos.X >= 0) && (pos.X < m_width)) && ((pos.Y >= 0) && (pos.Y < m_height)));
-}
-
-COLOR Console::CMakeColor(COLOR foreground, COLOR background)
-{
-	return (foreground + CMakeBackground(background));
-}
-
-COLOR Console::CMakeBackground(COLOR background)
-{
-	return background * 16;
-}
-
+/************************************************************************
+* Purpose: To write the local buffer to the screen buffer
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The screen buffer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Console::Draw()
 {
 	SMALL_RECT consoleWriteArea = m_csbi.srWindow;
 	WriteConsoleOutputA(m_ohandle, m_buffer, { m_width, m_height }, { 0, 0 }, &consoleWriteArea);
 }
 
-
+//////
+//	END PRIVATE METHODS
+///////////////////////////////////////////////////////////////

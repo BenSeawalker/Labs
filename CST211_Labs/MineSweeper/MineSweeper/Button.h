@@ -1,3 +1,10 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Button.h
+* Date Created:	1/15/16
+* Modifications: N/A
+*************************************************************************/
+
 #ifndef BUTTON_H
 #define BUTTON_H
 
@@ -7,46 +14,70 @@ using std::string;
 #include "Console.h"
 #include "Mouse.h"
 
+#include "Exception.h"
+
+/************************************************************************
+* Class: Button
+*
+* Purpose: This class creates a simple push button and draws it on the console window
+*
+* Manager functions:
+*	Button(x, y, id, text, background, foreground, background_hover, foreground_hover)
+*		Draw is not called automatically
+*
+*	Button(const Button & copy)
+*	operator=(const Button & rhs)
+*
+*	~Button()
+*
+* Methods:
+*	Update()
+*		Handle mouse events and redraw if necessary
+*
+*	Draw()
+*		Draw the button on the screen
+*
+*
+*************************************************************************/
 class Button
 {
 public:
-	//Button(int x = 0, int y = 0, int id = 0, const string & text = "", void(*clicked)(Button &) = nullptr,
-	//	COLOR background = Color::white, COLOR foreground = Color::black,
-	//	COLOR background_hover = Color::bright_white, COLOR foreground_hover = Color::grey);
-
+	// CTORS AND DTOR
 	Button(int x = 0, int y = 0, int id = 0, const string & text = "",
 		COLOR background = Color::white, COLOR foreground = Color::black,
 		COLOR background_hover = Color::bright_white, COLOR foreground_hover = Color::grey);
 
+	Button(const Button & copy);
+
 	~Button();
+
+	// OPERATORS
+	Button & operator=(const Button & rhs);
 
 	// METHODS
 	void Update();
 	void Draw();
 
-	void SetColors(COLOR background = Color::white, COLOR foreground = Color::black,
-		COLOR background_hover = Color::bright_white, COLOR foreground_hover = Color::grey);
-
 	// GETTERS AND SETTERS
 	int ID() const;
-
-	int X() const;
-	int Y() const;
-
-	bool Clicked(Mouse::BUTTON btn) const;
 
 	const string & Text() const;
 	void SetText(const string & text, bool resize = true);
 
+	void SetColors(COLOR background = Color::white, COLOR foreground = Color::black,
+		COLOR background_hover = Color::bright_white, COLOR foreground_hover = Color::grey);
+
+	int X() const;
+	int Y() const;
+	void SetPos(int x, int y, COLOR background = Color::black);
+
 	void Resize(int width, int height, COLOR background = Color::black);
+
+	bool Clicked(Mouse::BUTTON btn) const;
 
 private:
 	// METHODS
 	char * TrimText();
-
-	// MEMBERS
-	/*void(*Clicked)(void *, Button &);
-	void * m_object;*/
 
 	Array<bool> m_clicked;
 

@@ -5,7 +5,8 @@
 * Modifications:
 *	1/9/16  - Fixed out of bounds error in SetLength()
 *	1/12/16 - Added Exception for initializing and setting a negative length
-*			- Fixed behaviour when setting length to zero
+*			- Fixed behavior when setting length to zero
+*	1/16/16 - Added Swap and Purge methods
 *************************************************************************/
 
 #ifndef ARRAY_H

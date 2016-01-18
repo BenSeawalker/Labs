@@ -1,3 +1,10 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Cell.h
+* Date Created:	1/15/16
+* Modifications: N/A
+*************************************************************************/
+
 #ifndef CELL_H
 #define CELL_H
 
@@ -7,7 +14,7 @@ class Cell
 public:
 	static const int MINE = -1;
 
-	// C'TORS AND D'TOR
+	// CTORS AND DTOR
 	Cell(int value = 0);
 	Cell(const Cell & copy);
 	~Cell();
@@ -26,6 +33,7 @@ public:
 	void SetFlagged(bool flagged);
 
 private:
+	// MEMBERS
 	int m_value;
 	bool m_checked;
 	bool m_flagged;

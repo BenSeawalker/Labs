@@ -1,94 +1,274 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Keyboard.cpp
+* Date Created:	1/15/16
+* Modifications: N/A
+*************************************************************************/
+
 #include "Keyboard.h"
+
+
+///////////////////////////////////////////////////////////////
+//	INITIALIZE STATIC VARS
+//////
 
 Array<SHORT> Keyboard::m_previous_state = Array<SHORT>(NUM_KEYS);
 Array<SHORT> Keyboard::m_current_state = Array<SHORT>(NUM_KEYS);
 
+bool Keyboard::m_storeInput = false;
 string Keyboard::m_string = "";
+bool Keyboard::m_capsLock = false;
 
+//////
+//	END INITIALIZE STATIC VARS
+///////////////////////////////////////////////////////////////
 
-void Keyboard::UpdateKeyboardState(HANDLE & input_handle)
+///////////////////////////////////////////////////////////////
+//	PUBLIC STATIC METHODS
+//////
+
+/************************************************************************
+* Purpose: To update the current state of the keyboard keys
+*			and the string of user input if StoreInput is enabled
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The current and previous state of the keyboard keys
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Keyboard::UpdateKeyboardState()
 {
+	m_capsLock = ((GetKeyState(VK_CAPITAL) & 0x0001) == 1);
+
 	m_previous_state = m_current_state;
 	for (UINT i = 0; i < NUM_KEYS; ++i)
 		m_current_state[i] = GetAsyncKeyState(i);
 
-	/*if (KeyDown(VK_BACK))
-		m_string.resize(m_string.size() - 1);
-	else
-		m_string += getch();*/
-
-	UpdateString(input_handle);
+	if (m_storeInput)
+		UpdateString();
 }
 
+
+/************************************************************************
+* Purpose: To check if the given key is not pressed
+*
+* Precondition:
+*		key - the keyboard key to check against
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the given key is not pressed
+*************************************************************************/
 bool Keyboard::KeyUp(int key)
 {
-	return !m_current_state[key];
+	return (m_current_state[key] == 0);
 }
 
+/************************************************************************
+* Purpose: To check if the given key is held down
+*
+* Precondition:
+*		key - the keyboard key to check against
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the given key is held down
+*************************************************************************/
 bool Keyboard::KeyDown(int key)
 {
-	return (m_current_state[key] > 0);
+	return (m_previous_state[key] != 0 && m_current_state[key] != 0);
 }
 
+/************************************************************************
+* Purpose: To check if the given key was just pressed
+*
+* Precondition:
+*		key - the keyboard key to check against
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the given key was just pressed
+*************************************************************************/
 bool Keyboard::KeyPressed(int key)
 {
 	return (!m_previous_state[key] && m_current_state[key]);
 }
 
+/************************************************************************
+* Purpose: To check if the given key was just released
+*
+* Precondition:
+*		key - the keyboard key to check against
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the given key was just released
+*************************************************************************/
 bool Keyboard::KeyReleased(int key)
 {
 	return (m_previous_state[key] && !m_current_state[key]);
 }
 
+//////
+//	END PUBLIC STATIC METHODS
+///////////////////////////////////////////////////////////////
 
-string Keyboard::String()
+///////////////////////////////////////////////////////////////
+//	GETTERS AND SETTERS
+//////
+
+/************************************************************************
+* Purpose: To get a string of the user input
+*
+* Precondition:
+*		RecordInput must be enabled for the string to update
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	A string of the user input
+*************************************************************************/
+string & Keyboard::String()
 {
 	return m_string;
 }
 
-void Keyboard::UpdateString(HANDLE & input_handle)
+/************************************************************************
+* Purpose: To set whether or not key strokes should be recorded in String()
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	Storage of user input
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Keyboard::SetStoreInput(bool store_input)
 {
-	/*if (kbhit())
-	{
-	m_string += getch();
-	}*/
-
-	/*DWORD events;
-	INPUT_RECORD buffer;
-	PeekConsoleInput(input_handle, &buffer, 1, &events);
-
-	if (events > 0)
-	{
-		ReadConsoleInput(input_handle, &buffer, 1, &events);
-		m_string += buffer.Event.KeyEvent.uChar.AsciiChar;
-	}*/
-
-	//DWORD numEvents = 0;
-	//DWORD numEventsRead = 0;
-
-	//GetNumberOfConsoleInputEvents(input_handle, &numEvents);
-
-	//if (numEvents != 0)
-	//{
-	//	// Create a buffer of that size to store the events
-	//	INPUT_RECORD *eventBuffer = new INPUT_RECORD[numEvents];
-
-	//	// Read the console events into that buffer, and save how
-	//	// many events have been read into numEventsRead.
-	//	ReadConsoleInput(input_handle, eventBuffer, numEvents, &numEventsRead);
-
-	//	// Now, cycle through all the events that have happened:
-	//	bool mouse_handled = false;
-	//	for (DWORD i = 0; i < numEventsRead && !mouse_handled; ++i)
-	//	{
-	//		if (eventBuffer[i].EventType == KEY_EVENT)
-	//		{
-	//			/*if (eventBuffer[i].Event.KeyEvent.bKeyDown == VK_BACK)
-	//				m_string.resize(m_string.size() - 1);
-	//			else*/
-	//				m_string += eventBuffer[i].Event.KeyEvent.uChar.AsciiChar;
-	//		}
-	//	}
-	//}
+	m_storeInput = store_input;
 }
 
+/************************************************************************
+* Purpose: To get the state of the Caps Lock key
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	Whether or not Caps Lock is on
+*************************************************************************/
+bool Keyboard::CapsLock()
+{
+	return m_capsLock;
+}
+
+//////
+//	END GETTERS AND SETTERS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PRIVATE STATIC METHODS
+//////
+
+/************************************************************************
+* Purpose: To record the user input typed into the console
+*
+*	TODO: UPDATE TO INCLUDE ALL VISIBLE CHARACTERS
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The string containing the user's key strokes
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Keyboard::UpdateString()
+{
+	if (KeyPressed(VK_BACK))
+	{
+		int new_len = m_string.length() - 1;
+		if (new_len > 0)
+		{
+			char * str = new char[new_len + 1];
+			for (int i = 0; i < new_len; ++i)
+				str[i] = m_string[i];
+
+			str[new_len] = '\0';
+
+			m_string = string(str);
+			delete[] str;
+		}
+		else
+			m_string = string();
+	}
+	else if (KeyPressed(VK_SPACE))
+	{
+		m_string += ' ';
+	}
+	else
+	{
+		bool caps = (m_capsLock && !m_current_state[VK_SHIFT]) ||
+					(m_current_state[VK_SHIFT] && !m_capsLock);
+
+		// LETTERS
+		for (UINT i = 'A'; i <= 'Z'; ++i)
+		{
+			if (KeyPressed(i))
+				m_string += char(i + ((!caps) * 32));
+		}
+
+		// NUMBERS
+		if (!m_current_state[VK_SHIFT])
+		{
+			for (UINT i = '0'; i <= '9'; ++i)
+			{
+				if (KeyPressed(i))
+					m_string += char(i);
+			}
+		}
+		// SPECIALS
+		else
+		{
+			if (KeyPressed('1'))
+				m_string += '!';
+
+			if (KeyPressed('2'))
+				m_string += '@';
+
+			if (KeyPressed('3'))
+				m_string += '#';
+
+			if (KeyPressed('4'))
+				m_string += '$';
+
+			if (KeyPressed('5'))
+				m_string += '%';
+
+			if (KeyPressed('6'))
+				m_string += '^';
+
+			if (KeyPressed('7'))
+				m_string += '&';
+
+			if (KeyPressed('8'))
+				m_string += '*';
+
+			if (KeyPressed('9'))
+				m_string += '(';
+
+			if (KeyPressed('0'))
+				m_string += ')';
+		}
+	}
+}
+
+//////
+//	END PRIVATE STATIC METHODS
+///////////////////////////////////////////////////////////////

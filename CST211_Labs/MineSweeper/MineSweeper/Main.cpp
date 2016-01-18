@@ -11,12 +11,16 @@ int main()
 	MineSweeper ms;
 
 	bool running = true;
-	while (running)
+	while (running && !Keyboard::KeyPressed(VK_ESCAPE))
 	{
 		Mouse::UpdateMouseState(console.InputHandle());
-		Keyboard::UpdateKeyboardState(console.InputHandle());
+		Keyboard::UpdateKeyboardState();
 
-		running = (!Keyboard::KeyPressed(VK_ESCAPE) && ms.Update());
+		running = ms.Update();
+
+		/*if (Keyboard::KeyPressed(VK_BACK))
+			console.ClearLine(10);
+		console.Write({ 5, 10 }, Keyboard::String().c_str());*/
 	}
 
 	return 0;

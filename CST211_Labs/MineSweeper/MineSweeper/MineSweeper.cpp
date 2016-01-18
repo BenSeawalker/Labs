@@ -53,14 +53,14 @@ bool MineSweeper::Update()
 			m_btnQuit.Update();
 			m_btnReset.Update();
 
-			if (!m_firstClick && (Keyboard::KeyPressed(int('R')) || m_btnReset.Clicked(Mouse::LEFT)))
+			if (!m_firstClick && (Keyboard::KeyPressed('R') || m_btnReset.Clicked(Mouse::LEFT)))
 			{
 				Cleanup();
 				ShowGame();
 			}
 
 			// Check if user wants to return to menu
-			if (Keyboard::KeyPressed(int('Q')) || m_btnQuit.Clicked(Mouse::LEFT))
+			if (Keyboard::KeyPressed('Q') || m_btnQuit.Clicked(Mouse::LEFT))
 			{
 				Cleanup();
 				ShowMenu();
