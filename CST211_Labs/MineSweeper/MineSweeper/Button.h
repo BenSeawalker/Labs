@@ -37,7 +37,6 @@ using std::string;
 *	Draw()
 *		Draw the button on the screen
 *
-*
 *************************************************************************/
 class Button
 {
@@ -74,6 +73,7 @@ public:
 	void Resize(int width, int height, COLOR background = Color::black);
 
 	bool Clicked(Mouse::BUTTON btn) const;
+	bool Hovered() const;
 
 private:
 	// METHODS

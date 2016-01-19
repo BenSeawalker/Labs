@@ -257,6 +257,21 @@ bool Button::Clicked(Mouse::BUTTON btn) const
 	return m_clicked[btn];
 }
 
+/************************************************************************
+* Purpose: To determine if this button was hovered over by the mouse
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if this button was hovered over by the mouse
+*************************************************************************/
+bool Button::Hovered() const
+{
+	return m_hover;
+}
+
 //////
 //	END GETTERS AND SETTERS
 ///////////////////////////////////////////////////////////////

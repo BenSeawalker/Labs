@@ -101,7 +101,7 @@ public:
 	void ClearLine(int line, COLOR color = Color::black);
 	void ClearRect(int x1, int y1, int x2, int y2, COLOR color = Color::black);
 
-	bool InBounds(COORD pos);
+	bool InBounds(COORD pos) const;
 
 	// GETTERS AND SETTERS
 	void SetCursorVisibility(BOOL visiblity);
@@ -109,12 +109,12 @@ public:
 
 	void Resize(UINT width, UINT height);
 
-	COORD GetCursor();
+	COORD GetCursor() const;
 	void SetCursor(int x, int y);
 	void MoveCursor(int dx, int dy);
 
-	UINT Width();
-	UINT Height();
+	UINT Width() const;
+	UINT Height() const;
 
 	HANDLE & OutputHandle();
 	HANDLE & InputHandle();

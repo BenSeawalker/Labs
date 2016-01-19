@@ -17,10 +17,6 @@ int main()
 		Keyboard::UpdateKeyboardState();
 
 		running = ms.Update();
-
-		/*if (Keyboard::KeyPressed(VK_BACK))
-			console.ClearLine(10);
-		console.Write({ 5, 10 }, Keyboard::String().c_str());*/
 	}
 
 	return 0;

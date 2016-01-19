@@ -273,6 +273,16 @@ void Array<T>::SetLength(int length)
 //	PUBLIC METHODS
 //////
 
+/************************************************************************
+* Purpose: To swap the contents of this array and another
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The contents of the arrays
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void Array<T>::Swap(Array<T> & other)
 {
@@ -281,7 +291,16 @@ void Array<T>::Swap(Array<T> & other)
 	other = temp;
 }
 
-
+/************************************************************************
+* Purpose: To free up the memory allocated to this array
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	The contents and length of this array
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void Array<T>::Purge()
 {

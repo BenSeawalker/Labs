@@ -77,8 +77,6 @@ public:
 
 	void Purge();
 
-	Array<T> ToArray();
-
 private:
 	// MEMBERS
 	Array<T> m_array;
@@ -403,13 +401,6 @@ void Array2D<T>::Purge()
 	m_array.Purge();
 	m_rows = 0;
 	m_columns = 0;
-}
-
-
-template<typename T>
-Array<T> Array2D<T>::ToArray()
-{
-	return m_array;
 }
 
 //////

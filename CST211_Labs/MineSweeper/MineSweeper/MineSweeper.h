@@ -1,3 +1,10 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		MineSweeper.h
+* Date Created:	1/15/16
+* Modifications: N/A
+*************************************************************************/
+
 #ifndef MINESWEEPER_H
 #define MINESWEEPER_H
 
@@ -14,20 +21,46 @@ using std::to_string;
 #include "Board.h"
 
 
+/************************************************************************
+* Class: MineSweeper
+*
+* Purpose: This class is responsible for managing and displaying a
+*			MineSweeper game with MOUSE INPUT
+*
+* Manager functions:
+*	MineSweeper(int rows = 0, int columns = 0)
+*
+*	MineSweeper(const MineSweeper & copy)
+*	operator=(const MineSweeper & rhs)
+*
+*	~MineSweeper()
+*
+* Methods:
+*	Update()
+*		to update the state of the Game and its Buttons
+*
+*************************************************************************/
 class MineSweeper
 {
 public:
+	// CTORS AND DTOR
 	MineSweeper();
+	MineSweeper(const MineSweeper & copy);
+
 	~MineSweeper();
 
+	// OPERATORS
+	MineSweeper & operator=(const MineSweeper & rhs);
+
+	// METHODS
 	bool Update();
 
 private:
 	// ENUMS, CONSTANTS, AND STATICS
 	enum DIFFICULTY { BEGINNER, INTERMEDIATE, EXPERT };
+	static const int QUIT = 3;
 
 	static const double PI;
-
 	static const int CELL_WIDTH = 3;
 	static const int CELL_HEIGHT = 2;
 	static const int OFFSET_X = 6;
@@ -37,6 +70,8 @@ private:
 
 	// METHODS
 		// UI
+		void UpdateMenus();
+		void UpdateGame();
 		void ShowMenu();
 		void ShowGame();
 		void ShowMessage(const string & message, COLOR color = Color::white);
@@ -65,6 +100,7 @@ private:
 		void LoseGame(int mine_x, int mine_y);
 
 		void Populate(int rows, int columns, int fc_x, int fc_y);
+		bool IsInvalidMineCoord(int x, int y, int fc_x, int fc_y);
 		void Cleanup();
 	
 	// MEMBERS

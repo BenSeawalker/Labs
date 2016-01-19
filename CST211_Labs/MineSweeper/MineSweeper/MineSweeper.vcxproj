@@ -37,9 +37,6 @@
     <ClCompile Include="MineSweeper.cpp" />
     <ClCompile Include="Mouse.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{19B5D351-98B9-44BD-9072-A00004AB8BA5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

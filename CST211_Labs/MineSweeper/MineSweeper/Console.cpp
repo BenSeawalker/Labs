@@ -233,7 +233,7 @@ void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
 *		Throws:		N/A
 *		Returns:	TRUE if the given coordinate is inside the bounds of the console
 *************************************************************************/
-bool Console::InBounds(COORD pos)
+bool Console::InBounds(COORD pos) const
 {
 	return (((pos.X >= 0) && (pos.X < m_width)) && ((pos.Y >= 0) && (pos.Y < m_height)));
 }
@@ -329,7 +329,7 @@ void Console::Resize(UINT width, UINT height)
 *		Throws:		N/A
 *		Returns:	The position of the text cursor
 *************************************************************************/
-COORD Console::GetCursor()
+COORD Console::GetCursor() const
 {
 	return m_cursor;
 }
@@ -382,7 +382,7 @@ void Console::MoveCursor(int dx, int dy)
 *		Throws:		N/A
 *		Returns:	The current width of the console
 *************************************************************************/
-UINT Console::Width()
+UINT Console::Width() const
 {
 	return m_width;
 }
@@ -397,7 +397,7 @@ UINT Console::Width()
 *		Throws:		N/A
 *		Returns:	The current height of the console
 *************************************************************************/
-UINT Console::Height()
+UINT Console::Height() const
 {
 	return m_height;
 }
