@@ -430,7 +430,7 @@ void MineSweeper::CellButtonClicked(Button & btn)
 	{
 		m_firstClick = false;
 		SetClicks(++m_clicks);
-		Populate(m_board.Rows(), m_board.Columns(), x, y);
+		Populate(x, y);
 	}
 	else
 	{
@@ -796,13 +796,17 @@ void MineSweeper::LoseGame(int mine_x, int mine_y)
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-void MineSweeper::Populate(int rows, int columns, int fc_x, int fc_y)
+void MineSweeper::Populate(int fc_x, int fc_y)
 {
-	// Place mines
-	int x = -1;
-	int y = -1;
+	int columns = m_board.Columns(),
+		rows = m_board.Rows();
+	int x = -1,
+		y = -1;
 	
+	// Seed rand()
 	srand((unsigned)time(NULL));
+	
+	// Place mines
 	for (int i = 0; i < m_mines; ++i)
 	{
 		// find a new cell while the current coords are invalid

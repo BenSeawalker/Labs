@@ -99,7 +99,7 @@ private:
 		void WinGame();
 		void LoseGame(int mine_x, int mine_y);
 
-		void Populate(int rows, int columns, int fc_x, int fc_y);
+		void Populate(int fc_x, int fc_y);
 		bool IsInvalidMineCoord(int x, int y, int fc_x, int fc_y);
 		void Cleanup();
 	
@@ -118,7 +118,7 @@ private:
 	bool m_gameRunning;
 
 	DIFFICULTY m_difficulty;
-	bool m_firstClick = false;
+	bool m_firstClick;
 	int m_clicks;
 	int m_mines;
 	int m_flags;
