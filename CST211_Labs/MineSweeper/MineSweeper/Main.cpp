@@ -8,7 +8,7 @@ int main()
 
 	Console & console = Console::GetInstance();
 
-	MineSweeper ms;
+	MineSweeper minesweeper;
 
 	bool running = true;
 	while (running && !Keyboard::KeyPressed(VK_ESCAPE))
@@ -16,7 +16,7 @@ int main()
 		Mouse::UpdateMouseState(console.InputHandle());
 		Keyboard::UpdateKeyboardState();
 
-		running = ms.Update();
+		running = minesweeper.Update();
 	}
 
 	return 0;

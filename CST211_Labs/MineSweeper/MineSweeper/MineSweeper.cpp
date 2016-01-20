@@ -110,12 +110,11 @@ bool MineSweeper::Update()
 	// If the game is active
 	if (m_gameRunning)
 	{
-		// Only update if there was a mouse event
+		// Only update game if there was a mouse event
 		if (Mouse::Moved() || Mouse::BtnPressed(Mouse::LEFT) || Mouse::BtnPressed(Mouse::RIGHT))
-		{
 			UpdateGame();
-			UpdateMenus();
-		}
+
+		UpdateMenus();
 	}
 
 	return m_gameRunning;
@@ -630,7 +629,7 @@ void MineSweeper::FlagCell(int x, int y)
 		{
 			m_flags++;
 			m_cellButtons[y][x].SetColors(Color::white, Color::red, Color::dark_red, Color::red);
-			m_cellButtons[y][x].SetText("F", false);
+			m_cellButtons[y][x].SetText("P", false);
 		}
 		else
 		{
@@ -850,10 +849,10 @@ bool MineSweeper::IsInvalidMineCoord(int x, int y, int fc_x, int fc_y)
 	bool fc_coord = ((x == fc_x) && (y == fc_y));
 
 	// in one of the corners
-	bool in_lcorner = ((x == 0)		&& (y == 0 || y == height)) ||
+	bool in_corner = ((x == 0)		&& (y == 0 || y == height)) ||
 					  ((x == width) && (y == 0 || y == height));
 					 
-	return (!m_board.Contains(y, x) || IsMine(x, y) || fc_coord || in_lcorner);
+	return (!m_board.Contains(y, x) || IsMine(x, y) || fc_coord || in_corner);
 }
 
 /************************************************************************
