@@ -22,7 +22,9 @@ ShellSort<RT, T>::ShellSort(RT & ra, int length)
 template<typename RT, typename T>
 void ShellSort<RT, T>::Sort(RT & ra, int length)
 {
-	int gap = length / 2;
+	int gap = 0;
+	while (gap * 3 + 1 < length)
+		gap = gap * 3 + 1;
 
 	while (gap > 0)
 	{
@@ -40,7 +42,7 @@ void ShellSort<RT, T>::Sort(RT & ra, int length)
 			ra[pos] = value;
 		}
 
-		gap /= 2;
+		gap = (gap - 1) / 3;
 	}
 }
 

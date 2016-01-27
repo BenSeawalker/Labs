@@ -24,7 +24,7 @@ void BubbleSort<RT, T>::Sort(RT & ra, int length)
 {
 	for (int i = 0; i < length; ++i)
 	{
-		for (int j = 0; j < (length - 1); ++j)
+		for (int j = 0; j < (length - i - 1); ++j)
 		{
 			if (ra[j + 1] < ra[j])
 				Swap(ra[j + 1], ra[j]);

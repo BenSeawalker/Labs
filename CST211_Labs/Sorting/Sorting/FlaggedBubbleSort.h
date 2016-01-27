@@ -26,7 +26,7 @@ void FlaggedBubbleSort<RT, T>::Sort(RT & ra, int length)
 	for (int i = 0; i < length && swapped; ++i)
 	{
 		swapped = false;
-		for (int j = 0; j < (length - 1); ++j)
+		for (int j = 0; j < (length - i - 1); ++j)
 		{
 			if (ra[j + 1] < ra[j])
 			{

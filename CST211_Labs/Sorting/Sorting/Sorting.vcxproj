@@ -85,9 +85,11 @@
     <ClInclude Include="crtdbg_new.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="FlaggedBubbleSort.h" />
+    <ClInclude Include="HeapSort.h" />
     <ClInclude Include="InsertionSort.h" />
     <ClInclude Include="ISort.h" />
-    <ClInclude Include="MySort.h" />
+    <ClInclude Include="MergeSort.h" />
+    <ClInclude Include="MySelectionSort.h" />
     <ClInclude Include="SelectionSort.h" />
     <ClInclude Include="ShellSort.h" />
     <ClInclude Include="SwapSort.h" />

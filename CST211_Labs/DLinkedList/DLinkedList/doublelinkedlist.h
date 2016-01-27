@@ -262,7 +262,6 @@ void DoubleLinkedList<T>::Append(const T & item)
     {
         node->Prev() = m_tail;
         m_tail->Next() = node;
-        
         m_tail = node;
     }
     
@@ -294,9 +293,7 @@ void DoubleLinkedList<T>::InsertBefore(const T & item, const T & before)
         ListNode<T> * node = new ListNode<T>(item);
         
 		if (found_node == m_head)
-		{
 			m_head = node;
-		}
         else
             found_node->Prev()->Next() = node;
          

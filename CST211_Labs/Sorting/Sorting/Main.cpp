@@ -1,7 +1,11 @@
 #include <algorithm>
 #include <ctime>
-using std::clock;
 using std::time;
+
+#include <chrono>
+using std::chrono::high_resolution_clock;
+using std::chrono::duration;
+using std::chrono::duration_cast;
 
 #include <iostream>
 using std::cout;
@@ -13,8 +17,9 @@ using std::endl;
 #include "SelectionSort.h"
 #include "InsertionSort.h"
 #include "ShellSort.h"
+#include "HeapSort.h"
 
-#include "MySort.h"
+#include "MySelectionSort.h"
 
 #define min(a,b)    (((a) < (b)) ? (a) : (b))
 
@@ -28,7 +33,7 @@ void Reset(const Array<int> & original, int *& ptr, Array<int> & ra, vector<int>
 
 int main()
 {
-	int n = 10;
+	int n = 10000;
 
 	srand((unsigned)time(nullptr));
 	Array<int> original(n);
@@ -40,16 +45,20 @@ int main()
 	vector<int> vec(n);
 	Reset(original, ptr, ra, vec);
 
-	
 
 	// ShellSort
 	cout << "\n----------SHELL SORT----------\n\n";
 	Test<ShellSort<int *, int>, ShellSort<Array<int>, int>, ShellSort<vector<int>, int>>
 		(original, ptr, ra, vec, n);
 
-	// SelectionSort
-	cout << "\n----------SELECTION SORT----------\n\n";
-	Test<SelectionSort<int *, int>, SelectionSort<Array<int>, int>, SelectionSort<vector<int>, int>>
+	// HeapSort
+	cout << "\n----------HEAP SORT----------\n\n";
+	Test<HeapSort<int *, int>, HeapSort<Array<int>, int>, HeapSort<vector<int>, int>>
+		(original, ptr, ra, vec, n);
+
+	// MySelectionSort
+	cout << "\n----------my selection sort----------\n\n";
+	Test<MySelectionSort<int *, int>, MySelectionSort<Array<int>, int>, MySelectionSort<vector<int>, int>>
 		(original, ptr, ra, vec, n);
 
 	// InsertionSort
@@ -57,9 +66,9 @@ int main()
 	Test<InsertionSort<int *, int>, InsertionSort<Array<int>, int>, InsertionSort<vector<int>, int>>
 		(original, ptr, ra, vec, n);
 
-	// MySort
-	cout << "\n----------My BUBBLE SORT----------\n\n";
-	Test<MySort<int *, int>, MySort<Array<int>, int>, MySort<vector<int>, int>>
+	// SelectionSort
+	cout << "\n----------SELECTION SORT----------\n\n";
+	Test<SelectionSort<int *, int>, SelectionSort<Array<int>, int>, SelectionSort<vector<int>, int>>
 		(original, ptr, ra, vec, n);
 
 	// FLAGGED BUBBLE
@@ -104,17 +113,29 @@ void Print(RT ra, int size)
 template<typename TPTR, typename TRA, typename TVEC>
 void Test(const Array<int> & original, int *& ptr, Array<int> & ra, vector<int> & vec, int n)
 {
-	clock_t start = clock();
+	duration<double> average;
+	high_resolution_clock::time_point start;
+	duration<double> diff;
+
+	start = high_resolution_clock::now();
 	TPTR(ptr, n);
-	cout << "Time: " << clock() - start << " milliseconds" << endl;
+	diff = duration_cast<duration<double>>(high_resolution_clock::now() - start);
+	average += diff;
+	cout << "C array\t\tTime: " << (diff.count() * 100) << " milliseconds" << endl;
 
-	start = clock();
+	start = high_resolution_clock::now();
 	TRA(ra, n);
-	cout << "Time: " << clock() - start << " milliseconds" << endl;
+	diff = duration_cast<duration<double>>(high_resolution_clock::now() - start);
+	average += diff;
+	cout << "Array<T>\tTime: " << (diff.count() * 100) << " milliseconds" << endl;
 
-	start = clock();
+	start = high_resolution_clock::now();
 	TVEC(vec, n);
-	cout << "Time: " << clock() - start << " milliseconds" << endl;
+	diff = duration_cast<duration<double>>(high_resolution_clock::now() - start);
+	average += diff;
+	cout << "vector<T>\tTime: " << (diff.count() * 100) << " milliseconds" << endl;
+
+	cout << "\nAverage\t\tTime: " << (average.count() * 100) / 3.0f << " milliseconds" << endl;
 
 	Print<int *>(ptr, n);
 	Reset(original, ptr, ra, vec);
