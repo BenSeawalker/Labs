@@ -9,6 +9,7 @@
 #define MOUSE_H
 
 #include <Windows.h>
+#include "Console.h"
 #include "Array.h"
 
 /************************************************************************
@@ -48,7 +49,7 @@ public:
 	enum BUTTON { LEFT, MIDDLE, RIGHT };
 
 	// METHODS
-	static void UpdateMouseState(HANDLE & input_handle);
+	static void UpdateMouseState();
 
 	static bool BtnUp(BUTTON btn);
 
@@ -66,9 +67,10 @@ public:
 
 private:
 	// METHODS
-	static void UpdatePosition(HANDLE & input_handle);
+	static void UpdatePosition();
 
 	// MEMBERS
+	static Console & console;
 	static const int NUM_BTNS = 3;
 	static Array<int> m_previous_state;
 	static Array<int> m_current_state;

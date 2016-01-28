@@ -12,6 +12,8 @@
 //	INITIALIZE STATIC VARS
 //////
 
+Console & Mouse::console = Console::GetInstance();
+
 Array<int> Mouse::m_previous_state = Array<int>(NUM_BTNS);
 Array<int> Mouse::m_current_state = Array<int>(NUM_BTNS);
 
@@ -39,7 +41,7 @@ bool Mouse::m_moved = false;
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-void Mouse::UpdateMouseState(HANDLE & input_handle)
+void Mouse::UpdateMouseState()
 {
 	// swap the current state into the previous
 	m_previous_state = m_current_state;
@@ -49,7 +51,7 @@ void Mouse::UpdateMouseState(HANDLE & input_handle)
 	m_current_state[MIDDLE] = GetAsyncKeyState(VK_MBUTTON);
 	m_current_state[RIGHT] = GetAsyncKeyState(VK_RBUTTON);
 
-	UpdatePosition(input_handle);
+	UpdatePosition();
 }
 
 /************************************************************************
@@ -188,12 +190,12 @@ int Mouse::Y()
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-void Mouse::UpdatePosition(HANDLE & input_handle)
+void Mouse::UpdatePosition()
 {
 	DWORD numEvents = 0;
 	DWORD numEventsRead = 0;
 
-	GetNumberOfConsoleInputEvents(input_handle, &numEvents);
+	GetNumberOfConsoleInputEvents(console.InputHandle(), &numEvents);
 
 	if (numEvents != 0)
 	{
@@ -202,7 +204,7 @@ void Mouse::UpdatePosition(HANDLE & input_handle)
 
 		// Read the console events into that buffer, and save how
 		// many events have been read into numEventsRead.
-		ReadConsoleInput(input_handle, eventBuffer, numEvents, &numEventsRead);
+		ReadConsoleInput(console.InputHandle(), eventBuffer, numEvents, &numEventsRead);
 
 		// Now, cycle through all the events that have happened:
 		bool mouse_handled = false;
