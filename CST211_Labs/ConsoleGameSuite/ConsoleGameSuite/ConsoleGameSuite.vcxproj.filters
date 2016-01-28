@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\DEBUG">
+      <UniqueIdentifier>{3e02b036-3359-4178-afef-01c29d3b045e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{e6e87b56-36a8-447d-8169-7c4e9ce92290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\UI">
+      <UniqueIdentifier>{97a53636-3cc2-432d-81ce-f997e85d11b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data Structures">
+      <UniqueIdentifier>{7ce0a102-7f98-4f58-a56f-38a510b0ef0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Games">
+      <UniqueIdentifier>{e88701a8-cb00-4302-9816-b4d4ecbf340f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data Structures">
+      <UniqueIdentifier>{19fec83b-0048-4460-abff-bd91da8eb77b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{a3d99dfc-843c-42b0-83b3-3d3f44f8499e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\UI">
+      <UniqueIdentifier>{5b215794-848d-4e34-8abc-a0e1ca45cc6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DEBUG">
+      <UniqueIdentifier>{9cff3f94-e174-4526-8241-5078031c3aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Games">
+      <UniqueIdentifier>{09b454ac-da56-4183-a2ba-5d8fcc50e588}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source Files\Data Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Utilities\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonGroup.cpp">
+      <Filter>Source Files\Utilities\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files\Data Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="Exception.cpp">
+      <Filter>Source Files\DEBUG</Filter>
+    </ClCompile>
+    <ClCompile Include="MineSweeper.cpp">
+      <Filter>Source Files\Games</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Array.h">
+      <Filter>Header Files\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Array2D.h">
+      <Filter>Header Files\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="crtdbg_new.h">
+      <Filter>Header Files\DEBUG</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Utilities\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonGroup.h">
+      <Filter>Header Files\Utilities\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Row.h">
+      <Filter>Header Files\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.h">
+      <Filter>Header Files\DEBUG</Filter>
+    </ClInclude>
+    <ClInclude Include="MineSweeper.h">
+      <Filter>Header Files\Games</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
