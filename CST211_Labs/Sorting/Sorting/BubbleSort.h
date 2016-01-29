@@ -1,3 +1,11 @@
+/*****************************************************************************************
+Author:			Garrett Fleischer
+Filename:		BubbleSort.h
+Date Created:	1/23/16
+Modifications:
+
+*****************************************************************************************/
+
 #ifndef BUBBLESORT_H
 #define BUBBLESORT_H
 
@@ -9,7 +17,6 @@ class BubbleSort : SwapSort<RT, T>
 public:
 	BubbleSort(RT & ra, int length);
 
-private:
 	virtual void Sort(RT & ra, int length);
 };
 

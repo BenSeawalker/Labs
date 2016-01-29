@@ -1,3 +1,11 @@
+/*****************************************************************************************
+Author:			Garrett Fleischer
+Filename:		HeapSort.h
+Date Created:	1/23/16
+Modifications:
+
+*****************************************************************************************/
+
 #ifndef HEAPSORT_H
 #define HEAPSORT_H
 
@@ -9,8 +17,9 @@ class HeapSort : SwapSort <RT, T>
 public:
 	HeapSort(RT & ra, int length);
 
-private:
 	virtual void Sort(RT & ra, int length);
+
+private:
 	void MoveDown(RT & ra, int first, int last);
 };
 

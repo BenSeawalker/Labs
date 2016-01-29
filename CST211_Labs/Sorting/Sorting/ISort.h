@@ -10,7 +10,7 @@ using std::vector;
 template<typename RT>
 class ISort
 {
-protected:
+public:
 	virtual void Sort(RT & ra, int length) = 0;
 };
 

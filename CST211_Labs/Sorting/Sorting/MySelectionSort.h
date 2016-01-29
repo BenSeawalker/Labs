@@ -1,3 +1,11 @@
+/*****************************************************************************************
+Author:			Garrett Fleischer
+Filename:		MySelectionSort.h
+Date Created:	1/23/16
+Modifications:
+
+*****************************************************************************************/
+
 #ifndef MYSELECTIONSORT_H
 #define MYSELECTIONSORT_H
 
@@ -9,8 +17,9 @@ class MySelectionSort : ISort<RT>
 public:
 	MySelectionSort(RT & ra, int length);
 
-protected:
 	virtual void Sort(RT & ra, int length);
+
+private:
 	void Shift(RT & ra, T * copy, int & least, int & ra_len, int & cp_len);
 };
 

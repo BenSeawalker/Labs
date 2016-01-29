@@ -31,8 +31,11 @@
     <Filter Include="Header Files\Algorithms\Sorting\Insert Sorts">
       <UniqueIdentifier>{b1da27f9-c27b-4560-9fcf-2ec6dd4ca9bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Algorithms\Sorting\Tree Sorts">
-      <UniqueIdentifier>{ac55e0a6-6140-4b0d-afba-06f94a83571c}</UniqueIdentifier>
+    <Filter Include="Header Files\DEBUG">
+      <UniqueIdentifier>{0cdc7f27-f4a1-4a46-96ea-4580350b2709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DEBUG">
+      <UniqueIdentifier>{58ac549b-3b42-46b9-8474-c63c7ef19991}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,18 +43,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Exception.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\DEBUG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h">
       <Filter>Header Files\Array</Filter>
-    </ClInclude>
-    <ClInclude Include="crtdbg_new.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Exception.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SwapSort.h">
       <Filter>Header Files\Algorithms\Sorting\Swap Sorts</Filter>
@@ -83,5 +80,19 @@
     <ClInclude Include="ISort.h">
       <Filter>Header Files\Algorithms\Sorting</Filter>
     </ClInclude>
+    <ClInclude Include="QuickSort.h">
+      <Filter>Header Files\Algorithms\Sorting\Swap Sorts</Filter>
+    </ClInclude>
+    <ClInclude Include="crtdbg_new.h">
+      <Filter>Header Files\DEBUG</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.h">
+      <Filter>Header Files\DEBUG</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SORT_TIMES.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

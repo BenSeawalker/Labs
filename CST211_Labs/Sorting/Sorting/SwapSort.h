@@ -1,3 +1,11 @@
+/*****************************************************************************************
+Author:			Garrett Fleischer
+Filename:		SwapSort.h
+Date Created:	1/23/16
+Modifications:
+
+*****************************************************************************************/
+
 #ifndef SWAPSORT_H
 #define SWAPSORT_H
 
@@ -6,8 +14,10 @@
 template<typename RT, typename T>
 class SwapSort : ISort < RT >
 {
-protected:
+public:
 	virtual void Sort(RT & ra, int length) = 0;
+
+protected:
 	void Swap(T & a, T & b);
 };
 

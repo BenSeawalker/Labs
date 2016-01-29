@@ -1,3 +1,11 @@
+/*****************************************************************************************
+Author:			Garrett Fleischer
+Filename:		InsertionSort.h
+Date Created:	1/23/16
+Modifications:
+
+*****************************************************************************************/
+
 #ifndef INSERTIONSORT_H
 #define INSERTIONSORT_H
 
@@ -9,7 +17,6 @@ class InsertionSort : ISort < RT >
 public:
 	InsertionSort(RT & ra, int length);
 
-protected:
 	virtual void Sort(RT & ra, int length);
 };
 

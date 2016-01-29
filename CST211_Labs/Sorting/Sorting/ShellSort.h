@@ -1,7 +1,16 @@
-#ifndef ShellSort_h__
-#define ShellSort_h__
+/*****************************************************************************************
+Author:			Garrett Fleischer
+Filename:		ShellSort.h
+Date Created:	1/23/16
+Modifications:
+
+*****************************************************************************************/
+
+#ifndef SHELLSORT_H
+#define SHELLSORT_H
 
 #include "ISort.h"
+#include <cmath>
 
 template<typename RT, typename T>
 class ShellSort : ISort<RT>
@@ -9,7 +18,6 @@ class ShellSort : ISort<RT>
 public:
 	ShellSort(RT & ra, int length);
 
-protected:
 	virtual void Sort(RT & ra, int length);
 };
 
@@ -47,4 +55,4 @@ void ShellSort<RT, T>::Sort(RT & ra, int length)
 }
 
 
-#endif // ShellSort_h__
+#endif // SHELLSORT_H
