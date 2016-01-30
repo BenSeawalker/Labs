@@ -1,0 +1,20 @@
+Singleton
+Factory
+Abstract Factory
+Template Method -> code
+Strategy
+Observer (GoF)
+
+
+For each
+Definition / Motivation
+UML
+Participants
+
+
+EXAMPLE:
+	Template Method
+	
+	Definition:	Encapsulates an algorithm and delegates to subclasses to implement the algorithm steps.
+	
+	
