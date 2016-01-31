@@ -11,7 +11,7 @@
 
 #include "crtdbg_new.h"
 
-#include "Array.h"
+#include "DoubleLinkedList.h"
 #include "Exception.h"
 
 
@@ -40,11 +40,7 @@
 *
 *	Size()			: int
 *
-*	MaxSize()		: int
-*
 *	isEmpty()		: bool
-*
-*	isFull()		: bool
 *
 *************************************************************************/
 template<typename T>
@@ -52,7 +48,7 @@ class Stack
 {
 public:
 	// CTORS AND DTOR
-	Stack(int size = 0);
+	Stack();
 	Stack(const Stack & copy);
 
 	~Stack();
@@ -61,9 +57,7 @@ public:
 	Stack & operator=(const Stack & rhs);
 
 	int Size() const;
-	int MaxSize() const;
 	bool isEmpty() const;
-	bool isFull() const;
 
 	void Push(T item);
 	T Pop();
@@ -71,7 +65,7 @@ public:
 
 private:
 	// MEMBERS
-	Array<T> m_array;
+	DoubleLinkedList<T> m_list;
 	int m_size;
 
 };
@@ -81,36 +75,20 @@ private:
 //	C'TORS & D'TOR
 //////
 
-/************************************************************************
-* Purpose: To initialize a stack with a given size
-*
-* Precondition:
-*		size - must be non-negative
-*
-* Postcondition:
-*		Modifies:	N/A
-*		Throws:	Exception("Cannot initialize Stack with size less than zero!")
-*		Returns:	N/A
-*************************************************************************/
 template<typename T>
-Stack<T>::Stack(int size)
+Stack<T>::Stack()
 	: m_size(0)
-{
-	if (size < 0)
-		throw Exception("Cannot initialize Stack with size less than zero!");
-
-	m_array = Array<T>(size);
-}
+{}
 
 template<typename T>
 Stack<T>::Stack(const Stack & copy)
-	: m_array(copy.m_array), m_size(copy.m_size)
+	: m_list(copy.m_list), m_size(copy.m_size)
 {}
 
 template<typename T>
 Stack<T>::~Stack()
 {
-	m_array.Purge();
+	m_list.Purge();
 	m_size = 0;
 }
 
@@ -128,7 +106,7 @@ Stack<T> & Stack<T>::operator=(const Stack & rhs)
 {
 	if (this != &rhs)
 	{
-		m_array = rhs.m_array;
+		m_list = rhs.m_list;
 		m_size = rhs.m_size;
 	}
 
@@ -160,22 +138,6 @@ int Stack<T>::Size() const
 }
 
 /************************************************************************
-* Purpose: To get the maximum number of items the stack can hold
-*
-* Precondition:
-*
-* Postcondition:
-*		Modifies:	N/A
-*		Throws:		N/A
-*		Returns:	The the maximum number of items the stack can hold
-*************************************************************************/
-template<typename T>
-int Stack<T>::MaxSize() const
-{
-	return m_array.Length();
-}
-
-/************************************************************************
 * Purpose: To check if there are no items on the stack
 *
 * Precondition:
@@ -191,23 +153,6 @@ bool Stack<T>::isEmpty() const
 	return m_size <= 0;
 }
 
-/************************************************************************
-* Purpose: To check if the number of items on the stack meets or exceeds
-			the maximum number of items the stack can hold
-*
-* Precondition:
-*
-* Postcondition:
-*		Modifies:	N/A
-*		Throws:		N/A
-*		Returns:	TRUE if the stack is full
-*************************************************************************/
-template<typename T>
-bool Stack<T>::isFull() const
-{
-	return m_size >= m_array.Length();
-}
-
 //////
 //	END GETTERS
 ///////////////////////////////////////////////////////////////
@@ -220,20 +165,17 @@ bool Stack<T>::isFull() const
 * Purpose: To push a new item on top of the stack
 *
 * Precondition:
-*		The stack cannot be full
 *
 * Postcondition:
 *		Modifies:	The stack itself, and the number of items on the stack
-*		Throws:	Exception("Stack Overflow!");
+*		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
 void Stack<T>::Push(T item)
 {
-	if (isFull())
-		throw Exception("Stack Overflow!");
-
-	m_array[m_size++] = item;
+	m_list.Prepend(item);
+	m_size++;
 }
 
 /************************************************************************
@@ -253,7 +195,11 @@ T Stack<T>::Pop()
 	if(isEmpty())
 		throw Exception("Stack Underflow!");
 
-	return m_array[--m_size];
+	T first = m_list.First();
+	m_list.Extract(first);
+	m_size--;
+
+	return first;
 }
 
 /************************************************************************
@@ -273,7 +219,7 @@ T Stack<T>::Peek() const
 	if (isEmpty())
 		throw Exception("Stack Underflow!");
 
-	return m_array[m_size - 1];
+	return m_list.First();
 }
 
 //////

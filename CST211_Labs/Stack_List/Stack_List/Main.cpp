@@ -6,7 +6,7 @@ Modifications:
 
 Lab/Assignment: A5
 
-Overview: Test of Array-based Stack ADT
+Overview: Test of LinkedList-based Stack ADT
 
 Input: Input is hardcoded directly into Main.cpp and consists of debug testing statements
 
@@ -35,7 +35,6 @@ using std::endl;
 
 #include "Stack.h"
 
-
 void TestFillStack(Stack<int> & stk);
 void TestCanonical(const Stack<int> & stk);
 void TestEmptyStack(Stack<int> & stk);
@@ -46,7 +45,7 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	Stack<int> stk(10);
+	Stack<int> stk;
 
 	TestFillStack(stk);
 	TestCanonical(stk);
@@ -65,21 +64,15 @@ void TestFillStack(Stack<int> & stk)
 	cout << "\n\n\n///////////////////////// TEST FILL STACK /////////////////////////\n";
 
 	cout << "\n*************** TEST PUSH() ***************\n";
-	cout << "Input:\n\tloop stk.MaxSize() times:\n\tstk.Push(int(i))";
-	for (int i = 0; i < stk.MaxSize(); ++i)
+	cout << "Input:\n\tloop 10 times:\tstk.Push(int(i))";
+	for (int i = 0; i < 10; ++i)
 		stk.Push(int(i));
 	PrintStack(stk);
 
-	cout << "\n*************** TEST PUSH() ON FULL STACK ***************\n";
-	cout << "Input:\n\tstk.Push(int(23))";
-	try
-	{
-		stk.Push(int(23));
-	}
-	catch (const Exception & exc)
-	{
-		cout << "\nOutput:\n\t" << exc << '\n';
-	}
+	cout << "\n*************** TEST PUSH() WITH DUPLICATE ITEM ***************\n";
+	cout << "Input:\n\tstk.Push(int(5))";
+	stk.Push(int(5));
+	PrintStack(stk);
 }
 
 void TestCanonical(const Stack<int> & stk)
@@ -132,8 +125,7 @@ void TestEmptyStack(Stack<int> & stk)
 
 void PrintStack(const Stack<int> & stk)
 {
-	cout << "\nOutput:\n\tMaxSize: " << stk.MaxSize() << '\n'
-		<< "\tSize: " << stk.Size() << '\n'
+	cout << "\nOutput:\n\tSize: " << stk.Size() << '\n'
 		<< "\tPeek: ";
 
 	try
