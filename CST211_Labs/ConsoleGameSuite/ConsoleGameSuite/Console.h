@@ -48,7 +48,7 @@ struct Color
 		bright_white = 15;
 };
 
-// MACROS TO SAVE TYPING
+// MACROS FOR CLARITY
 #define MakeColor Console::CMakeColor
 #define MakeBackground Console::CMakeBackground
 
@@ -98,6 +98,9 @@ public:
 	// SINGLETON
 	static Console & GetInstance();
 
+	// OPERATOR
+	Console & operator=(const Console & console);
+
 	// DTOR
 	~Console();
 
@@ -106,7 +109,7 @@ public:
 	static COLOR CMakeBackground(COLOR background);
 
 	// METHODS
-	void Write(int x, int y, const char & txt, COLOR color = Color::white, bool draw = true);
+	void Write(int x, int y, const char & txt, COLOR color = Color::white);
 	void Write(int x, int y, const char * txt, COLOR color = Color::white);
 
 	void Clear(COLOR color = Color::black);
@@ -114,6 +117,8 @@ public:
 	void ClearRect(int x1, int y1, int x2, int y2, COLOR color = Color::black);
 
 	bool InBounds(int x, int y) const;
+
+	void Update();
 
 	// GETTERS AND SETTERS
 	void SetCursorVisibility(BOOL visiblity);
@@ -156,7 +161,7 @@ private:
 	Coord						m_cursor;
 	int							m_width;
 	int							m_height;
-	
+	bool						m_update;
 };
 
 

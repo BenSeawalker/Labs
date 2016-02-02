@@ -2,7 +2,9 @@
 Author:			Garrett Fleischer
 Filename:		Main.cpp
 Date Created:	1/12/16
-Modifications: 1/27/15 FIXED NARROWING CONVERSION ERRORS IN VS 2015+
+Modifications:
+		1/27/16 - FIXED NARROWING CONVERSION ERRORS IN VS 2015+
+		2/2/16 - Updated main to use improved console drawing.
 
 Lab/Assignment: L1
 
@@ -23,6 +25,7 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
+	Console & console = Console::GetInstance();
 	MineSweeper minesweeper;
 
 	bool running = true;
@@ -32,6 +35,8 @@ int main()
 		Keyboard::UpdateKeyboardState();
 
 		running = minesweeper.Update();
+
+		console.Update();
 	}
 
 	return 0;

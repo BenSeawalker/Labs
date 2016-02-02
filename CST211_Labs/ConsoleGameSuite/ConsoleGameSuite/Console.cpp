@@ -2,7 +2,7 @@
 * Author:		Garrett Fleischer
 * Filename:		Console.cpp
 * Date Created:	1/15/16
-* Modifications: N/A
+* Modifications: 2/2/16 - Greatly improved drawing efficiency
 *************************************************************************/
 
 #include "Console.h"
@@ -35,6 +35,11 @@ Console::Console(UINT width, UINT height, BOOL visiblity, UINT encoding)
 
 	// Cursor visibility
 	SetCursorVisibility(visiblity);
+}
+
+Console & Console::operator=(const Console & console)
+{
+	return *this;
 }
 
 Console::~Console()
@@ -123,7 +128,7 @@ COLOR Console::CMakeBackground(COLOR background)
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-void Console::Write(int x, int y, const char & c, COLOR color, bool draw)
+void Console::Write(int x, int y, const char & c, COLOR color)
 {
 	if (InBounds(x, y))
 	{
@@ -133,8 +138,7 @@ void Console::Write(int x, int y, const char & c, COLOR color, bool draw)
 		(m_buffer[index]).Char.AsciiChar = c;
 		(m_buffer[index]).Attributes = color;
 
-		if (draw)
-			Draw();
+		m_update = true;
 	}
 }
 
@@ -151,9 +155,9 @@ void Console::Write(int x, int y, const char & c, COLOR color, bool draw)
 void Console::Write(int x, int y, const char * txt, COLOR color)
 {
 	for (UINT i = 0; i < strlen(txt); ++i)
-		Write(x + i, y, txt[i], color, false);
+		Write(x + i, y, txt[i], color);
 
-	Draw();
+	m_update = true;
 }
 
 /************************************************************************
@@ -169,7 +173,7 @@ void Console::Write(int x, int y, const char * txt, COLOR color)
 void Console::Clear(COLOR color)
 {
 	ClearBuffer(m_buffer, (m_width * m_height), color);
-	Draw();
+	m_update = true;
 }
 
 /************************************************************************
@@ -193,7 +197,7 @@ void Console::ClearLine(int line, COLOR color /*= Color::black*/)
 			m_buffer[i].Attributes = color;
 		}
 
-		Draw();
+		m_update = true;
 	}
 }
 
@@ -221,6 +225,8 @@ void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
 			}
 		}
 	}
+
+	m_update = true;
 }
 
 /************************************************************************
@@ -236,6 +242,26 @@ void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
 bool Console::InBounds(int x, int y) const
 {
 	return (((x >= 0) && (x < m_width)) && ((y >= 0) && (y < m_height)));
+}
+
+/************************************************************************
+* Purpose: To perform any necessary drawing
+*
+* Precondition:
+*		m_update is TRUE
+*
+* Postcondition:
+*		Modifies:	m_update and the console screen
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::Update()
+{
+	if (m_update)
+	{
+		Draw();
+		m_update = false;
+	}
 }
 
 //////
@@ -316,7 +342,7 @@ void Console::Resize(UINT width, UINT height)
 	m_height = height;
 
 	// redraw the screen
-	Draw();
+	m_update = true;
 }
 
 /************************************************************************
