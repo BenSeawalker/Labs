@@ -18,7 +18,7 @@ using std::to_string;
 #include "Keyboard.h"
 #include "Button.h"
 
-#include "Board.h"
+#include "MSBoard.h"
 
 
 /************************************************************************
@@ -104,7 +104,7 @@ private:
 		void Cleanup();
 	
 	// MEMBERS
-	Board m_board;
+	MSBoard m_board;
 	Array2D<Button> m_cellButtons;
 	Array<Coord> m_mineCoords;
 

@@ -9,7 +9,6 @@
 #define CONSOLE_H
 
 #include <Windows.h>
-#include <cstring>
 #include "Exception.h"
 
 // TO AVOID NARROWING CONVERSION ERRORS IN VS 2015+
@@ -98,9 +97,6 @@ public:
 	// SINGLETON
 	static Console & GetInstance();
 
-	// OPERATOR
-	Console & operator=(const Console & console);
-
 	// DTOR
 	~Console();
 
@@ -117,6 +113,8 @@ public:
 	void ClearRect(int x1, int y1, int x2, int y2, COLOR color = Color::black);
 
 	bool InBounds(int x, int y) const;
+
+	void Wait(double ms);
 
 	void Update();
 
@@ -137,8 +135,12 @@ public:
 	HANDLE & InputHandle();
 
 private:
-	// CTOR
+	// CTORS
 	Console(UINT width = 80, UINT height = 40, BOOL visiblity = false, UINT encoding = 437);
+	Console(const Console & copy);
+
+	// OPERATOR
+	Console & operator=(const Console & console);
 
 	// METHODS
 	void EnableMouseEvents();

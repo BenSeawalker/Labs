@@ -29,17 +29,17 @@
 * Methods:
 *
 *************************************************************************/
-class Board : public Array2D<Cell>
+class MSBoard : public Array2D<Cell>
 {
 public:
 	// CTORS AND DTOR
-	Board(int rows = 0, int columns = 0);
-	Board(const Board & copy);
+	MSBoard(int rows = 0, int columns = 0);
+	MSBoard(const MSBoard & copy);
 	
-	virtual ~Board();
+	virtual ~MSBoard();
 
 	// OPERATORS
-	virtual Board & operator=(const Board & rhs);
+	virtual MSBoard & operator=(const MSBoard & rhs);
 
 private:
 

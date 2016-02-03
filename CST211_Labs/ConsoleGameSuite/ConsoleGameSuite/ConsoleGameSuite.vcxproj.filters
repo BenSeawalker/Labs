@@ -43,13 +43,31 @@
     <Filter Include="Source Files\Games">
       <UniqueIdentifier>{09b454ac-da56-4183-a2ba-5d8fcc50e588}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utilities\UNDO">
+      <UniqueIdentifier>{52d67714-ab56-4941-bf95-b1c205d32905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\UNDO">
+      <UniqueIdentifier>{882c0d89-86ab-4204-8128-64e84e0d742e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data Structures\Stack">
+      <UniqueIdentifier>{b20aa2d1-284c-455a-a8f8-062cf984f3a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data Structures\Array2D">
+      <UniqueIdentifier>{31002f06-cc9d-4a41-bccb-019a591c14fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data Structures\Array">
+      <UniqueIdentifier>{fc5ac705-5fed-43c5-b47d-8a5b8c5a44e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data Structures\LinkedList">
+      <UniqueIdentifier>{ab9447e1-e9ce-43cb-b8e8-265c9ddf9af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\UNDO\Actions">
+      <UniqueIdentifier>{a56e815b-32ca-4c0c-a15d-b5b49e957065}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Board.cpp">
-      <Filter>Source Files\Data Structures</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\Utilities\UI</Filter>
@@ -75,20 +93,14 @@
     <ClCompile Include="MineSweeper.cpp">
       <Filter>Source Files\Games</Filter>
     </ClCompile>
+    <ClCompile Include="MSBoard.cpp">
+      <Filter>Source Files\Data Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="HistoryManager.cpp">
+      <Filter>Source Files\Utilities\UNDO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Array.h">
-      <Filter>Header Files\Data Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="Array2D.h">
-      <Filter>Header Files\Data Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="Cell.h">
-      <Filter>Header Files\Data Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files\Data Structures</Filter>
-    </ClInclude>
     <ClInclude Include="crtdbg_new.h">
       <Filter>Header Files\DEBUG</Filter>
     </ClInclude>
@@ -107,14 +119,47 @@
     <ClInclude Include="Mouse.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Row.h">
-      <Filter>Header Files\Data Structures</Filter>
-    </ClInclude>
     <ClInclude Include="Exception.h">
       <Filter>Header Files\DEBUG</Filter>
     </ClInclude>
     <ClInclude Include="MineSweeper.h">
       <Filter>Header Files\Games</Filter>
+    </ClInclude>
+    <ClInclude Include="Array2D.h">
+      <Filter>Header Files\Data Structures\Array2D</Filter>
+    </ClInclude>
+    <ClInclude Include="MSBoard.h">
+      <Filter>Header Files\Data Structures\Array2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files\Data Structures\Array2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Row.h">
+      <Filter>Header Files\Data Structures\Array2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Array.h">
+      <Filter>Header Files\Data Structures\Array</Filter>
+    </ClInclude>
+    <ClInclude Include="AStack.h">
+      <Filter>Header Files\Data Structures\Stack</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleLinkedList.h">
+      <Filter>Header Files\Data Structures\LinkedList</Filter>
+    </ClInclude>
+    <ClInclude Include="ListNode.h">
+      <Filter>Header Files\Data Structures\LinkedList</Filter>
+    </ClInclude>
+    <ClInclude Include="LStack.h">
+      <Filter>Header Files\Data Structures\Stack</Filter>
+    </ClInclude>
+    <ClInclude Include="HistoryManager.h">
+      <Filter>Header Files\Utilities\UNDO</Filter>
+    </ClInclude>
+    <ClInclude Include="HistoryAction.h">
+      <Filter>Header Files\Utilities\UNDO</Filter>
+    </ClInclude>
+    <ClInclude Include="MSAction.h">
+      <Filter>Header Files\Utilities\UNDO\Actions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

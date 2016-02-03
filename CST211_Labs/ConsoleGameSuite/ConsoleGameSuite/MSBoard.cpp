@@ -5,22 +5,22 @@
 * Modifications: N/A
 *************************************************************************/
 
-#include "Board.h"
+#include "MSBoard.h"
 
 
 ///////////////////////////////////////////////////////////////
 //	CTORS AND DTOR
 //////
 
-Board::Board(int rows, int columns)
+MSBoard::MSBoard(int rows, int columns)
 	: Array2D(rows, columns)
 {}
 
-Board::Board(const Board & copy)
+MSBoard::MSBoard(const MSBoard & copy)
 	: Array2D(copy)
 {}
 
-Board::~Board()
+MSBoard::~MSBoard()
 {
 	Purge();
 }
@@ -33,7 +33,7 @@ Board::~Board()
 //	OPERATORS
 //////
 
-Board & Board::operator=(const Board & rhs)
+MSBoard & MSBoard::operator=(const MSBoard & rhs)
 {
 	Array2D::operator=(rhs);
 	return *this;

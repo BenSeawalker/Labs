@@ -7,6 +7,13 @@
 
 #include "Console.h"
 
+#include <cstring>
+
+#include <chrono>
+using std::chrono::high_resolution_clock;
+using std::chrono::duration;
+using std::chrono::duration_cast;
+
 ///////////////////////////////////////////////////////////////
 //	INITIALIZE SINGLETON
 //////
@@ -18,9 +25,10 @@ Console Console::m_instance = Console();
 ///////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////
-//	CTOR AND DTOR
+//	CTORS AND DTOR
 //////
 
+// PRIVATE
 Console::Console(UINT width, UINT height, BOOL visiblity, UINT encoding)
 	: m_ohandle(GetStdHandle(STD_OUTPUT_HANDLE)), m_ihandle(GetStdHandle(STD_INPUT_HANDLE)), m_width(width), m_height(height), m_buffer(nullptr)
 {
@@ -37,6 +45,9 @@ Console::Console(UINT width, UINT height, BOOL visiblity, UINT encoding)
 	SetCursorVisibility(visiblity);
 }
 
+Console::Console(const Console & copy)
+{}
+
 Console & Console::operator=(const Console & console)
 {
 	return *this;
@@ -49,7 +60,7 @@ Console::~Console()
 }
 
 //////
-//	END CTOR AND DTOR
+//	END CTORS AND DTOR
 ///////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////
@@ -242,6 +253,27 @@ void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
 bool Console::InBounds(int x, int y) const
 {
 	return (((x >= 0) && (x < m_width)) && ((y >= 0) && (y < m_height)));
+}
+
+
+/************************************************************************
+* Purpose: To perform a busy wait for the specified number of milliseconds
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+void Console::Wait(double ms)
+{
+	if (ms > 0)
+	{
+		high_resolution_clock::time_point start = high_resolution_clock::now();;
+
+		while ((high_resolution_clock::now() - start).count() < ms);
+	}
 }
 
 /************************************************************************

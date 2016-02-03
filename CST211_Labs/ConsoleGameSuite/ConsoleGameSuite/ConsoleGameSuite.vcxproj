@@ -87,7 +87,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,7 +115,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="MSBoard.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonGroup.cpp" />
     <ClCompile Include="Cell.cpp" />
@@ -152,11 +152,15 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MineSweeper.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="HistoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h" />
     <ClInclude Include="Array2D.h" />
-    <ClInclude Include="Board.h" />
+    <ClInclude Include="DoubleLinkedList.h" />
+    <ClInclude Include="ListNode.h" />
+    <ClInclude Include="MSAction.h" />
+    <ClInclude Include="MSBoard.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonGroup.h" />
     <ClInclude Include="Cell.h" />
@@ -167,6 +171,10 @@
     <ClInclude Include="MineSweeper.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Row.h" />
+    <ClInclude Include="AStack.h" />
+    <ClInclude Include="LStack.h" />
+    <ClInclude Include="HistoryAction.h" />
+    <ClInclude Include="HistoryManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
