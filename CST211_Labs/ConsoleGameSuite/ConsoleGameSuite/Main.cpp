@@ -17,15 +17,22 @@ Output: The output for this program is to the console window and consists of cli
 
 *****************************************************************************************/
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 #include "crtdbg_new.h"
 
 #include "MineSweeper.h"
+#include "Console.h"
+#include "HistoryManager.h"
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	Console & console = Console::GetInstance();
+
 	MineSweeper minesweeper;
 
 	bool running = true;
@@ -36,6 +43,7 @@ int main()
 
 		running = minesweeper.Update();
 
+		HistoryManager::Update();
 		console.Update();
 	}
 

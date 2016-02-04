@@ -7,6 +7,8 @@
 
 #include "Console.h"
 
+#include "crtdbg_new.h"
+
 #include <cstring>
 
 #include <chrono>
@@ -270,7 +272,7 @@ void Console::Wait(double ms)
 {
 	if (ms > 0)
 	{
-		high_resolution_clock::time_point start = high_resolution_clock::now();;
+		high_resolution_clock::time_point start = high_resolution_clock::now();
 
 		while ((high_resolution_clock::now() - start).count() < ms);
 	}

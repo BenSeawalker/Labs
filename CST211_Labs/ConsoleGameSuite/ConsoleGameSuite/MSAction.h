@@ -2,29 +2,29 @@
 #define MSACTION_H
 
 #include "HistoryAction.h"
-#include "Cell.h"
+#include "MSBoard.h"
 
-class MSAction : HistoryAction
+class MSAction : public HistoryAction
 {
 public:
-	MSAction(Cell old_cell, Cell new_cell, Cell & cell)
-		: m_old(old_cell), m_new(new_cell), m_cell(cell)
+	MSAction(MSBoard old_board, MSBoard new_board, MSBoard & board)
+		: m_old(old_board), m_new(new_board), m_board(board)
 	{}
 
+private:
 	virtual void Undo()
 	{
-		
+		m_board = m_old;
 	}
 
 	virtual void Redo()
 	{
-		
+		m_board = m_new;
 	}
 
-private:
-	Cell m_old;
-	Cell m_new;
-	Cell & m_cell;
+	MSBoard m_old;
+	MSBoard m_new;
+	MSBoard & m_board;
 };
 
 #endif // MSACTION_H

@@ -52,8 +52,15 @@ EXAMPLE:
 			
 	Strategy
 		Define a family of algorithms, encapsulate each one, and make them interchangeable.
-		Lets the algorithm vary independently from clients that use it.
+		Lets the algorithm vary independently for the clients that use it.
 		
 			Strategy
 			Concrete Strategy
 			Context
+			
+			
+			
+			
+			
+			
+			

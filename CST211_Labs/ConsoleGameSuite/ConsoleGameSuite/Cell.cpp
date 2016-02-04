@@ -18,9 +18,8 @@ Cell::Cell(int value)
 
 
 Cell::Cell(const Cell & copy)
-{
-	*this = copy;
-}
+	: m_value(copy.m_value), m_checked(copy.m_checked)
+{}
 
 Cell::~Cell()
 {
@@ -36,8 +35,11 @@ Cell::~Cell()
 
 Cell & Cell::operator=(const Cell & rhs)
 {
-	m_value = rhs.m_value;
-	m_checked = rhs.m_checked;
+	if (this != &rhs)
+	{
+		m_value = rhs.m_value;
+		m_checked = rhs.m_checked;
+	}
 
 	return *this;
 }

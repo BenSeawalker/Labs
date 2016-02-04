@@ -64,6 +64,12 @@
     <Filter Include="Header Files\Utilities\UNDO\Actions">
       <UniqueIdentifier>{a56e815b-32ca-4c0c-a15d-b5b49e957065}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Games\Objects">
+      <UniqueIdentifier>{652f13bc-ed76-4a61-9da7-af1c58194e58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Games\Objects">
+      <UniqueIdentifier>{cf78309e-905d-4441-a35b-553773a45370}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -98,6 +104,12 @@
     </ClCompile>
     <ClCompile Include="HistoryManager.cpp">
       <Filter>Source Files\Utilities\UNDO</Filter>
+    </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Source Files\Games\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Deck.cpp">
+      <Filter>Source Files\Games\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +172,12 @@
     </ClInclude>
     <ClInclude Include="MSAction.h">
       <Filter>Header Files\Utilities\UNDO\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Header Files\Games\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Deck.h">
+      <Filter>Header Files\Games\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

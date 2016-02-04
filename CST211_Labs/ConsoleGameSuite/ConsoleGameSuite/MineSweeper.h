@@ -20,7 +20,6 @@ using std::to_string;
 
 #include "MSBoard.h"
 
-
 /************************************************************************
 * Class: MineSweeper
 *

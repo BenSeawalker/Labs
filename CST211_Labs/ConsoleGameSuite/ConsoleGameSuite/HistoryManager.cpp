@@ -16,11 +16,6 @@ HistoryManager::HistoryManager()
 HistoryManager::HistoryManager(const HistoryManager & copy)
 {}
 
-HistoryManager & HistoryManager::GetInstance()
-{
-	return m_instance;
-}
-
 HistoryManager::~HistoryManager()
 {
 	while (!m_undos.isEmpty())
@@ -35,39 +30,44 @@ HistoryManager & HistoryManager::operator=(const HistoryManager & rhs)
 	return *this;
 }
 
-void HistoryManager::AddUndo(HistoryAction * undo)
+void HistoryManager::AddAction(HistoryAction * undo)
 {
 	// Clean out redo cache
-	while (!m_redos.isEmpty())
-		delete m_redos.Pop();
+	while (!m_instance.m_redos.isEmpty())
+		delete m_instance.m_redos.Pop();
 
-	m_undos.Push(undo);
+	m_instance.m_undos.Push(undo);
 }
 
 void HistoryManager::Undo()
 {
-	if (!m_undos.isEmpty())
+	if (!m_instance.m_undos.isEmpty())
 	{
-		HistoryAction * action = m_undos.Pop();
+		HistoryAction * action = m_instance.m_undos.Pop();
 		action->Undo();
 
-		m_redos.Push(action);
+		m_instance.m_redos.Push(action);
+		m_instance.m_undid = true;
 	}
 }
 
 void HistoryManager::Redo()
 {
-	if (!m_redos.isEmpty())
+	if (!m_instance.m_redos.isEmpty())
 	{
-		HistoryAction * action = m_redos.Pop();
+		HistoryAction * action = m_instance.m_redos.Pop();
 		action->Redo();
 
-		m_undos.Push(action);
+		m_instance.m_undos.Push(action);
+		m_instance.m_redid = true;
 	}
 }
 
 void HistoryManager::Update()
 {
+	m_instance.m_undid = false;
+	m_instance.m_redid = false;
+
 	if (Keyboard::KeyDown(VK_CONTROL))
 	{
 		if (Keyboard::KeyPressed('Z'))
@@ -75,4 +75,19 @@ void HistoryManager::Update()
 		else if (Keyboard::KeyPressed('Y'))
 			Redo();
 	}
+}
+
+bool HistoryManager::DidUndo()
+{
+	return m_instance.m_undid;
+}
+
+bool HistoryManager::DidRedo()
+{
+	return m_instance.m_redid;
+}
+
+bool HistoryManager::DidChange()
+{
+	return (DidUndo() || DidChange());
 }

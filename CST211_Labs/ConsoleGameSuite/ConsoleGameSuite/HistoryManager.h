@@ -8,19 +8,20 @@
 class HistoryManager
 {
 public:
-	// SINGLETON
-	static HistoryManager & GetInstance();
-
 	// DTOR
 	~HistoryManager();
 
 	// METHODS
-	void AddUndo(HistoryAction * undo);
+	static void AddAction(HistoryAction * undo);
 
-	void Undo();
-	void Redo();
+	static void Undo();
+	static void Redo();
 
-	void Update();
+	static void Update();
+
+	static bool DidUndo();
+	static bool DidRedo();
+	static bool DidChange();
 
 private:
 	// CTORS
@@ -30,12 +31,14 @@ private:
 	// OPERATOR
 	HistoryManager & operator=(const HistoryManager & rhs);
 
-	// SINGLETON
+	// SINGLETON INSTANCE FOR MEMORY MANAGEMENT
 	static HistoryManager m_instance;
 
 	// MEMBERS
 	LStack<HistoryAction *> m_undos;
 	LStack<HistoryAction *> m_redos;
+	bool m_undid;
+	bool m_redid;
 };
 
 #endif // UNDOMANAGER_H

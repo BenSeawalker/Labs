@@ -441,6 +441,7 @@ void MineSweeper::CellButtonClicked(Button & btn)
 
 	UncoverCell(x, y);
 	CheckVictory();
+	
 }
 
 /************************************************************************
