@@ -70,7 +70,6 @@ private:
 	static void UpdatePosition();
 
 	// MEMBERS
-	static Console & console;
 	static const int NUM_BTNS = 3;
 	static Array<int> m_previous_state;
 	static Array<int> m_current_state;

@@ -158,6 +158,7 @@
     <ClCompile Include="MineSweeper.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="HistoryManager.cpp" />
+    <ClCompile Include="PlayArea.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +185,7 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MineSweeper.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="PlayArea.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="AStack.h" />
     <ClInclude Include="LStack.h" />

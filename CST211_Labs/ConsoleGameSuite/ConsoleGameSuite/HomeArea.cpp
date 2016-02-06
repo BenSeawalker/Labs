@@ -3,7 +3,7 @@
 HomeArea::HomeArea()
 	: m_cards(4)
 {
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < m_cards.Length(); ++i)
 	{
 		m_cards[i].Resize(52);
 		m_cards[i].Push(Card());

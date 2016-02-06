@@ -57,8 +57,8 @@ Console & Console::operator=(const Console & console)
 
 Console::~Console()
 {
-	delete[] m_buffer;
-	m_buffer = nullptr;
+	delete[] m_instance.m_buffer;
+	m_instance.m_buffer = nullptr;
 }
 
 //////
@@ -79,10 +79,10 @@ Console::~Console()
 *		Throws:		N/A
 *		Returns:	A reference to the singleton instance
 *************************************************************************/
-Console & Console::GetInstance()
-{
-	return m_instance;
-}
+//Console & Console::GetInstance()
+//{
+//	return m_instance.m_instance;
+//}
 
 //////
 //	END SINGLETON
@@ -102,9 +102,9 @@ Console & Console::GetInstance()
 *		Throws:		N/A
 *		Returns:	The specified color
 *************************************************************************/
-COLOR Console::CMakeColor(COLOR foreground, COLOR background)
+COLOR Console::MakeColor(COLOR foreground, COLOR background)
 {
-	return (foreground + CMakeBackground(background));
+	return (foreground + MakeBackground(background));
 }
 
 /************************************************************************
@@ -117,7 +117,7 @@ COLOR Console::CMakeColor(COLOR foreground, COLOR background)
 *		Throws:		N/A
 *		Returns:	The specified background with a black foreground
 *************************************************************************/
-COLOR Console::CMakeBackground(COLOR background)
+COLOR Console::MakeBackground(COLOR background)
 {
 	return background * 16;
 }
@@ -147,11 +147,11 @@ void Console::Write(int x, int y, const char & c, COLOR color)
 	{
 		SetCursor(x, y);
 
-		int index = (m_cursor.X + (m_cursor.Y * m_width));
-		(m_buffer[index]).Char.AsciiChar = c;
-		(m_buffer[index]).Attributes = color;
+		int index = (m_instance.m_cursor.X + (m_instance.m_cursor.Y * m_instance.m_width));
+		(m_instance.m_buffer[index]).Char.AsciiChar = c;
+		(m_instance.m_buffer[index]).Attributes = color;
 
-		m_update = true;
+		m_instance.m_update = true;
 	}
 }
 
@@ -170,7 +170,7 @@ void Console::Write(int x, int y, const char * txt, COLOR color)
 	for (UINT i = 0; i < strlen(txt); ++i)
 		Write(x + i, y, txt[i], color);
 
-	m_update = true;
+	m_instance.m_update = true;
 }
 
 /************************************************************************
@@ -185,8 +185,8 @@ void Console::Write(int x, int y, const char * txt, COLOR color)
 *************************************************************************/
 void Console::Clear(COLOR color)
 {
-	ClearBuffer(m_buffer, (m_width * m_height), color);
-	m_update = true;
+	ClearBuffer(m_instance.m_buffer, (m_instance.m_width * m_instance.m_height), color);
+	m_instance.m_update = true;
 }
 
 /************************************************************************
@@ -201,16 +201,16 @@ void Console::Clear(COLOR color)
 *************************************************************************/
 void Console::ClearLine(int line, COLOR color /*= Color::black*/)
 {
-	if (line < m_height)
+	if (line < m_instance.m_height)
 	{
-		int y = (line * m_width);
-		for (int i = y; i < y + m_width && i < (m_width * m_height); ++i)
+		int y = (line * m_instance.m_width);
+		for (int i = y; i < y + m_instance.m_width && i < (m_instance.m_width * m_instance.m_height); ++i)
 		{
-			m_buffer[i].Char.AsciiChar = ' ';
-			m_buffer[i].Attributes = color;
+			m_instance.m_buffer[i].Char.AsciiChar = ' ';
+			m_instance.m_buffer[i].Attributes = color;
 		}
 
-		m_update = true;
+		m_instance.m_update = true;
 	}
 }
 
@@ -226,20 +226,20 @@ void Console::ClearLine(int line, COLOR color /*= Color::black*/)
 *************************************************************************/
 void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
 {
-	for (int y = y1; y < y2 && y < m_height; ++y)
+	for (int y = y1; y < y2 && y < m_instance.m_height; ++y)
 	{
-		for (int x = x1; x < x2 && x < m_width; ++x)
+		for (int x = x1; x < x2 && x < m_instance.m_width; ++x)
 		{
 			if (InBounds(x, y))
 			{
-				int index = (x + (y * m_width));
-				m_buffer[index].Char.AsciiChar = ' ';
-				m_buffer[index].Attributes = color;
+				int index = (x + (y * m_instance.m_width));
+				m_instance.m_buffer[index].Char.AsciiChar = ' ';
+				m_instance.m_buffer[index].Attributes = color;
 			}
 		}
 	}
 
-	m_update = true;
+	m_instance.m_update = true;
 }
 
 /************************************************************************
@@ -252,9 +252,9 @@ void Console::ClearRect(int x1, int y1, int x2, int y2, COLOR color)
 *		Throws:		N/A
 *		Returns:	TRUE if the given coordinate is inside the bounds of the console
 *************************************************************************/
-bool Console::InBounds(int x, int y) const
+bool Console::InBounds(int x, int y)
 {
-	return (((x >= 0) && (x < m_width)) && ((y >= 0) && (y < m_height)));
+	return (((x >= 0) && (x < m_instance.m_width)) && ((y >= 0) && (y < m_instance.m_height)));
 }
 
 
@@ -282,19 +282,19 @@ void Console::Wait(double ms)
 * Purpose: To perform any necessary drawing
 *
 * Precondition:
-*		m_update is TRUE
+*		m_instance.m_update is TRUE
 *
 * Postcondition:
-*		Modifies:	m_update and the console screen
+*		Modifies:	m_instance.m_update and the console screen
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
 void Console::Update()
 {
-	if (m_update)
+	if (m_instance.m_update)
 	{
 		Draw();
-		m_update = false;
+		m_instance.m_update = false;
 	}
 }
 
@@ -318,9 +318,9 @@ void Console::Update()
 *************************************************************************/
 void Console::SetCursorVisibility(BOOL visible)
 {
-	GetConsoleCursorInfo(m_ohandle, &m_cinf);
-	m_cinf.bVisible = visible;
-	SetConsoleCursorInfo(m_ohandle, &m_cinf);
+	GetConsoleCursorInfo(m_instance.m_ohandle, &m_instance.m_cinf);
+	m_instance.m_cinf.bVisible = visible;
+	SetConsoleCursorInfo(m_instance.m_ohandle, &m_instance.m_cinf);
 }
 
 /************************************************************************
@@ -353,30 +353,30 @@ void Console::SetConsoleEncoding(UINT encoding)
 void Console::Resize(UINT width, UINT height)
 {
 	// inner size
-	m_csbi.srWindow.Left = 0;
-	m_csbi.srWindow.Top = 0;
-	m_csbi.srWindow.Right = width - 1;
-	m_csbi.srWindow.Bottom = height - 1;
+	m_instance.m_csbi.srWindow.Left = 0;
+	m_instance.m_csbi.srWindow.Top = 0;
+	m_instance.m_csbi.srWindow.Right = width - 1;
+	m_instance.m_csbi.srWindow.Bottom = height - 1;
 	// buffer size
-	SetConsoleScreenBufferSize(m_ohandle, { static_cast<SHORT>(width), static_cast<SHORT>(height) });
+	SetConsoleScreenBufferSize(m_instance.m_ohandle, { static_cast<SHORT>(width), static_cast<SHORT>(height) });
 
 	// window size
-	SetConsoleWindowInfo(m_ohandle, TRUE, &m_csbi.srWindow);
+	SetConsoleWindowInfo(m_instance.m_ohandle, TRUE, &m_instance.m_csbi.srWindow);
 
 	// new buffer with new size
 	CHAR_INFO * temp = new CHAR_INFO[width * height];
-	ClearBuffer(temp, width * height, CMakeColor(Color::white, Color::black));
+	ClearBuffer(temp, width * height, MakeColor(Color::white, Color::black));
 
 	// update old buffer
-	delete[] m_buffer;
-	m_buffer = temp;
+	delete[] m_instance.m_buffer;
+	m_instance.m_buffer = temp;
 
 	// set the new width and height
-	m_width = width;
-	m_height = height;
+	m_instance.m_width = width;
+	m_instance.m_height = height;
 
 	// redraw the screen
-	m_update = true;
+	m_instance.m_update = true;
 }
 
 /************************************************************************
@@ -389,9 +389,9 @@ void Console::Resize(UINT width, UINT height)
 *		Throws:		N/A
 *		Returns:	The position of the text cursor
 *************************************************************************/
-Coord Console::GetCursor() const
+Coord Console::GetCursor()
 {
-	return m_cursor;
+	return m_instance.m_cursor;
 }
 
 /************************************************************************
@@ -406,11 +406,11 @@ Coord Console::GetCursor() const
 *************************************************************************/
 void Console::SetCursor(int x, int y)
 {
-	m_cursor.X = x;
-	m_cursor.Y = y;
-	Bound(m_cursor.X, m_cursor.Y);
+	m_instance.m_cursor.X = x;
+	m_instance.m_cursor.Y = y;
+	Bound(m_instance.m_cursor.X, m_instance.m_cursor.Y);
 
-	SetConsoleCursorPosition(m_ohandle, m_cursor);
+	SetConsoleCursorPosition(m_instance.m_ohandle, m_instance.m_cursor);
 }
 
 /************************************************************************
@@ -425,11 +425,11 @@ void Console::SetCursor(int x, int y)
 *************************************************************************/
 void Console::MoveCursor(int dx, int dy)
 {
-	m_cursor.X += dx;
-	m_cursor.Y += dy;
-	Bound(m_cursor.X, m_cursor.Y);
+	m_instance.m_cursor.X += dx;
+	m_instance.m_cursor.Y += dy;
+	Bound(m_instance.m_cursor.X, m_instance.m_cursor.Y);
 
-	SetConsoleCursorPosition(m_ohandle, m_cursor);
+	SetConsoleCursorPosition(m_instance.m_ohandle, m_instance.m_cursor);
 }
 
 /************************************************************************
@@ -442,9 +442,9 @@ void Console::MoveCursor(int dx, int dy)
 *		Throws:		N/A
 *		Returns:	The current width of the console
 *************************************************************************/
-UINT Console::Width() const
+UINT Console::Width()
 {
-	return m_width;
+	return m_instance.m_width;
 }
 
 /************************************************************************
@@ -457,9 +457,9 @@ UINT Console::Width() const
 *		Throws:		N/A
 *		Returns:	The current height of the console
 *************************************************************************/
-UINT Console::Height() const
+UINT Console::Height()
 {
-	return m_height;
+	return m_instance.m_height;
 }
 
 /************************************************************************
@@ -474,7 +474,7 @@ UINT Console::Height() const
 *************************************************************************/
 HANDLE & Console::OutputHandle()
 {
-	return m_ohandle;
+	return m_instance.m_ohandle;
 }
 
 /************************************************************************
@@ -489,7 +489,7 @@ HANDLE & Console::OutputHandle()
 *************************************************************************/
 HANDLE & Console::InputHandle()
 {
-	return m_ihandle;
+	return m_instance.m_ihandle;
 }
 
 //////
@@ -513,10 +513,10 @@ HANDLE & Console::InputHandle()
 void Console::EnableMouseEvents()
 {
 	DWORD dwPreviousMode;
-	GetConsoleMode(m_ohandle, &dwPreviousMode);
+	GetConsoleMode(m_instance.m_ohandle, &dwPreviousMode);
 
 	DWORD dwNewMode = dwPreviousMode | ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS & ~ENABLE_QUICK_EDIT_MODE;
-	SetConsoleMode(m_ohandle, dwNewMode);
+	SetConsoleMode(m_instance.m_ohandle, dwNewMode);
 }
 
 /************************************************************************
@@ -552,13 +552,13 @@ void Console::Bound(int & x, int & y)
 {
 	if (x < 0)
 		x = 0;
-	else if (x >= int(m_width))
-		x = m_width - 1;
+	else if (x >= int(m_instance.m_width))
+		x = m_instance.m_width - 1;
 
 	if (y < 0)
 		y = 0;
-	else if (y >= int(m_height))
-		y = m_height - 1;
+	else if (y >= int(m_instance.m_height))
+		y = m_instance.m_height - 1;
 }
 
 /************************************************************************
@@ -573,8 +573,8 @@ void Console::Bound(int & x, int & y)
 *************************************************************************/
 void Console::Draw()
 {
-	SMALL_RECT consoleWriteArea = m_csbi.srWindow;
-	WriteConsoleOutputA(m_ohandle, m_buffer, { static_cast<SHORT>(m_width), static_cast<SHORT>(m_height) }, { 0, 0 }, &consoleWriteArea);
+	SMALL_RECT consoleWriteArea = m_instance.m_csbi.srWindow;
+	WriteConsoleOutputA(m_instance.m_ohandle, m_instance.m_buffer, { static_cast<SHORT>(m_instance.m_width), static_cast<SHORT>(m_instance.m_height) }, { 0, 0 }, &consoleWriteArea);
 }
 
 //////

@@ -21,7 +21,7 @@ public:
 	~Card();
 
 	Card & operator=(const Card & rhs);
-
+	bool operator==(const Card & rhs);
 
 	int Rank() const;
 	char Suit() const;

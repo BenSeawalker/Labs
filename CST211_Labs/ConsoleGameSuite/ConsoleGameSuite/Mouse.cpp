@@ -12,8 +12,6 @@
 //	INITIALIZE STATIC VARS
 //////
 
-Console & Mouse::console = Console::GetInstance();
-
 Array<int> Mouse::m_previous_state = Array<int>(NUM_BTNS);
 Array<int> Mouse::m_current_state = Array<int>(NUM_BTNS);
 
@@ -195,7 +193,7 @@ void Mouse::UpdatePosition()
 	DWORD numEvents = 0;
 	DWORD numEventsRead = 0;
 
-	GetNumberOfConsoleInputEvents(console.InputHandle(), &numEvents);
+	GetNumberOfConsoleInputEvents(CInputHandle(), &numEvents);
 
 	if (numEvents != 0)
 	{
@@ -204,7 +202,7 @@ void Mouse::UpdatePosition()
 
 		// Read the console events into that buffer, and save how
 		// many events have been read into numEventsRead.
-		ReadConsoleInput(console.InputHandle(), eventBuffer, numEvents, &numEventsRead);
+		ReadConsoleInput(CInputHandle(), eventBuffer, numEvents, &numEventsRead);
 
 		// Now, cycle through all the events that have happened:
 		bool mouse_handled = false;

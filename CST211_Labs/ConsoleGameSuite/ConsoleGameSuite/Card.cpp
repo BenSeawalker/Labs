@@ -1,7 +1,5 @@
 #include "Card.h"
 
-
-
 Card::Card(char suit, int rank)
 	: m_suit(suit), m_rank(rank)
 {}
@@ -24,6 +22,10 @@ Card & Card::operator=(const Card & rhs)
 	return *this;
 }
 
+bool Card::operator==(const Card & rhs)
+{
+	return ((m_suit == rhs.m_suit) && (m_rank == rhs.m_rank));
+}
 
 char Card::Suit() const
 {

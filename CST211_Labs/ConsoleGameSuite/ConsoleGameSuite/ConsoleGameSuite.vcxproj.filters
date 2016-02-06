@@ -138,6 +138,9 @@
     <ClCompile Include="HomeArea.cpp">
       <Filter>Source Files\Games\Objects\Freecell</Filter>
     </ClCompile>
+    <ClCompile Include="PlayArea.cpp">
+      <Filter>Source Files\Games\Objects\Freecell</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="crtdbg_new.h">
@@ -225,6 +228,9 @@
       <Filter>Header Files\Games\Objects\Freecell</Filter>
     </ClInclude>
     <ClInclude Include="HomeArea.h">
+      <Filter>Header Files\Games\Objects\Freecell</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayArea.h">
       <Filter>Header Files\Games\Objects\Freecell</Filter>
     </ClInclude>
   </ItemGroup>

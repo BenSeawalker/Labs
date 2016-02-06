@@ -105,14 +105,13 @@ void Button::Update()
 *************************************************************************/
 void Button::Draw()
 {
-	Console & console = Console::GetInstance();
 	COLOR foreground = (m_hover ? m_foregroundHover : m_foreground);
 	COLOR background = (m_hover ? m_backgroundHover : m_background);
 
-	console.ClearRect(m_x, m_y, m_x + m_width, m_y + m_height, MakeBackground(background));
+	CClearRect(m_x, m_y, m_x + m_width, m_y + m_height, CMakeBackground(background));
 
 	char * str = TrimText();
-	console.Write(m_x + m_width / 2 - strlen(str) / 2, m_y + m_height / 2, str, MakeColor(foreground, background));
+	CWrite(m_x + m_width / 2 - strlen(str) / 2, m_y + m_height / 2, str, CMakeColor(foreground, background));
 
 	delete[] str;
 }
@@ -201,7 +200,7 @@ int Button::Y() const
 *************************************************************************/
 void Button::SetPos(int x, int y, COLOR background)
 {
-	(Console::GetInstance()).ClearRect(m_x, m_y, m_x + m_width, m_y + m_height, MakeBackground(background));
+	CClearRect(m_x, m_y, m_x + m_width, m_y + m_height, CMakeBackground(background));
 
 	m_x = x;
 	m_y = y;
@@ -232,7 +231,7 @@ void Button::Resize(int width, int height, COLOR background)
 	else
 	{
 		if (width < m_width || height < m_height)
-			(Console::GetInstance()).ClearRect(m_x, m_y, m_x + m_width, m_y + m_height, MakeBackground(background));
+			CClearRect(m_x, m_y, m_x + m_width, m_y + m_height, CMakeBackground(background));
 
 		m_width = width;
 		m_height = height;

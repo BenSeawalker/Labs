@@ -48,8 +48,25 @@ struct Color
 };
 
 // MACROS FOR CLARITY
-#define MakeColor Console::CMakeColor
-#define MakeBackground Console::CMakeBackground
+#define CMakeColor Console::MakeColor
+#define CMakeBackground Console::MakeBackground
+#define CWrite Console::Write
+#define CClear Console::Clear
+#define CClearLine Console::ClearLine
+#define CClearRect Console::ClearRect
+#define CInBounds Console::InBounds
+#define CWait Console::Wait
+#define CUpdate Console::Update
+#define CSetCursorVisibility Console::SetCursorVisibility
+#define CSetEncoding Console::SetConsoleEncoding
+#define CResize Console::Resize
+#define CGetCursor Console::GetCursor
+#define CSetCursor Console::SetCursor
+#define CMoveCursor Console::MoveCursor
+#define CWidth Console::Width
+#define CHeight Console::Height
+#define COutputHandle Console::OutputHandle
+#define CInputHandle Console::InputHandle
 
 
 /************************************************************************
@@ -95,44 +112,44 @@ class Console
 {
 public:
 	// SINGLETON
-	static Console & GetInstance();
+	//static Console & GetInstance();
 
 	// DTOR
 	~Console();
 
 	// STATIC METHODS
-	static COLOR CMakeColor(COLOR foreground = Color::white, COLOR background = Color::black);
-	static COLOR CMakeBackground(COLOR background);
+	static COLOR MakeColor(COLOR foreground = Color::white, COLOR background = Color::black);
+	static COLOR MakeBackground(COLOR background);
 
 	// METHODS
-	void Write(int x, int y, const char & txt, COLOR color = Color::white);
-	void Write(int x, int y, const char * txt, COLOR color = Color::white);
+	static void Write(int x, int y, const char & txt, COLOR color = Color::white);
+	static void Write(int x, int y, const char * txt, COLOR color = Color::white);
 
-	void Clear(COLOR color = Color::black);
-	void ClearLine(int line, COLOR color = Color::black);
-	void ClearRect(int x1, int y1, int x2, int y2, COLOR color = Color::black);
+	static void Clear(COLOR color = Color::black);
+	static void ClearLine(int line, COLOR color = Color::black);
+	static void ClearRect(int x1, int y1, int x2, int y2, COLOR color = Color::black);
 
-	bool InBounds(int x, int y) const;
+	static bool InBounds(int x, int y);
 
-	void Wait(double ms);
+	static void Wait(double ms);
 
-	void Update();
+	static void Update();
 
 	// GETTERS AND SETTERS
-	void SetCursorVisibility(BOOL visiblity);
-	void SetConsoleEncoding(UINT encoding);
+	static void SetCursorVisibility(BOOL visiblity);
+	static void SetConsoleEncoding(UINT encoding);
 
-	void Resize(UINT width, UINT height);
+	static void Resize(UINT width, UINT height);
 
-	Coord GetCursor() const;
-	void SetCursor(int x, int y);
-	void MoveCursor(int dx, int dy);
+	static Coord GetCursor();
+	static void SetCursor(int x, int y);
+	static void MoveCursor(int dx, int dy);
 
-	UINT Width() const;
-	UINT Height() const;
+	static UINT Width();
+	static UINT Height();
 
-	HANDLE & OutputHandle();
-	HANDLE & InputHandle();
+	static HANDLE & OutputHandle();
+	static HANDLE & InputHandle();
 
 private:
 	// CTORS
@@ -143,13 +160,13 @@ private:
 	Console & operator=(const Console & console);
 
 	// METHODS
-	void EnableMouseEvents();
+	static void EnableMouseEvents();
 
-	void ClearBuffer(CHAR_INFO * buffer, UINT size, COLOR color);
+	static void ClearBuffer(CHAR_INFO * buffer, UINT size, COLOR color);
 
-	void Bound(int & x, int & y);
+	static void Bound(int & x, int & y);
 
-	void Draw();
+	static void Draw();
 
 	// SINGLETON
 	static Console m_instance;

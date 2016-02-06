@@ -65,8 +65,6 @@ private:
 	static const int OFFSET_X = 6;
 	static const int OFFSET_Y = 10;
 
-	static Console & console;
-
 	// METHODS
 		// UI
 		void UpdateMenus();

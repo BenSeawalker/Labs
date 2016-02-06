@@ -10,8 +10,6 @@
 ///////////////////////////////////////////////////////////////
 //	INITIALIZE STATIC VARS
 //////
-
-Console & MineSweeper::console = Console::GetInstance();
 const double MineSweeper::PI = (atan(1) * 4);
 
 #define SMILE "\x01"
@@ -33,7 +31,7 @@ MineSweeper::MineSweeper()
 	SetConsoleTitle(L"Bomb Scrubber");
 
 	// Set the Console to the appropriate size
-	console.Resize(100, 50);
+	CResize(100, 50);
 
 	// Instantiate all menu buttons
 	CreateMenus();
@@ -228,21 +226,21 @@ void MineSweeper::ShowMenu()
 {
 	m_onMenu = true;
 
-	console.Clear();
+	CClear();
 
-	string oborder_h = string(console.Width() * 3 / 4, '=');
-	string iborder_h = string(console.Width() * 3 / 4, '*');
+	string oborder_h = string(CWidth() * 3 / 4, '=');
+	string iborder_h = string(CWidth() * 3 / 4, '*');
 
 	// DRAW BORDER
-	console.Write(console.Width() / 8, console.Height() / 4 - 1, oborder_h.c_str());
-	console.Write(console.Width() / 8, console.Height() * 3 / 4 + 1, oborder_h.c_str());
+	CWrite(CWidth() / 8, CHeight() / 4 - 1, oborder_h.c_str());
+	CWrite(CWidth() / 8, CHeight() * 3 / 4 + 1, oborder_h.c_str());
 
-	console.Write(console.Width() / 8, console.Height() / 4, iborder_h.c_str());
-	console.Write(console.Width() / 8, console.Height() * 3 / 4, iborder_h.c_str());
+	CWrite(CWidth() / 8, CHeight() / 4, iborder_h.c_str());
+	CWrite(CWidth() / 8, CHeight() * 3 / 4, iborder_h.c_str());
 
 	// DRAW TEXT
-	console.Write(console.Width() / 2 - 10, console.Height() / 4 - 1, " BOMB SCRUBBER! ");
-	console.Write(console.Width() / 2 - 11, console.Height() * 3 / 4 + 1, " Use your mouse! ");
+	CWrite(CWidth() / 2 - 10, CHeight() / 4 - 1, " BOMB SCRUBBER! ");
+	CWrite(CWidth() / 2 - 11, CHeight() * 3 / 4 + 1, " Use your mouse! ");
 
 	for (int i = 0; i < m_menu.Length(); ++i)
 		m_menu[i].Draw();
@@ -295,9 +293,9 @@ void MineSweeper::ShowGame()
 	m_board.Resize(rows, columns);
 	m_mineCoords.SetLength(m_mines);
 
-	console.Clear();
+	CClear();
 
-	ShowMessage(difficulty_message, MakeColor(Color::bright_white));
+	ShowMessage(difficulty_message, CMakeColor(Color::bright_white));
 
 	// MENU BUTTONS
 	m_btnQuit.Draw();
@@ -331,10 +329,10 @@ void MineSweeper::ShowGame()
 void MineSweeper::ShowMessage(const string & message, COLOR color)
 {
 	int line = ((m_cellButtons.Rows() * CELL_HEIGHT) + OFFSET_Y + 2);
-	console.ClearLine(line);
-	console.ClearLine(line + 2);
-	console.Write(5, line, message.c_str(), color);
-	console.Write(5, line + 2, "Press \"Q\" to return to Menu, \"R\" to Restart, or \"Esc\" to Exit...");
+	CClearLine(line);
+	CClearLine(line + 2);
+	CWrite(5, line, message.c_str(), color);
+	CWrite(5, line + 2, "Press \"Q\" to return to Menu, \"R\" to Restart, or \"Esc\" to Exit...");
 }
 
 /************************************************************************
@@ -737,7 +735,7 @@ void MineSweeper::WinGame()
 	SetClicks(m_clicks);
 
 	// Write the Winning Message
-	ShowMessage("Survival!", MakeColor(Color::lime, Color::black));
+	ShowMessage("Survival!", CMakeColor(Color::lime, Color::black));
 
 	m_paused = true;
 }
@@ -779,7 +777,7 @@ void MineSweeper::LoseGame(int mine_x, int mine_y)
 	m_btnReset.SetColors(Color::grey, Color::black, Color::white, Color::black);
 
 	// Write the Losing Message
-	ShowMessage("Violent death! (And probable loss of limb)", MakeColor(Color::red, Color::black));
+	ShowMessage("Violent death! (And probable loss of limb)", CMakeColor(Color::red, Color::black));
 
 	m_paused = true;
 }
@@ -878,7 +876,7 @@ void MineSweeper::Cleanup()
 	m_cellButtons.Purge();
 	m_mineCoords.Purge();
 
-	console.Clear();
+	CClear();
 }
 
 //////
