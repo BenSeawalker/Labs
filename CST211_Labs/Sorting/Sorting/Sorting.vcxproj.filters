@@ -65,9 +65,6 @@
     <ClInclude Include="ShellSort.h">
       <Filter>Header Files\Algorithms\Sorting\Insert Sorts</Filter>
     </ClInclude>
-    <ClInclude Include="MySelectionSort.h">
-      <Filter>Header Files\Algorithms\Sorting\Shift Sorts</Filter>
-    </ClInclude>
     <ClInclude Include="SelectionSort.h">
       <Filter>Header Files\Algorithms\Sorting\Swap Sorts</Filter>
     </ClInclude>
@@ -88,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="Exception.h">
       <Filter>Header Files\DEBUG</Filter>
+    </ClInclude>
+    <ClInclude Include="MySelectionSort.h">
+      <Filter>Header Files\Algorithms\Sorting\Shift Sorts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

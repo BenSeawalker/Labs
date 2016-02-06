@@ -10,18 +10,21 @@ Deck::Deck()
 }
 
 Deck::Deck(const Deck & copy)
-	: m_deck
-{
-
-}
+	: m_original(copy.m_original), m_shuffle(copy.m_shuffle), m_deck(copy.m_deck)
+{}
 
 
 Deck::~Deck()
-{
-}
+{}
 
 Deck & Deck::operator=(const Deck & rhs)
 {
+	if (this != &rhs)
+	{
+		m_shuffle = rhs.m_shuffle;
+		m_deck = rhs.m_deck;
+	}
+
 	return *this;
 }
 
@@ -75,7 +78,6 @@ void Deck::BuildDeck()
 	{
 		for (int rank = ACE; rank <= KING; ++rank)
 		{
-			//                        row    column
 			int i = ((((suit - HEARTS) * KING) + rank) - 1);
 			m_original[i] = Card(suit, rank);
 		}
@@ -84,10 +86,3 @@ void Deck::BuildDeck()
 	for (int i = 0; i < m_original.Length(); ++i)
 		m_deck.Push(m_original[i]);
 }
-
-
-//int Deck::RandomInt(int min, int max)
-//{
-//	int r = (int)rand() / (int)RAND_MAX;
-//	return (min + (r * (max - min)));
-//}

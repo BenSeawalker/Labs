@@ -48,11 +48,11 @@ void MergeSort<RT, T>::Split(RT & ra, T * temp, int left, int right)
 	if (left < right)
 	{
 		// Done this way to avoid overflow error
-		int mid = (left + (right - left) / 2);
+		int mid = (left + (right - left) / 2) + 1;
 
-		Split(ra, temp, left, mid);
-		Split(ra, temp, mid + 1, right);
-		Merge(ra, temp, left, mid + 1, right);
+		Split(ra, temp, left, mid - 1);
+		Split(ra, temp, mid, right);
+		Merge(ra, temp, left, mid, right);
 	}
 }
 

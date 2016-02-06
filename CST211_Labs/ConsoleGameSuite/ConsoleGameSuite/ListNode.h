@@ -43,6 +43,9 @@ class ListNode
     template<typename DT>
     friend class DoubleLinkedList;
 
+	template<typename IT>
+	friend class ListIterator;
+
 public:
     // METHODS
     T & Data();

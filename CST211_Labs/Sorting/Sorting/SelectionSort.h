@@ -40,7 +40,8 @@ void SelectionSort<RT, T>::Sort(RT & ra, int length)
 				least = j;
 		}
 	
-		Swap(ra[i], ra[least]);
+		if(least > i)
+			Swap(ra[i], ra[least]);
 	}
 }
 

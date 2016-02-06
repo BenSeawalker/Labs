@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{93EB96B3-EF1A-40E4-9A80-0F54C58BFE88}</ProjectGuid>
+    <ProjectGuid>{70428EA8-1E60-4F77-BA23-FCF3DA36C7AF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>ConsoleGameSuite</RootNamespace>
+    <RootNamespace>Signals</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -87,7 +87,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,7 +115,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,54 +142,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Card.cpp" />
-    <ClCompile Include="Deck.cpp" />
-    <ClCompile Include="FreeArea.cpp" />
-    <ClCompile Include="HomeArea.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="MSBoard.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="ButtonGroup.cpp" />
-    <ClCompile Include="Cell.cpp" />
-    <ClCompile Include="Console.cpp" />
-    <ClCompile Include="Exception.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MineSweeper.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="HistoryManager.cpp" />
-    <ClCompile Include="View.cpp" />
+    <ClInclude Include="Delegate.h" />
+    <ClInclude Include="GObject.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Area.h" />
-    <ClInclude Include="Array.h" />
-    <ClInclude Include="Array2D.h" />
-    <ClInclude Include="Card.h" />
-    <ClInclude Include="Deck.h" />
-    <ClInclude Include="DoubleLinkedList.h" />
-    <ClInclude Include="FreeArea.h" />
-    <ClInclude Include="HomeArea.h" />
-    <ClInclude Include="Iterator.h" />
-    <ClInclude Include="ListIterator.h" />
-    <ClInclude Include="ListNode.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="MSAction.h" />
-    <ClInclude Include="MSBoard.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="ButtonGroup.h" />
-    <ClInclude Include="Cell.h" />
-    <ClInclude Include="Console.h" />
-    <ClInclude Include="crtdbg_new.h" />
-    <ClInclude Include="Exception.h" />
-    <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="MineSweeper.h" />
-    <ClInclude Include="Mouse.h" />
-    <ClInclude Include="Row.h" />
-    <ClInclude Include="AStack.h" />
-    <ClInclude Include="LStack.h" />
-    <ClInclude Include="HistoryAction.h" />
-    <ClInclude Include="HistoryManager.h" />
-    <ClInclude Include="View.h" />
+    <ClCompile Include="GObject.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

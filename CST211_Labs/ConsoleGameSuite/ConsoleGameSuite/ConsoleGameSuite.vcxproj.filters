@@ -70,6 +70,21 @@
     <Filter Include="Source Files\Games\Objects">
       <UniqueIdentifier>{cf78309e-905d-4441-a35b-553773a45370}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{f6cfb28c-8003-4048-ad39-3a1fb2a0a9d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Views">
+      <UniqueIdentifier>{fc8add3d-0ebf-4787-b856-b36afc4fba67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data Structures\Iterators">
+      <UniqueIdentifier>{4a45dcd4-5499-431e-b4f7-6c4ab498e1cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Games\Objects\Freecell">
+      <UniqueIdentifier>{33b2fe15-1f4f-4a57-87d9-0dd5ac5eb820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Games\Objects\Freecell">
+      <UniqueIdentifier>{984c7995-e353-4c5b-b784-315aa9c196eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -110,6 +125,18 @@
     </ClCompile>
     <ClCompile Include="Deck.cpp">
       <Filter>Source Files\Games\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeArea.cpp">
+      <Filter>Source Files\Games\Objects\Freecell</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeArea.cpp">
+      <Filter>Source Files\Games\Objects\Freecell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,11 +200,32 @@
     <ClInclude Include="MSAction.h">
       <Filter>Header Files\Utilities\UNDO\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="Card.h">
-      <Filter>Header Files\Games\Objects</Filter>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Header Files\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Iterator.h">
+      <Filter>Header Files\Data Structures\Iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="ListIterator.h">
+      <Filter>Header Files\Data Structures\Iterators</Filter>
     </ClInclude>
     <ClInclude Include="Deck.h">
-      <Filter>Header Files\Games\Objects</Filter>
+      <Filter>Header Files\Games\Objects\Freecell</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Header Files\Games\Objects\Freecell</Filter>
+    </ClInclude>
+    <ClInclude Include="Area.h">
+      <Filter>Header Files\Games\Objects\Freecell</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeArea.h">
+      <Filter>Header Files\Games\Objects\Freecell</Filter>
+    </ClInclude>
+    <ClInclude Include="HomeArea.h">
+      <Filter>Header Files\Games\Objects\Freecell</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

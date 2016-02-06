@@ -38,7 +38,7 @@ void HeapSort<RT, T>::Sort(RT & ra, int length)
 	while (first >= 0)
 		MoveDown(ra, first--, last);
 
-	for (int i = length - 1; i >= 0; --i)
+	for (int i = last; i >= 0; --i)
 	{
 		Swap(ra[0], ra[i]);
 		MoveDown(ra, 0, i - 1);

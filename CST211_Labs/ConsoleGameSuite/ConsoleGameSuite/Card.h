@@ -10,11 +10,12 @@
 #define QUEEN 12
 #define JACK  11
 #define ACE	  1
+#define NONE  0
 
 class Card
 {
 public:
-	Card(char suit = HEARTS, int rank = 1);
+	Card(char suit = HEARTS, int rank = NONE);
 	Card(const Card & copy);
 
 	~Card();

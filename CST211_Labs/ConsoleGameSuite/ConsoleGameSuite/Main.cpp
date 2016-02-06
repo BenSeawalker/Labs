@@ -27,11 +27,30 @@ using std::endl;
 #include "Console.h"
 #include "HistoryManager.h"
 
+#include "HomeArea.h"
+
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	Console & console = Console::GetInstance();
+	HomeArea home;
+	Card ace = Card(HEARTS, ACE);
+	Card two = Card(HEARTS, 2);
+	Card tri = Card(HEARTS, 3);
+	Card tri2 = Card(CLUBS, 3);
+	Card fi = Card(HEARTS, 5);
+
+	cout << home.IsValid(ace, 0) << endl;
+	home.AddCard(ace, 0);
+	cout << home.IsValid(two, 0) << endl;
+	home.AddCard(two, 0);
+	cout << home.IsValid(tri2, 0) << endl;
+	cout << home.IsValid(tri, 0) << endl;
+	home.AddCard(tri, 0);
+	cout << home.IsValid(fi, 0) << endl;
+
+
+	/*Console & console = Console::GetInstance();
 
 	MineSweeper minesweeper;
 
@@ -45,7 +64,7 @@ int main()
 
 		HistoryManager::Update();
 		console.Update();
-	}
+	}*/
 
 	return 0;
 }

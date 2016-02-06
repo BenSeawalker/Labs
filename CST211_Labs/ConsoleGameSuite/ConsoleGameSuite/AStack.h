@@ -68,6 +68,8 @@ public:
 	T Pop();
 	T Peek() const;
 
+	void Resize(int size);
+
 private:
 	// MEMBERS
 	Array<T> m_array;
@@ -273,6 +275,26 @@ T AStack<T>::Peek() const
 		throw Exception("Stack Underflow!");
 
 	return m_array[m_size - 1];
+}
+
+/************************************************************************
+* Purpose: To change the maximum number of items the stack can hold
+*
+* Precondition:
+*		size - must be greater than zero
+*
+* Postcondition:
+*		Modifies:	m_array
+*		Throws:	Exception("Cannot resize Stack to a size less than zero!")
+*		Returns:	N/A
+*************************************************************************/
+template<typename T>
+void AStack<T>::Resize(int size)
+{
+	if (size < 0)
+		throw Exception("Cannot resize Stack to a size less than zero!");
+
+	m_array.SetLength(size);
 }
 
 //////
