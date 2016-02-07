@@ -9,8 +9,6 @@
 #ifndef LSTACK_H
 #define LSTACK_H
 
-#include "crtdbg_new.h"
-
 #include "DoubleLinkedList.h"
 #include "Exception.h"
 
@@ -60,7 +58,7 @@ public:
 
 	void Push(T item);
 	T Pop();
-	T Peek() const;
+	T & Peek();
 
 private:
 	// MEMBERS
@@ -213,7 +211,7 @@ T LStack<T>::Pop()
 *		Returns:	The item on top of the stack by value
 *************************************************************************/
 template<typename T>
-T LStack<T>::Peek() const
+T & LStack<T>::Peek()
 {
 	if (isEmpty())
 		throw Exception("Stack Underflow!");

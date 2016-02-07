@@ -2,15 +2,33 @@
 #include "View.h"
 #include "ListIterator.h"
 
+Model::Model()
+{}
+
+Model::Model(const Model & copy)
+	: m_views(copy.m_views)
+{}
+
+Model::~Model()
+{}
+
+Model & Model::operator=(const Model & rhs)
+{
+	if (this != &rhs)
+		m_views = rhs.m_views;
+
+	return *this;
+}
+
 void Model::Register(View & view)
 {
-	m_views.Extract(&view);
+	try	{ m_views.Extract(&view); }	catch(const Exception &) {}
 	m_views.Append(&view);
 }
 
 void Model::Remove(View & view)
 {
-	m_views.Extract(&view);
+	try { m_views.Extract(&view); }	catch (const Exception &) {}
 }
 
 void Model::Notify()

@@ -67,3 +67,18 @@ Card HomeArea::TakeCard(int src)
 	return card;
 }
 
+const Card & HomeArea::SeeCard(int src)
+{
+	return m_cards[src].Peek();
+}
+
+int HomeArea::OpenCells(int dest)
+{
+	return 0;
+}
+
+int HomeArea::ValidDepth(int dest)
+{
+	return 1;
+}
+

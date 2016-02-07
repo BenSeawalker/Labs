@@ -39,3 +39,26 @@ Card FreeArea::TakeCard(int src)
 	return card;
 }
 
+const Card & FreeArea::SeeCard(int src)
+{
+	return m_cards[src];
+}
+
+int FreeArea::OpenCells(int dest)
+{
+	int open = 0;
+
+	for (int i = 0; i < m_cards.Length(); ++i)
+	{
+		if (i != dest && m_cards[i].Rank() == NONE)
+			open++;
+	}
+
+	return open;
+}
+
+int FreeArea::ValidDepth(int dest)
+{
+	return 1;
+}
+

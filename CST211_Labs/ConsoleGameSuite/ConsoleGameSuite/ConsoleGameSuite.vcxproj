@@ -143,8 +143,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="CardBtn.cpp" />
     <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="FCBoard.cpp" />
     <ClCompile Include="FreeArea.cpp" />
+    <ClCompile Include="Freecell.cpp" />
     <ClCompile Include="HomeArea.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MSBoard.cpp" />
@@ -166,9 +169,12 @@
     <ClInclude Include="Array.h" />
     <ClInclude Include="Array2D.h" />
     <ClInclude Include="Card.h" />
+    <ClInclude Include="CardBtn.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="DoubleLinkedList.h" />
+    <ClInclude Include="FCBoard.h" />
     <ClInclude Include="FreeArea.h" />
+    <ClInclude Include="Freecell.h" />
     <ClInclude Include="HomeArea.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="ListIterator.h" />

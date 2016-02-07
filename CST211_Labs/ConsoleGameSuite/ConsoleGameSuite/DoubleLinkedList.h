@@ -65,8 +65,8 @@ public:
     // METHODS
 	bool Size() const;
     bool isEmpty() const;
-    const T & First() const;
-	const T & Last() const;
+    T & First();
+	T & Last();
     
     void Prepend(const T & item);
     void Append(const T & item);
@@ -176,7 +176,7 @@ bool DoubleLinkedList<T>::isEmpty() const
 *		Returns:	A const reference to the first data value
 *************************************************************************/
 template<typename T>
-const T & DoubleLinkedList<T>::First() const
+T & DoubleLinkedList<T>::First()
 {
     if(m_head == nullptr)
         throw Exception("Cannot access first element: LIST_IS_EMPTY");
@@ -196,7 +196,7 @@ const T & DoubleLinkedList<T>::First() const
 *		Returns:	A const reference to the last data value
 *************************************************************************/
 template<typename T>
-const T & DoubleLinkedList<T>::Last() const
+T & DoubleLinkedList<T>::Last()
 {
     if(m_head == nullptr)
         throw Exception("Cannot access last element: LIST_IS_EMPTY");
@@ -395,7 +395,12 @@ void DoubleLinkedList<T>::Extract(const T & item)
     }
     else
     {
-        if(found_node == m_head)
+		if (m_head == m_tail)
+		{
+			m_head = nullptr;
+			m_tail = nullptr;
+		}
+        else if(found_node == m_head)
         {
             m_head = m_head->Next();
 			if (m_head)
@@ -446,7 +451,7 @@ ListNode<T> * DoubleLinkedList<T>::FindNode(const T & data)
     
     while(travel && !found)
     {
-        if(travel->Data() == data)            
+        if(travel->Data() == data)
             found = true;
         else
             travel = travel->Next();

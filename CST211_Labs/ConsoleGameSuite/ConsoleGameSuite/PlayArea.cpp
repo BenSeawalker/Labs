@@ -47,8 +47,47 @@ Card PlayArea::TakeCard(int src)
 	return card;
 }
 
+const Card & PlayArea::SeeCard(int src)
+{
+	return m_cards[src].Peek();
+}
+
+int PlayArea::OpenCells(int dest)
+{
+	int open = 0;
+
+	for (int i = 0; i < m_cards.Length(); ++i)
+	{
+		if (i != dest && m_cards[i].Peek().Rank() == NONE)
+			open++;
+	}
+
+	return open;
+}
+
+int PlayArea::ValidDepth(int src)
+{
+	int depth = 1;
+	bool valid = true;
+
+	LStack<Card> temp;
+	while (m_cards[src].Peek().Rank() != NONE && valid)
+	{
+		temp.Push(m_cards[src].Pop());
+
+		valid = ((GetColor(m_cards[src].Peek()) != GetColor(temp.Peek())) && // diff color
+			m_cards[src].Peek().Rank() == temp.Peek().Rank() + 1);			 // one rank higher
+
+		depth += valid;
+	}
+
+	while (!temp.isEmpty())
+		m_cards[src].Push(temp.Pop());
+
+	return depth;
+}
+
 bool PlayArea::GetColor(const Card & card)
 {
 	return (card.Suit() <= DIAMONDS);
 }
-

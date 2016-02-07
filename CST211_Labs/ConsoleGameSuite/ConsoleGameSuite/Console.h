@@ -48,25 +48,25 @@ struct Color
 };
 
 // MACROS FOR CLARITY
-#define CMakeColor Console::MakeColor
-#define CMakeBackground Console::MakeBackground
-#define CWrite Console::Write
-#define CClear Console::Clear
-#define CClearLine Console::ClearLine
-#define CClearRect Console::ClearRect
-#define CInBounds Console::InBounds
-#define CWait Console::Wait
-#define CUpdate Console::Update
-#define CSetCursorVisibility Console::SetCursorVisibility
-#define CSetEncoding Console::SetConsoleEncoding
-#define CResize Console::Resize
-#define CGetCursor Console::GetCursor
-#define CSetCursor Console::SetCursor
-#define CMoveCursor Console::MoveCursor
-#define CWidth Console::Width
-#define CHeight Console::Height
-#define COutputHandle Console::OutputHandle
-#define CInputHandle Console::InputHandle
+#define CMakeColor				Console::MakeColor
+#define CMakeBackground			Console::MakeBackground
+#define CWrite					Console::Write
+#define CClear					Console::Clear
+#define CClearLine				Console::ClearLine
+#define CClearRect				Console::ClearRect
+#define CInBounds				Console::InBounds
+#define CWait					Console::Wait
+#define CUpdate					Console::Update
+#define CSetCursorVisibility	Console::SetCursorVisibility
+#define CSetEncoding			Console::SetEncoding
+#define CResize					Console::Resize
+#define CGetCursor				Console::GetCursor
+#define CSetCursor				Console::SetCursor
+#define CMoveCursor				Console::MoveCursor
+#define CWidth					Console::Width
+#define CHeight					Console::Height
+#define COutputHandle			Console::OutputHandle
+#define CInputHandle			Console::InputHandle
 
 
 /************************************************************************
@@ -137,7 +137,7 @@ public:
 
 	// GETTERS AND SETTERS
 	static void SetCursorVisibility(BOOL visiblity);
-	static void SetConsoleEncoding(UINT encoding);
+	static void SetEncoding(UINT encoding);
 
 	static void Resize(UINT width, UINT height);
 

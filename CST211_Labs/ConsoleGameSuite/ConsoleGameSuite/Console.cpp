@@ -35,13 +35,13 @@ Console::Console(UINT width, UINT height, BOOL visiblity, UINT encoding)
 	: m_ohandle(GetStdHandle(STD_OUTPUT_HANDLE)), m_ihandle(GetStdHandle(STD_INPUT_HANDLE)), m_width(width), m_height(height), m_buffer(nullptr)
 {
 	// Ensure that the console is in the correct encoding
-	SetConsoleEncoding(encoding);
+	SetEncoding(encoding);
 
 	// Ensure that the console can receive mouse events...
 	EnableMouseEvents();
 
 	// Resize the window
-	Resize(width, height);
+	Resize(width + 20, height + 20);
 
 	// Cursor visibility
 	SetCursorVisibility(visiblity);
@@ -63,29 +63,6 @@ Console::~Console()
 
 //////
 //	END CTORS AND DTOR
-///////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////
-//	SINGLETON
-//////
-
-/************************************************************************
-* Purpose: To get the singleton instance of this class
-*
-* Precondition:
-*
-* Postcondition:
-*		Modifies:	N/A
-*		Throws:		N/A
-*		Returns:	A reference to the singleton instance
-*************************************************************************/
-//Console & Console::GetInstance()
-//{
-//	return m_instance.m_instance;
-//}
-
-//////
-//	END SINGLETON
 ///////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////
@@ -148,8 +125,8 @@ void Console::Write(int x, int y, const char & c, COLOR color)
 		SetCursor(x, y);
 
 		int index = (m_instance.m_cursor.X + (m_instance.m_cursor.Y * m_instance.m_width));
-		(m_instance.m_buffer[index]).Char.AsciiChar = c;
-		(m_instance.m_buffer[index]).Attributes = color;
+		m_instance.m_buffer[index].Char.AsciiChar = c;
+		m_instance.m_buffer[index].Attributes = color;
 
 		m_instance.m_update = true;
 	}
@@ -185,7 +162,7 @@ void Console::Write(int x, int y, const char * txt, COLOR color)
 *************************************************************************/
 void Console::Clear(COLOR color)
 {
-	ClearBuffer(m_instance.m_buffer, (m_instance.m_width * m_instance.m_height), color);
+	ClearBuffer(m_instance.m_buffer, (m_instance.m_width * m_instance.m_height), MakeBackground(color));
 	m_instance.m_update = true;
 }
 
@@ -199,7 +176,7 @@ void Console::Clear(COLOR color)
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-void Console::ClearLine(int line, COLOR color /*= Color::black*/)
+void Console::ClearLine(int line, COLOR color)
 {
 	if (line < m_instance.m_height)
 	{
@@ -333,7 +310,7 @@ void Console::SetCursorVisibility(BOOL visible)
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-void Console::SetConsoleEncoding(UINT encoding)
+void Console::SetEncoding(UINT encoding)
 {
 	SetConsoleCP(encoding);
 	SetConsoleOutputCP(encoding);

@@ -48,14 +48,14 @@ public:
 
 	Button(const Button & copy);
 
-	~Button();
+	virtual ~Button();
 
 	// OPERATORS
 	Button & operator=(const Button & rhs);
 
 	// METHODS
 	void Update();
-	void Draw();
+	virtual void Draw();
 
 	// GETTERS AND SETTERS
 	int ID() const;
@@ -75,7 +75,7 @@ public:
 	bool Clicked(Mouse::BUTTON btn) const;
 	bool Hovered() const;
 
-private:
+protected:
 	// METHODS
 	char * TrimText();
 

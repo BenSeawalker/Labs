@@ -70,12 +70,6 @@
     <Filter Include="Source Files\Games\Objects">
       <UniqueIdentifier>{cf78309e-905d-4441-a35b-553773a45370}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Models">
-      <UniqueIdentifier>{f6cfb28c-8003-4048-ad39-3a1fb2a0a9d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Views">
-      <UniqueIdentifier>{fc8add3d-0ebf-4787-b856-b36afc4fba67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Data Structures\Iterators">
       <UniqueIdentifier>{4a45dcd4-5499-431e-b4f7-6c4ab498e1cf}</UniqueIdentifier>
     </Filter>
@@ -84,6 +78,30 @@
     </Filter>
     <Filter Include="Source Files\Games\Objects\Freecell">
       <UniqueIdentifier>{984c7995-e353-4c5b-b784-315aa9c196eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Games\Objects\Minesweeper">
+      <UniqueIdentifier>{354683f7-5a62-4fd2-baae-082ad4b93cea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Games\Objects\Minesweeper">
+      <UniqueIdentifier>{18026f8b-0167-4e56-8150-9f97d6fcb116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Games\Objects\Freecell\Cards">
+      <UniqueIdentifier>{96b47f58-ff21-4683-bbd0-086abe1f5856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Games\Objects\Freecell\Areas">
+      <UniqueIdentifier>{cffbe955-91a8-4680-82cb-025ca1e384ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Games\Objects\Freecell\Cards">
+      <UniqueIdentifier>{2e11c9fc-29ac-45e5-abda-b41cb9a714c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Games\Objects\Freecell\Areas">
+      <UniqueIdentifier>{8d1c0276-6d76-4e2b-b124-5fa9c26b327a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model/View Controllers">
+      <UniqueIdentifier>{f6cfb28c-8003-4048-ad39-3a1fb2a0a9d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model/View Controllers">
+      <UniqueIdentifier>{fc59a5f3-7521-4ec8-879c-e794b1c80e6d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,41 +123,50 @@
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Cell.cpp">
-      <Filter>Source Files\Data Structures</Filter>
-    </ClCompile>
     <ClCompile Include="Exception.cpp">
       <Filter>Source Files\DEBUG</Filter>
     </ClCompile>
     <ClCompile Include="MineSweeper.cpp">
       <Filter>Source Files\Games</Filter>
     </ClCompile>
-    <ClCompile Include="MSBoard.cpp">
-      <Filter>Source Files\Data Structures</Filter>
-    </ClCompile>
     <ClCompile Include="HistoryManager.cpp">
       <Filter>Source Files\Utilities\UNDO</Filter>
     </ClCompile>
-    <ClCompile Include="Card.cpp">
-      <Filter>Source Files\Games\Objects</Filter>
+    <ClCompile Include="MSBoard.cpp">
+      <Filter>Source Files\Games\Objects\Minesweeper</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files\Games\Objects\Minesweeper</Filter>
     </ClCompile>
     <ClCompile Include="Deck.cpp">
-      <Filter>Source Files\Games\Objects</Filter>
+      <Filter>Source Files\Games\Objects\Freecell\Cards</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="View.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FreeArea.cpp">
-      <Filter>Source Files\Games\Objects\Freecell</Filter>
+    <ClCompile Include="Card.cpp">
+      <Filter>Source Files\Games\Objects\Freecell\Cards</Filter>
     </ClCompile>
     <ClCompile Include="HomeArea.cpp">
-      <Filter>Source Files\Games\Objects\Freecell</Filter>
+      <Filter>Source Files\Games\Objects\Freecell\Areas</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeArea.cpp">
+      <Filter>Source Files\Games\Objects\Freecell\Areas</Filter>
     </ClCompile>
     <ClCompile Include="PlayArea.cpp">
+      <Filter>Source Files\Games\Objects\Freecell\Areas</Filter>
+    </ClCompile>
+    <ClCompile Include="FCBoard.cpp">
       <Filter>Source Files\Games\Objects\Freecell</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source Files\Model/View Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\Model/View Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Freecell.cpp">
+      <Filter>Source Files\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="CardBtn.cpp">
+      <Filter>Source Files\Games\Objects\Freecell\Cards</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,12 +197,6 @@
     <ClInclude Include="Array2D.h">
       <Filter>Header Files\Data Structures\Array2D</Filter>
     </ClInclude>
-    <ClInclude Include="MSBoard.h">
-      <Filter>Header Files\Data Structures\Array2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Cell.h">
-      <Filter>Header Files\Data Structures\Array2D</Filter>
-    </ClInclude>
     <ClInclude Include="Row.h">
       <Filter>Header Files\Data Structures\Array2D</Filter>
     </ClInclude>
@@ -204,10 +225,7 @@
       <Filter>Header Files\Utilities\UNDO\Actions</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Header Files\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="View.h">
-      <Filter>Header Files\Views</Filter>
+      <Filter>Header Files\Model/View Controllers</Filter>
     </ClInclude>
     <ClInclude Include="Iterator.h">
       <Filter>Header Files\Data Structures\Iterators</Filter>
@@ -215,23 +233,41 @@
     <ClInclude Include="ListIterator.h">
       <Filter>Header Files\Data Structures\Iterators</Filter>
     </ClInclude>
-    <ClInclude Include="Deck.h">
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files\Games\Objects\Minesweeper</Filter>
+    </ClInclude>
+    <ClInclude Include="MSBoard.h">
+      <Filter>Header Files\Games\Objects\Minesweeper</Filter>
+    </ClInclude>
+    <ClInclude Include="FCBoard.h">
       <Filter>Header Files\Games\Objects\Freecell</Filter>
     </ClInclude>
     <ClInclude Include="Card.h">
-      <Filter>Header Files\Games\Objects\Freecell</Filter>
+      <Filter>Header Files\Games\Objects\Freecell\Cards</Filter>
+    </ClInclude>
+    <ClInclude Include="Deck.h">
+      <Filter>Header Files\Games\Objects\Freecell\Cards</Filter>
     </ClInclude>
     <ClInclude Include="Area.h">
-      <Filter>Header Files\Games\Objects\Freecell</Filter>
+      <Filter>Header Files\Games\Objects\Freecell\Areas</Filter>
     </ClInclude>
     <ClInclude Include="FreeArea.h">
-      <Filter>Header Files\Games\Objects\Freecell</Filter>
+      <Filter>Header Files\Games\Objects\Freecell\Areas</Filter>
     </ClInclude>
     <ClInclude Include="HomeArea.h">
-      <Filter>Header Files\Games\Objects\Freecell</Filter>
+      <Filter>Header Files\Games\Objects\Freecell\Areas</Filter>
     </ClInclude>
     <ClInclude Include="PlayArea.h">
-      <Filter>Header Files\Games\Objects\Freecell</Filter>
+      <Filter>Header Files\Games\Objects\Freecell\Areas</Filter>
+    </ClInclude>
+    <ClInclude Include="View.h">
+      <Filter>Header Files\Model/View Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Freecell.h">
+      <Filter>Header Files\Games</Filter>
+    </ClInclude>
+    <ClInclude Include="CardBtn.h">
+      <Filter>Header Files\Games\Objects\Freecell\Cards</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

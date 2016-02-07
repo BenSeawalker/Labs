@@ -9,8 +9,6 @@
 #ifndef ASTACK_H
 #define ASTACK_H
 
-#include "crtdbg_new.h"
-
 #include "Array.h"
 #include "Exception.h"
 
@@ -66,7 +64,7 @@ public:
 
 	void Push(T item);
 	T Pop();
-	T Peek() const;
+	T & Peek();
 
 	void Resize(int size);
 
@@ -266,10 +264,10 @@ T AStack<T>::Pop()
 * Postcondition:
 *		Modifies:	N/A
 *		Throws:	Exception("Stack Underflow!")
-*		Returns:	The item on top of the stack by value
+*		Returns:	The item on top of the stack by reference
 *************************************************************************/
 template<typename T>
-T AStack<T>::Peek() const
+T & AStack<T>::Peek()
 {
 	if (isEmpty())
 		throw Exception("Stack Underflow!");

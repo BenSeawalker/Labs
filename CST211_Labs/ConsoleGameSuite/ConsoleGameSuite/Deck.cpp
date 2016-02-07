@@ -40,13 +40,14 @@ void Deck::Shuffle(unsigned int seed)
 	while (!m_deck.isEmpty())
 		m_deck.Pop();
 
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < 156; ++i)
 	{
 		int c1 = rand() % m_original.Length();
 		int c2 = rand() % m_original.Length();
 
-		m_shuffle[c1] = m_original[c2];
-		m_shuffle[c2] = m_original[c1];
+		Card temp = m_shuffle[c1];
+		m_shuffle[c1] = m_shuffle[c2];
+		m_shuffle[c2] = temp;
 	}
 
 	for (int i = 0; i < m_shuffle.Length(); ++i)
@@ -58,7 +59,7 @@ void Deck::Reset()
 	while (!m_deck.isEmpty())
 		m_deck.Pop();
 
-	for (int i = 0; i < m_original.Length(); ++i)
+	for (int i = m_original.Length() - 1; i >= 0; --i)
 		m_deck.Push(m_original[i]);
 }
 
@@ -83,6 +84,5 @@ void Deck::BuildDeck()
 		}
 	}
 
-	for (int i = 0; i < m_original.Length(); ++i)
-		m_deck.Push(m_original[i]);
+	Reset();
 }

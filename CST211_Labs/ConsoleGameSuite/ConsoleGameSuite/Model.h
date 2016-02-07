@@ -1,7 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-
 #include "DoubleLinkedList.h"
 
 class View;
@@ -9,13 +8,20 @@ class View;
 class Model
 {
 public:
+	virtual ~Model();
+
 	void Register(View & view);
 	void Remove(View & view);
+	
+protected:
+	Model();
+	Model(const Model & copy);
+
+	Model & operator=(const Model & rhs);
+
 	void Notify();
 
 private:
-	Model();
-
 	DoubleLinkedList<View *> m_views;
 };
 
