@@ -3,10 +3,13 @@
 
 #include "Card.h"
 #include "Button.h"
+#include "FCBoard.h"
 
 class CardBtn : public Button
 {
 public:
+	static const int SIZE = 9;
+
 	CardBtn();
 	CardBtn(const Card & card);
 	CardBtn(const CardBtn & copy);
@@ -15,17 +18,36 @@ public:
 
 	CardBtn & operator=(const CardBtn & rhs);
 
-	virtual void Draw();
+	void SetCard(const Card & card);
+
+	void SetDepth(int depth);
+	int Depth() const;
+
+	void SetRow(int row);
+	int Row() const;
+
+	void SetArea(FCBoard::AREA area);
+	FCBoard::AREA Area() const;
 
 	void Large(COLOR background = Color::green);
 	void Small(COLOR background = Color::green);
 
-private:
-	const int SIZE = 9;
+	void SetSelected(bool selected);
 
+	bool IsEmpty() const;
+
+	bool IsNext(const CardBtn & nxt);
+
+	virtual void Draw();
+
+private:
 	int m_rank;
 	string m_suit;
 	COLOR m_color;
+	int m_depth;
+	int m_row;
+	FCBoard::AREA m_area;
+	bool m_selected;
 };
 
 #endif // CARDBTN_H

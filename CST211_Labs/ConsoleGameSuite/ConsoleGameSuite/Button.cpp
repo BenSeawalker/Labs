@@ -165,7 +165,7 @@ void Button::SetText(const string & text, bool resize)
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-void Button::SetColors(COLOR background, COLOR foreground, COLOR background_hover, COLOR foreground_hover)
+void Button::SetColors(COLOR background, COLOR foreground, COLOR background_hover, COLOR foreground_hover, bool draw)
 {
 	m_background = background;
 	m_foreground = foreground;
@@ -173,7 +173,8 @@ void Button::SetColors(COLOR background, COLOR foreground, COLOR background_hove
 	m_backgroundHover = background_hover;
 	m_foregroundHover = foreground_hover;
 
-	Draw();
+	if(draw)
+		Draw();
 }
 
 int Button::X() const
@@ -198,13 +199,14 @@ int Button::Y() const
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-void Button::SetPos(int x, int y, COLOR background)
+void Button::SetPos(int x, int y, COLOR background, bool clear)
 {
-	CClearRect(m_x, m_y, m_x + m_width, m_y + m_height, CMakeBackground(background));
+	if(clear)
+		CClearRect(m_x, m_y, m_x + m_width, m_y + m_height, CMakeBackground(background));
 
 	m_x = x;
 	m_y = y;
-	Draw();
+	//Draw();
 }
 
 /************************************************************************
@@ -293,18 +295,26 @@ char * Button::TrimText()
 {
 	char * str = nullptr;
 
-	if (int(m_text.length()) >= m_width - (2 * (m_width > 2)))
+	if (m_width > 0)
 	{
-		str = new char[m_width - 1];
-		for (int i = 0; i < m_width - 1; ++i)
-			str[i] = m_text.c_str()[i];
+		if (int(m_text.length()) >= m_width - (2 * (m_width > 2)))
+		{
+			str = new char[m_width - 1];
+			for (int i = 0; i < m_width - 1; ++i)
+				str[i] = m_text.c_str()[i];
 
-		str[max(0, m_width - 2)] = '\0';
+			str[max(0, m_width - 2)] = '\0';
+		}
+		else
+		{
+			str = new char[m_text.length() + 1];
+			strcpy(str, m_text.c_str());
+		}
 	}
 	else
 	{
-		str = new char[m_text.length() + 1];
-		strcpy(str, m_text.c_str());
+		str = new char[1];
+		str[0] = '\0';
 	}
 
 	return str;

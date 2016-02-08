@@ -7,8 +7,6 @@
 
 #include "Console.h"
 
-#include "crtdbg_new.h"
-
 #include <cstring>
 
 #include <chrono>

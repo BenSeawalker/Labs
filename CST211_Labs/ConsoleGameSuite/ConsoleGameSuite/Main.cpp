@@ -39,39 +39,39 @@ int main()
 	FCBoard board;
 	Freecell game;
 	game.SetModel(&board);
-	for (int i = 0; i < 7; ++i)
-		board.MoveCards(FCBoard::PLAY, FCBoard::PLAY, i, 7, 1);
 	
-	CardBtn c(Card(HEARTS, KING));
-	c.SetPos(10, 18, Color::green);
-	CardBtn c1(Card(CLUBS, QUEEN));
-	c1.SetPos(10, 20, Color::green);
-	CardBtn c2(Card(DIAMONDS, JACK));
-	c2.SetPos(10, 22, Color::green);
-	c2.Large();
-
-	while (true)
+	bool running(true);
+	while (running)
 	{
 		Mouse::UpdateMouseState();
 
-		c.Update();
-		c1.Update();
-		c2.Update();
-		
+		running = game.Update();
 		CUpdate();
 	}
-	
-	
+
 	cout << endl << endl << endl << endl;
 	cout << endl << endl << endl << endl;
 	cout << endl << endl << endl << endl;
 	cout << endl << endl << endl << endl;
-	cout << endl << endl << endl << endl;
-	cout << endl << endl << endl << endl;
-	cout << endl << endl << endl << endl;
-	cout << endl << endl << endl << endl;
-	cout << endl << endl << endl << endl;
-	cout << endl << endl << endl << endl;
+
+	//CardBtn c(Card(HEARTS, KING));
+	//c.SetPos(10, 18, Color::green);
+	//CardBtn c1(Card(CLUBS, QUEEN));
+	//c1.SetPos(10, 20, Color::green);
+	//CardBtn c2(Card(DIAMONDS, JACK));
+	//c2.SetPos(10, 22, Color::green);
+	//c2.Large();
+	//while (true)
+	//{
+	//	Mouse::UpdateMouseState();
+	//	c.Update();
+	//	c1.Update();
+	//	c2.Update();
+	//	
+	//	CUpdate();
+	//}
+	//
+	//
 	//system("pause");
 	/*MineSweeper minesweeper;
 

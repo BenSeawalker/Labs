@@ -13,7 +13,7 @@ FCBoard::FCBoard()
 	m_areas[FREE] = new FreeArea;
 	m_areas[HOME] = new HomeArea;
 	m_areas[PLAY] = new PlayArea;
-
+	
 	Deck d;
 	d.Shuffle();
 	for (int i = 0; i < 52; ++i)
@@ -56,7 +56,9 @@ bool FCBoard::MoveCards(AREA from, AREA to, int src, int dest, int depth)
 	int p_dest = (to == PLAY ? dest : -1);
 	int open_cells = m_areas[FREE]->OpenCells(f_dest) + m_areas[PLAY]->OpenCells(p_dest) + 1;
 
-	bool valid = (open_cells >= depth);
+	bool valid = (open_cells >= depth && depth <= m_areas[from]->ValidDepth(src));
+	if (from != to)
+		valid = valid && (depth <= m_areas[to]->ValidDepth(dest));
 
 	if (valid)
 	{

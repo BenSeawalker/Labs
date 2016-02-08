@@ -2,7 +2,7 @@
 
 
 CardBtn::CardBtn()
-	: m_rank(NONE), m_suit(""), m_color(Color::grey)
+	: m_rank(NONE), m_suit(""), m_color(Color::grey), m_depth(1), m_row(0), m_selected(false), m_area(FCBoard::PLAY)
 {
 	Small();
 	SetColors(Color::white, m_color, Color::bright_white, m_color);
@@ -12,22 +12,14 @@ CardBtn::CardBtn()
 CardBtn::CardBtn(const Card & card)
 	: m_rank(NONE), m_suit(""), m_color(Color::grey)
 {
-
-	m_rank = card.Rank();
-	m_suit = card.Suit();
-	m_color = ((card.Suit() <= DIAMONDS) ? Color::dark_red : Color::blue);
-
 	Small();
-	SetColors(Color::white, m_color, Color::bright_white, m_color);
-	SetText(m_suit, false);
+	SetCard(card);
 }
 
 CardBtn::CardBtn(const CardBtn & copy)
-	: Button(copy), m_rank(copy.m_rank), m_suit(copy.m_suit), m_color(copy.m_color)
-{
-	SetColors(Color::white, m_color, Color::bright_white, m_color);
-	SetText(m_suit, false);
-}
+	: Button(copy), m_rank(copy.m_rank), m_suit(copy.m_suit), m_color(copy.m_color),
+	m_depth(copy.m_depth), m_row(copy.m_row), m_selected(copy.m_selected), m_area(copy.m_area)
+{}
 
 CardBtn::~CardBtn()
 {}
@@ -35,16 +27,114 @@ CardBtn::~CardBtn()
 CardBtn & CardBtn::operator=(const CardBtn & rhs)
 {
 	if (this != &rhs)
+	{
 		Button::operator=(rhs);
+		m_rank = rhs.m_rank;
+		m_suit = rhs.m_suit;
+		m_color = rhs.m_color;
+		m_depth = rhs.m_depth;
+		m_row = rhs.m_row;
+		m_area = rhs.m_area;
+		m_selected = rhs.m_selected;
+
+
+		SetColors(Color::white, m_color, Color::bright_white, m_color);
+		if (m_rank != NONE)
+			SetText(m_suit, false);
+		else
+			SetText("", false);
+	}
 
 	return *this;
 }
 
-void CardBtn::Draw()
+void CardBtn::SetCard(const Card & card)
 {
+	m_rank = card.Rank();
+	m_suit = card.Suit();
+	m_color = ((card.Suit() <= DIAMONDS) ? Color::dark_red : Color::blue);
+
+	SetColors(Color::white, m_color, Color::bright_white, m_color);
 	if (m_rank != NONE)
+		SetText(m_suit, false);
+	else
+		SetText("", false);
+}
+
+void CardBtn::SetDepth(int depth)
+{
+	m_depth = depth;
+}
+
+int CardBtn::Depth() const
+{
+	return m_depth;
+}
+
+void CardBtn::SetRow(int row)
+{
+	m_row = row;
+}
+
+int CardBtn::Row() const
+{
+	return m_row;
+}
+
+void CardBtn::SetArea(FCBoard::AREA area)
+{
+	m_area = area;
+}
+
+FCBoard::AREA CardBtn::Area() const
+{
+	return m_area;
+}
+
+void CardBtn::Draw()
+{	
+	if (m_rank == NONE)
 	{
+		if (m_height == SIZE)
+		{
+			SetColors(Color::green, Color::yellow, Color::green, Color::lime, false);
+			Button::Draw();
+
+			COLOR txt_back = (m_hover ? m_backgroundHover : m_background);
+			COLOR txt_fore = (m_hover ? m_foregroundHover : m_foreground);
+
+			// Horizontal lines
+			for (int x = m_x + 1; x < m_x + m_width - 1; ++x)
+			{
+				CWrite(x, m_y, char(196), CMakeColor(txt_fore, txt_back));
+				CWrite(x, m_y + m_height - 1, char(196), CMakeColor(txt_fore, txt_back));
+			}
+
+			// Vertical lines
+			for (int y = m_y + 1; y < m_y + m_height - 1; ++y)
+			{
+				CWrite(m_x, y, char(179), CMakeColor(txt_fore, txt_back));
+				CWrite(m_x + m_width - 1, y, char(179), CMakeColor(txt_fore, txt_back));
+			}
+
+			// Corners
+			CWrite(m_x, m_y, char(218), CMakeColor(txt_fore, txt_back));
+			CWrite(m_x + m_width - 1, m_y, char(191), CMakeColor(txt_fore, txt_back));
+			CWrite(m_x + m_width - 1, m_y + m_height - 1, char(217), CMakeColor(txt_fore, txt_back));
+			CWrite(m_x, m_y + m_height - 1, char(192), CMakeColor(txt_fore, txt_back));
+		}
+	}
+	else
+	{
+		if (m_selected)
+			SetColors(Color::bright_white, m_color, Color::bright_white, m_color, false);
+		else
+			SetColors(Color::white, m_color, Color::bright_white, m_color, false);
+
 		Button::Draw();
+
+		COLOR txt_back = (m_hover ? m_backgroundHover : m_background);
+		COLOR txt_fore = (m_hover ? m_foregroundHover : m_foreground);
 
 		string rank;
 		switch (m_rank)
@@ -70,27 +160,23 @@ void CardBtn::Draw()
 			break;
 		}
 
-		COLOR back = (m_hover ? m_backgroundHover : m_background);
-
 		// Small card
-		if (m_height == 2)
+		if (m_height != SIZE)
 		{
 			// Horizontal line
 			for (int x = m_x + 1; x < m_x + m_width - 1; ++x)
-				CWrite(x, m_y, char(196), CMakeColor(m_color, back));
+				CWrite(x, m_y, char(196), CMakeColor(txt_fore, txt_back));
 
 			// Vertical lines
-			CWrite(m_x, m_y + 1, char(179), CMakeColor(m_color, back));
-			CWrite(m_x + m_width - 1, m_y + 1, char(179), CMakeColor(m_color, back));
+			CWrite(m_x, m_y + 1, char(179), CMakeColor(txt_fore, txt_back));
+			CWrite(m_x + m_width - 1, m_y + 1, char(179), CMakeColor(txt_fore, txt_back));
 
 			// Corners
-			CWrite(m_x, m_y, char(218), CMakeColor(m_color, back));
-			CWrite(m_x + m_width - 1, m_y, char(191), CMakeColor(m_color, back));
+			CWrite(m_x, m_y, char(218), CMakeColor(txt_fore, txt_back));
+			CWrite(m_x + m_width - 1, m_y, char(191), CMakeColor(txt_fore, txt_back));
 
-			// Ranks and Suit
-			CWrite(m_x + 1, m_y + 1, rank.c_str(), CMakeColor(m_color, back));
-			//CWrite(m_x + m_width - 1 - (m_rank == 10), m_y, rank.c_str(), CMakeColor(m_color, back));
-			//CWrite(m_x + m_width / 2, m_y, m_suit.c_str(), CMakeColor(m_color, back));
+			// Rank
+			CWrite(m_x + 1, m_y + 1, rank.c_str(), CMakeColor(txt_fore, txt_back));
 		}
 
 		// Large card
@@ -99,26 +185,26 @@ void CardBtn::Draw()
 			// Horizontal lines
 			for (int x = m_x + 1; x < m_x + m_width - 1; ++x)
 			{
-				CWrite(x, m_y, char(196), CMakeColor(m_color, back));
-				CWrite(x, m_y + m_height - 1, char(196), CMakeColor(m_color, back));
+				CWrite(x, m_y, char(196), CMakeColor(txt_fore, txt_back));
+				CWrite(x, m_y + m_height - 1, char(196), CMakeColor(txt_fore, txt_back));
 			}
 
 			// Vertical lines
 			for (int y = m_y + 1; y < m_y + m_height - 1; ++y)
 			{
-				CWrite(m_x, y, char(179), CMakeColor(m_color, back));
-				CWrite(m_x + m_width - 1, y, char(179), CMakeColor(m_color, back));
+				CWrite(m_x, y, char(179), CMakeColor(txt_fore, txt_back));
+				CWrite(m_x + m_width - 1, y, char(179), CMakeColor(txt_fore, txt_back));
 			}
 
 			// Corners
-			CWrite(m_x, m_y, char(218), CMakeColor(m_color, back));
-			CWrite(m_x + m_width - 1, m_y, char(191), CMakeColor(m_color, back));
-			CWrite(m_x + m_width - 1, m_y + m_height - 1, char(217), CMakeColor(m_color, back));
-			CWrite(m_x, m_y + m_height - 1, char(192), CMakeColor(m_color, back));
+			CWrite(m_x, m_y, char(218), CMakeColor(txt_fore, txt_back));
+			CWrite(m_x + m_width - 1, m_y, char(191), CMakeColor(txt_fore, txt_back));
+			CWrite(m_x + m_width - 1, m_y + m_height - 1, char(217), CMakeColor(txt_fore, txt_back));
+			CWrite(m_x, m_y + m_height - 1, char(192), CMakeColor(txt_fore, txt_back));
 
 			// Rank
-			CWrite(m_x + 1, m_y + 1, rank.c_str(), CMakeColor(m_color, back));
-			CWrite(m_x + m_width - 2 - (m_rank == 10), m_y + m_height - 2, rank.c_str(), CMakeColor(m_color, back));
+			CWrite(m_x + 1, m_y + 1, rank.c_str(), CMakeColor(txt_fore, txt_back));
+			CWrite(m_x + m_width - 2 - (m_rank == 10), m_y + m_height - 2, rank.c_str(), CMakeColor(txt_fore, txt_back));
 		}
 	}
 }
@@ -131,4 +217,16 @@ void CardBtn::Large(COLOR background)
 void CardBtn::Small(COLOR background)
 {
 	Resize(SIZE, 2, background);
+}
+
+void CardBtn::SetSelected(bool selected)
+{
+	m_selected = selected;
+
+	Draw();
+}
+
+bool CardBtn::IsEmpty() const
+{
+	return (m_rank == NONE);
 }

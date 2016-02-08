@@ -64,11 +64,11 @@ public:
 	void SetText(const string & text, bool resize = true);
 
 	void SetColors(COLOR background = Color::white, COLOR foreground = Color::black,
-		COLOR background_hover = Color::bright_white, COLOR foreground_hover = Color::grey);
+		COLOR background_hover = Color::bright_white, COLOR foreground_hover = Color::grey, bool draw = true);
 
 	int X() const;
 	int Y() const;
-	void SetPos(int x, int y, COLOR background = Color::black);
+	void SetPos(int x, int y, COLOR background = Color::black, bool clear = true);
 
 	void Resize(int width, int height, COLOR background = Color::black);
 

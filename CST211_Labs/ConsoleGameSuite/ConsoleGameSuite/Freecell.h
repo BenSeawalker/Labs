@@ -15,6 +15,9 @@
 class Freecell : public View
 {
 public:
+	static const int OFF_X = CardBtn::SIZE;
+	static const int OFF_Y = 3;
+
 	Freecell();
 	Freecell(FCBoard * model);
 	virtual ~Freecell();
@@ -31,8 +34,12 @@ private:
 	void DrawHomeArea();
 	void DrawPlayArea();
 
+	void DeselectAll();
+
 	bool m_running;
 	Array<CardBtn> m_cards;
+
+	CardBtn * m_selected;
 };
 
 #endif // FREECELL_H
