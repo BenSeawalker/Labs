@@ -51,9 +51,6 @@ using std::ofstream;
 #include <sstream>
 using std::stringstream;
 
-#include <cstring>
-using std::stoi;
-
 #include "BubbleSort.h"
 #include "FlaggedBubbleSort.h"
 #include "SelectionSort.h"
@@ -87,7 +84,7 @@ int main(int argc, char * argv[])
 
 	int n = 0;
 	if (argc > 1)
-		n = stoi(argv[1]);
+		n = atoi(argv[1]);
 	else
 		cout << "Please enter the number of elements to sort" << endl;
 

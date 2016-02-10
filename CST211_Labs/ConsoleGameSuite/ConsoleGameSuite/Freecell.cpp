@@ -7,6 +7,8 @@
 #include "Console.h"
 #include "Button.h"
 
+#include "Keyboard.h"
+#include "Mouse.h"
 
 #include <string>
 using std::string;
@@ -14,59 +16,90 @@ using std::to_string;
 
 
 Freecell::Freecell()
-	: m_cards(68), m_selected(nullptr)
-{}
-
-Freecell::Freecell(FCBoard * model)
-	: View(model)
+	: m_cards(TOTAL_CARDS), m_selected(nullptr), m_running(true), m_paused(false)
 {
-	ModelUpdated();
+	SetModel(&m_board);
 }
 
+Freecell::Freecell(FCBoard::SCENARIO scenario)
+	: m_cards(TOTAL_CARDS), m_selected(nullptr), m_running(true), m_paused(false), m_board(scenario)
+{
+	SetModel(&m_board);
+}
+
+Freecell::Freecell(const Freecell & copy)
+	: m_running(copy.m_running), m_board(copy.m_board), m_cards(copy.m_cards), m_moved(copy.m_moved), m_selected(nullptr)
+{
+	SetModel(&m_board);
+}
 
 Freecell::~Freecell()
 {}
+
+Freecell & Freecell::operator=(const Freecell & rhs)
+{
+	if (this != &rhs)
+	{
+		m_board = rhs.m_board;
+		m_cards = rhs.m_cards;
+		m_moved = rhs.m_moved;
+		m_paused = rhs.m_paused;
+		m_running = rhs.m_running;
+		m_selected = nullptr;
+
+		SetModel(&m_board);
+	}
+
+	return *this;
+}
 
 bool Freecell::Update()
 {
 	bool clicked = false;
 
-	for (int i = 0; i < m_cards.Length(); ++i)
+	m_running = !Keyboard::KeyPressed(VK_ESCAPE);
+
+	if (m_running && !m_paused)
 	{
-		CardBtn & cb = m_cards[i];
-		cb.Update();
-		
-		if (cb.Clicked(Mouse::LEFT))
+		for (int i = 0; i < m_cards.Length(); ++i)
 		{
-			if (m_selected == nullptr)
+			CardBtn & cb = m_cards[i];
+			cb.Update();
+
+			if (cb.Clicked(Mouse::LEFT))
 			{
-				clicked = true;
-				if (!cb.IsEmpty() && cb.Depth() > 0)
+				if (m_selected == nullptr)
 				{
-					m_selected = &cb;
-					cb.SetSelected(true);
-					if (cb.Depth() > 1)
+					clicked = true;
+					m_moved = false;
+					if (!cb.IsEmpty() && cb.Depth() > 0)
 					{
-						for (int i = 0; i < m_cards.Length(); ++i)
+						m_selected = &cb;
+						cb.SetSelected(true);
+						if (cb.Depth() > 1)
 						{
-							if (m_cards[i].Area() == cb.Area() && m_cards[i].Row() == cb.Row() && m_cards[i].Depth() < cb.Depth())
-								m_cards[i].SetSelected(true);
+							for (int i = 0; i < m_cards.Length(); ++i)
+							{
+								if (m_cards[i].Area() == cb.Area() && m_cards[i].Row() == cb.Row() && m_cards[i].Depth() < cb.Depth())
+									m_cards[i].SetSelected(true);
+							}
 						}
 					}
 				}
-			}
-			else
-			{
-				FCBoard * board = (FCBoard *)GetModel();
-				board->MoveCards(m_selected->Area(), cb.Area(), m_selected->Row(), cb.Row(), m_selected->Depth());
+				else if (!m_moved)
+				{
+					m_moved = true;
+					m_board.MoveCards(m_selected->Area(), cb.Area(), m_selected->Row(), cb.Row(), m_selected->Depth());
+					CheckVictory();
+				}
 			}
 		}
-	}
 
-	if (!clicked && Mouse::BtnPressed(Mouse::LEFT))
-	{
-		m_selected = nullptr;
-		DeselectAll();
+		if (!clicked && Mouse::BtnPressed(Mouse::LEFT))
+		{
+			m_selected = nullptr;
+			DeselectAll();
+		}
 	}
 
 	return m_running;
@@ -81,22 +114,22 @@ void Freecell::Draw()
 {
 	CClear( Color::green);
 
-	if (GetModel())
-	{
-		// Free area
-		DrawFreeArea();
+	// Free area
+	DrawFreeArea();
 
-		// Home area
-		DrawHomeArea();
+	// Home area
+	DrawHomeArea();
 
-		// Play area
-		DrawPlayArea();
-	}
+	// Play area
+	DrawPlayArea();
+
+	// Scoreboard
+	CWrite(CWidth() / 2, CHeight() - 2, to_string(m_board.Moves()).c_str(), CMakeColor(Color::bright_white, Color::green));
 }
 
 void Freecell::DrawFreeArea()
 {
-	FreeArea * free = dynamic_cast<FreeArea *>(((FCBoard *)GetModel())->GetArea(FCBoard::FREE));
+	FreeArea * free = dynamic_cast<FreeArea *>(m_board.GetArea(FCBoard::FREE));
 	if (free)
 	{
 		int width = CardBtn::SIZE + 1;
@@ -122,7 +155,7 @@ void Freecell::DrawFreeArea()
 
 void Freecell::DrawHomeArea()
 {
-	HomeArea * home = dynamic_cast<HomeArea *>(((FCBoard *)GetModel())->GetArea(FCBoard::HOME));
+	HomeArea * home = dynamic_cast<HomeArea *>(m_board.GetArea(FCBoard::HOME));
 
 	if (home)
 	{
@@ -153,7 +186,7 @@ void Freecell::DrawHomeArea()
 
 void Freecell::DrawPlayArea()
 {
-	PlayArea * play = dynamic_cast<PlayArea *>(((FCBoard *)GetModel())->GetArea(FCBoard::PLAY));
+	PlayArea * play = dynamic_cast<PlayArea *>(m_board.GetArea(FCBoard::PLAY));
 	
 	if (play)
 	{
@@ -216,4 +249,36 @@ void Freecell::DeselectAll()
 	{
 		m_cards[i].SetSelected(false);
 	}
+}
+
+void Freecell::CheckVictory()
+{
+	HomeArea * home = dynamic_cast<HomeArea *>(m_board.GetArea(FCBoard::HOME));
+	
+	if (home)
+	{
+		bool victory = true;
+		
+		for (int i = 0; i < HOME_CELLS && victory; ++i)
+		{
+			LStack<Card> temp;
+			while (home->SeeCard(i).Rank() != NONE)
+				temp.Push(home->TakeCard(i));
+
+			if (temp.Size() < 13)
+				victory = false;
+
+			while (!temp.isEmpty())
+				home->AddCard(temp.Pop(), i);
+		}
+
+		if (victory)
+			WinGame();
+	}
+}
+
+void Freecell::WinGame()
+{
+	//m_paused = true;
+	m_running = false;
 }

@@ -187,6 +187,16 @@ int Button::Y() const
 	return m_y;
 }
 
+int Button::Width() const
+{
+	return m_width;
+}
+
+int Button::Height() const
+{
+	return m_height;
+}
+
 /************************************************************************
 * Purpose: To move this button to another location on the screen
 *

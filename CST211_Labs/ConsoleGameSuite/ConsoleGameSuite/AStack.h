@@ -65,6 +65,7 @@ public:
 	void Push(T item);
 	T Pop();
 	T & Peek();
+	const T & Peek() const;
 
 	void Resize(int size);
 
@@ -268,6 +269,15 @@ T AStack<T>::Pop()
 *************************************************************************/
 template<typename T>
 T & AStack<T>::Peek()
+{
+	if (isEmpty())
+		throw Exception("Stack Underflow!");
+
+	return m_array[m_size - 1];
+}
+
+template<typename T>
+const T & AStack<T>::Peek() const
 {
 	if (isEmpty())
 		throw Exception("Stack Underflow!");

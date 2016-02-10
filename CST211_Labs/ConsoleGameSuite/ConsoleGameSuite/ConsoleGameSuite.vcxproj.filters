@@ -43,12 +43,6 @@
     <Filter Include="Source Files\Games">
       <UniqueIdentifier>{09b454ac-da56-4183-a2ba-5d8fcc50e588}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Utilities\UNDO">
-      <UniqueIdentifier>{52d67714-ab56-4941-bf95-b1c205d32905}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utilities\UNDO">
-      <UniqueIdentifier>{882c0d89-86ab-4204-8128-64e84e0d742e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Data Structures\Stack">
       <UniqueIdentifier>{b20aa2d1-284c-455a-a8f8-062cf984f3a9}</UniqueIdentifier>
     </Filter>
@@ -60,9 +54,6 @@
     </Filter>
     <Filter Include="Header Files\Data Structures\LinkedList">
       <UniqueIdentifier>{ab9447e1-e9ce-43cb-b8e8-265c9ddf9af2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Utilities\UNDO\Actions">
-      <UniqueIdentifier>{a56e815b-32ca-4c0c-a15d-b5b49e957065}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Games\Objects">
       <UniqueIdentifier>{652f13bc-ed76-4a61-9da7-af1c58194e58}</UniqueIdentifier>
@@ -103,6 +94,15 @@
     <Filter Include="Source Files\Model/View Controllers">
       <UniqueIdentifier>{fc59a5f3-7521-4ec8-879c-e794b1c80e6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UNDO">
+      <UniqueIdentifier>{52d67714-ab56-4941-bf95-b1c205d32905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UNDO">
+      <UniqueIdentifier>{882c0d89-86ab-4204-8128-64e84e0d742e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UNDO\Actions">
+      <UniqueIdentifier>{a56e815b-32ca-4c0c-a15d-b5b49e957065}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -130,7 +130,7 @@
       <Filter>Source Files\Games</Filter>
     </ClCompile>
     <ClCompile Include="HistoryManager.cpp">
-      <Filter>Source Files\Utilities\UNDO</Filter>
+      <Filter>Source Files\UNDO</Filter>
     </ClCompile>
     <ClCompile Include="MSBoard.cpp">
       <Filter>Source Files\Games\Objects\Minesweeper</Filter>
@@ -167,6 +167,15 @@
     </ClCompile>
     <ClCompile Include="CardBtn.cpp">
       <Filter>Source Files\Games\Objects\Freecell\Cards</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCardAction.cpp">
+      <Filter>Source Files\UNDO</Filter>
+    </ClCompile>
+    <ClCompile Include="FreecellMenu.cpp">
+      <Filter>Source Files\Games\Objects\Freecell</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\Utilities\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,13 +225,10 @@
       <Filter>Header Files\Data Structures\Stack</Filter>
     </ClInclude>
     <ClInclude Include="HistoryManager.h">
-      <Filter>Header Files\Utilities\UNDO</Filter>
+      <Filter>Header Files\UNDO</Filter>
     </ClInclude>
     <ClInclude Include="HistoryAction.h">
-      <Filter>Header Files\Utilities\UNDO</Filter>
-    </ClInclude>
-    <ClInclude Include="MSAction.h">
-      <Filter>Header Files\Utilities\UNDO\Actions</Filter>
+      <Filter>Header Files\UNDO</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Header Files\Model/View Controllers</Filter>
@@ -268,6 +274,15 @@
     </ClInclude>
     <ClInclude Include="CardBtn.h">
       <Filter>Header Files\Games\Objects\Freecell\Cards</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCardAction.h">
+      <Filter>Header Files\UNDO\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="FreecellMenu.h">
+      <Filter>Header Files\Games\Objects\Freecell</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files\Utilities\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

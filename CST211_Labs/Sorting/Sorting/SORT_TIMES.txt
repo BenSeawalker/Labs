@@ -1,124 +1,124 @@
 
 ----------TEST SORTING ALGORITHMS----------
 
-Elements: 5000
+Elements: 1000
 
 -------------------------------------------
 
 
 ----------QUICK SORT----------
 
-Before: 3722 3299 7818 992 1435 583 828 5426 5122 7501 554 668 2760 8186 4913 2054 2201 507 7054 9838 ...
+Before: 857 1189 1816 1096 1901 782 479 1011 1469 1836 184 1480 1660 1096 1966 1224 1704 1700 442 967 ...
 
-C array		Time: 0.301067 milliseconds
-Array<T>	Time: 0.403704 milliseconds
-vector<T>	Time: 0.283534 milliseconds
+C array		Time: 0.063293 milliseconds
+Array<T>	Time: 0.074412 milliseconds
+vector<T>	Time: 0.056022 milliseconds
 
-Average		Time: 0.329435 milliseconds
+Average		Time: 0.0645757 milliseconds
 
-After: 0 1 1 1 1 4 9 11 13 13 14 15 15 16 17 18 19 19 22 25 ...
+After: 7 7 11 13 16 19 19 21 24 28 28 32 32 33 34 35 38 39 41 49 ...
 
 
 ----------MERGE SORT----------
 
-Before: 3722 3299 7818 992 1435 583 828 5426 5122 7501 554 668 2760 8186 4913 2054 2201 507 7054 9838 ...
+Before: 857 1189 1816 1096 1901 782 479 1011 1469 1836 184 1480 1660 1096 1966 1224 1704 1700 442 967 ...
 
-C array		Time: 0.471273 milliseconds
-Array<T>	Time: 0.580325 milliseconds
-vector<T>	Time: 0.487952 milliseconds
+C array		Time: 0.08553 milliseconds
+Array<T>	Time: 0.109479 milliseconds
+vector<T>	Time: 0.075694 milliseconds
 
-Average		Time: 0.513183 milliseconds
+Average		Time: 0.0902343 milliseconds
 
-After: 0 1 1 1 1 4 9 11 13 13 14 15 15 16 17 18 19 19 22 25 ...
+After: 7 7 11 13 16 19 19 21 24 28 28 32 32 33 34 35 38 39 41 49 ...
 
 
 ----------HEAP SORT----------
 
-Before: 3722 3299 7818 992 1435 583 828 5426 5122 7501 554 668 2760 8186 4913 2054 2201 507 7054 9838 ...
+Before: 857 1189 1816 1096 1901 782 479 1011 1469 1836 184 1480 1660 1096 1966 1224 1704 1700 442 967 ...
 
-C array		Time: 0.437489 milliseconds
-Array<T>	Time: 0.597432 milliseconds
-vector<T>	Time: 0.494367 milliseconds
+C array		Time: 0.092801 milliseconds
+Array<T>	Time: 0.094939 milliseconds
+vector<T>	Time: 0.071846 milliseconds
 
-Average		Time: 0.509763 milliseconds
+Average		Time: 0.0865287 milliseconds
 
-After: 0 1 1 1 1 4 9 11 13 13 14 15 15 16 17 18 19 19 22 25 ...
+After: 7 7 11 13 16 19 19 21 24 28 28 32 32 33 34 35 38 39 41 49 ...
 
 
 ----------SHELL SORT----------
 
-Before: 3722 3299 7818 992 1435 583 828 5426 5122 7501 554 668 2760 8186 4913 2054 2201 507 7054 9838 ...
+Before: 857 1189 1816 1096 1901 782 479 1011 1469 1836 184 1480 1660 1096 1966 1224 1704 1700 442 967 ...
 
-C array		Time: 0.472984 milliseconds
-Array<T>	Time: 0.591443 milliseconds
-vector<T>	Time: 0.472984 milliseconds
+C array		Time: 0.070563 milliseconds
+Array<T>	Time: 0.084675 milliseconds
+vector<T>	Time: 0.069707 milliseconds
 
-Average		Time: 0.51247 milliseconds
+Average		Time: 0.0749817 milliseconds
 
-After: 0 1 1 1 1 4 9 11 13 13 14 15 15 16 17 18 19 19 22 25 ...
+After: 7 7 11 13 16 19 19 21 24 28 28 32 32 33 34 35 38 39 41 49 ...
 
 
 ----------INSERTION SORT----------
 
-Before: 3722 3299 7818 992 1435 583 828 5426 5122 7501 554 668 2760 8186 4913 2054 2201 507 7054 9838 ...
+Before: 857 1189 1816 1096 1901 782 479 1011 1469 1836 184 1480 1660 1096 1966 1224 1704 1700 442 967 ...
 
-C array		Time: 3.61923 milliseconds
-Array<T>	Time: 11.9533 milliseconds
-vector<T>	Time: 3.59998 milliseconds
+C array		Time: 0.146257 milliseconds
+Array<T>	Time: 0.493512 milliseconds
+vector<T>	Time: 0.141553 milliseconds
 
-Average		Time: 6.39084 milliseconds
+Average		Time: 0.260441 milliseconds
 
-After: 0 1 1 1 1 4 9 11 13 13 14 15 15 16 17 18 19 19 22 25 ...
+After: 7 7 11 13 16 19 19 21 24 28 28 32 32 33 34 35 38 39 41 49 ...
 
 
 ----------MY SELECTION SORT----------
 
-Before: 3722 3299 7818 992 1435 583 828 5426 5122 7501 554 668 2760 8186 4913 2054 2201 507 7054 9838 ...
+Before: 857 1189 1816 1096 1901 782 479 1011 1469 1836 184 1480 1660 1096 1966 1224 1704 1700 442 967 ...
 
-C array		Time: 8.89604 milliseconds
-Array<T>	Time: 8.92512 milliseconds
-vector<T>	Time: 8.80922 milliseconds
+C array		Time: 0.577759 milliseconds
+Array<T>	Time: 0.407981 milliseconds
+vector<T>	Time: 0.385743 milliseconds
 
-Average		Time: 8.87679 milliseconds
+Average		Time: 0.457161 milliseconds
 
-After: 0 1 1 1 1 4 9 11 13 13 14 15 15 16 17 18 19 19 22 25 ...
+After: 7 7 11 13 16 19 19 21 24 28 28 32 32 33 34 35 38 39 41 49 ...
 
 
 ----------SELECTION SORT----------
 
-Before: 3722 3299 7818 992 1435 583 828 5426 5122 7501 554 668 2760 8186 4913 2054 2201 507 7054 9838 ...
+Before: 857 1189 1816 1096 1901 782 479 1011 1469 1836 184 1480 1660 1096 1966 1224 1704 1700 442 967 ...
 
-C array		Time: 9.41307 milliseconds
-Array<T>	Time: 40.3473 milliseconds
-vector<T>	Time: 8.45641 milliseconds
+C array		Time: 0.399856 milliseconds
+Array<T>	Time: 2.12843 milliseconds
+vector<T>	Time: 0.387026 milliseconds
 
-Average		Time: 19.4056 milliseconds
+Average		Time: 0.97177 milliseconds
 
-After: 0 1 1 1 1 4 9 11 13 13 14 15 15 16 17 18 19 19 22 25 ...
+After: 7 7 11 13 16 19 19 21 24 28 28 32 32 33 34 35 38 39 41 49 ...
 
 
 ----------BRUTE BUBBLE SORT----------
 
-Before: 3722 3299 7818 992 1435 583 828 5426 5122 7501 554 668 2760 8186 4913 2054 2201 507 7054 9838 ...
+Before: 857 1189 1816 1096 1901 782 479 1011 1469 1836 184 1480 1660 1096 1966 1224 1704 1700 442 967 ...
 
-C array		Time: 27.221 milliseconds
-Array<T>	Time: 47.9283 milliseconds
-vector<T>	Time: 26.754 milliseconds
+C array		Time: 0.830075 milliseconds
+Array<T>	Time: 1.51859 milliseconds
+vector<T>	Time: 0.831785 milliseconds
 
-Average		Time: 33.9678 milliseconds
+Average		Time: 1.06015 milliseconds
 
-After: 0 1 1 1 1 4 9 11 13 13 14 15 15 16 17 18 19 19 22 25 ...
+After: 7 7 11 13 16 19 19 21 24 28 28 32 32 33 34 35 38 39 41 49 ...
 
 
 ----------FLAGGED BUBBLE SORT----------
 
-Before: 3722 3299 7818 992 1435 583 828 5426 5122 7501 554 668 2760 8186 4913 2054 2201 507 7054 9838 ...
+Before: 857 1189 1816 1096 1901 782 479 1011 1469 1836 184 1480 1660 1096 1966 1224 1704 1700 442 967 ...
 
-C array		Time: 31.1819 milliseconds
-Array<T>	Time: 49.4529 milliseconds
-vector<T>	Time: 32.384 milliseconds
+C array		Time: 0.93656 milliseconds
+Array<T>	Time: 1.57804 milliseconds
+vector<T>	Time: 0.906197 milliseconds
 
-Average		Time: 37.6729 milliseconds
+Average		Time: 1.14027 milliseconds
 
-After: 0 1 1 1 1 4 9 11 13 13 14 15 15 16 17 18 19 19 22 25 ...
+After: 7 7 11 13 16 19 19 21 24 28 28 32 32 33 34 35 38 39 41 49 ...
 

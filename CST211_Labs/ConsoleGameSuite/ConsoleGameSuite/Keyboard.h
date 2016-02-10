@@ -58,6 +58,8 @@ public:
 	// METHODS
 	static void UpdateKeyboardState();
 
+	static void ClearState();
+
 	static bool KeyUp(int key);
 
 	static bool KeyDown(int key);

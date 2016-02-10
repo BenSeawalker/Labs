@@ -39,7 +39,7 @@ Card FreeArea::TakeCard(int src)
 	return card;
 }
 
-const Card & FreeArea::SeeCard(int src)
+const Card & FreeArea::SeeCard(int src) const
 {
 	return m_cards[src];
 }

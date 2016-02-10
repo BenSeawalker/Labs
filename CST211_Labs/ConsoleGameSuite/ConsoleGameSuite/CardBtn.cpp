@@ -127,7 +127,7 @@ void CardBtn::Draw()
 	else
 	{
 		if (m_selected)
-			SetColors(Color::bright_white, m_color, Color::bright_white, m_color, false);
+			SetColors(Color::turquoise, m_color, Color::turquoise, m_color, false);
 		else
 			SetColors(Color::white, m_color, Color::bright_white, m_color, false);
 

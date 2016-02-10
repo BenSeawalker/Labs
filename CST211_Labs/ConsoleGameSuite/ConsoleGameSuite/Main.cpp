@@ -30,49 +30,26 @@ using std::endl;
 #include "HistoryManager.h"
 
 #include "Freecell.h"
-#include "FCBoard.h"
+#include "FreecellMenu.h"
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	FCBoard board;
-	Freecell game;
-	game.SetModel(&board);
-	
+	FreecellMenu menu;
+
 	bool running(true);
 	while (running)
 	{
 		Mouse::UpdateMouseState();
+		Keyboard::UpdateKeyboardState();
+		HistoryManager::Update();
 
-		running = game.Update();
+		running = menu.Update();
+
 		CUpdate();
 	}
 
-	cout << endl << endl << endl << endl;
-	cout << endl << endl << endl << endl;
-	cout << endl << endl << endl << endl;
-	cout << endl << endl << endl << endl;
-
-	//CardBtn c(Card(HEARTS, KING));
-	//c.SetPos(10, 18, Color::green);
-	//CardBtn c1(Card(CLUBS, QUEEN));
-	//c1.SetPos(10, 20, Color::green);
-	//CardBtn c2(Card(DIAMONDS, JACK));
-	//c2.SetPos(10, 22, Color::green);
-	//c2.Large();
-	//while (true)
-	//{
-	//	Mouse::UpdateMouseState();
-	//	c.Update();
-	//	c1.Update();
-	//	c2.Update();
-	//	
-	//	CUpdate();
-	//}
-	//
-	//
-	//system("pause");
 	/*MineSweeper minesweeper;
 
 	bool running = true;

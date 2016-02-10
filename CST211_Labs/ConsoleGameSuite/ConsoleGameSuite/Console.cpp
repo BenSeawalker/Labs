@@ -9,11 +9,6 @@
 
 #include <cstring>
 
-#include <chrono>
-using std::chrono::high_resolution_clock;
-using std::chrono::duration;
-using std::chrono::duration_cast;
-
 ///////////////////////////////////////////////////////////////
 //	INITIALIZE SINGLETON
 //////
@@ -234,6 +229,23 @@ bool Console::InBounds(int x, int y)
 
 
 /************************************************************************
+* Purpose: To get the number of milliseconds since the last Update()
+*
+* Precondition:
+*		Update() should be called at least once for accurate results
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The number of milliseconds since the last Update()
+*************************************************************************/
+float Console::DeltaTime()
+{
+	duration<float, std::milli> diff = (high_resolution_clock::now() - m_instance.m_lastUpdate);
+	return diff.count();
+}
+
+/************************************************************************
 * Purpose: To perform a busy wait for the specified number of milliseconds
 *
 * Precondition:
@@ -248,8 +260,10 @@ void Console::Wait(double ms)
 	if (ms > 0)
 	{
 		high_resolution_clock::time_point start = high_resolution_clock::now();
+		duration<float, std::milli> diff(0);
 
-		while ((high_resolution_clock::now() - start).count() < ms);
+		while (diff.count() < ms)
+			diff = (high_resolution_clock::now() - start);
 	}
 }
 
@@ -266,10 +280,12 @@ void Console::Wait(double ms)
 *************************************************************************/
 void Console::Update()
 {
+	m_instance.m_lastUpdate = high_resolution_clock::now();
+
 	if (m_instance.m_update)
 	{
-		Draw();
 		m_instance.m_update = false;
+		Draw();
 	}
 }
 

@@ -39,6 +39,33 @@ void HistoryManager::AddAction(HistoryAction * undo)
 	m_instance.m_undos.Push(undo);
 }
 
+void HistoryManager::RemoveActions(void * me)
+{
+	LStack<HistoryAction *> temp;
+
+	while (!m_instance.m_undos.isEmpty())
+		temp.Push(m_instance.m_undos.Pop());
+
+	while (!temp.isEmpty())
+	{
+		if (temp.Peek()->Contains(me))
+			delete temp.Pop();
+		else
+			m_instance.m_undos.Push(temp.Pop());
+	}
+
+	while (!m_instance.m_redos.isEmpty())
+		temp.Push(m_instance.m_redos.Pop());
+
+	while (!temp.isEmpty())
+	{
+		if (temp.Peek()->Contains(me))
+			delete temp.Pop();
+		else
+			m_instance.m_redos.Push(temp.Pop());
+	}
+}
+
 void HistoryManager::Undo()
 {
 	if (!m_instance.m_undos.isEmpty())
@@ -75,6 +102,15 @@ void HistoryManager::Update()
 		else if (Keyboard::KeyPressed('Y'))
 			Redo();
 	}
+}
+
+void HistoryManager::ClearCache()
+{
+	while (!m_instance.m_undos.isEmpty())
+		delete m_instance.m_undos.Pop();
+
+	while (!m_instance.m_redos.isEmpty())
+		delete m_instance.m_redos.Pop();
 }
 
 bool HistoryManager::DidUndo()

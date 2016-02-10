@@ -50,6 +50,12 @@ void Keyboard::UpdateKeyboardState()
 		UpdateString();
 }
 
+void Keyboard::ClearState()
+{
+	m_previous_state = Array<int>(NUM_KEYS);
+	m_current_state = Array<int>(NUM_KEYS);
+}
+
 
 /************************************************************************
 * Purpose: To check if the given key is not pressed

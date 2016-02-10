@@ -148,8 +148,11 @@
     <ClCompile Include="FCBoard.cpp" />
     <ClCompile Include="FreeArea.cpp" />
     <ClCompile Include="Freecell.cpp" />
+    <ClCompile Include="FreecellMenu.cpp" />
     <ClCompile Include="HomeArea.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MoveCardAction.cpp" />
     <ClCompile Include="MSBoard.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ButtonGroup.cpp" />
@@ -175,12 +178,14 @@
     <ClInclude Include="FCBoard.h" />
     <ClInclude Include="FreeArea.h" />
     <ClInclude Include="Freecell.h" />
+    <ClInclude Include="FreecellMenu.h" />
     <ClInclude Include="HomeArea.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="ListIterator.h" />
     <ClInclude Include="ListNode.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="MSAction.h" />
+    <ClInclude Include="MoveCardAction.h" />
     <ClInclude Include="MSBoard.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonGroup.h" />

@@ -8,6 +8,8 @@ class HistoryAction
 private:
 	virtual void Undo() = 0;
 	virtual void Redo() = 0;
+
+	virtual bool Contains(void * item) = 0;
 };
 
 #endif // UNDO_H

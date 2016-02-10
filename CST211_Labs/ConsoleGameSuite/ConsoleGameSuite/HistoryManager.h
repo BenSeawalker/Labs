@@ -13,11 +13,13 @@ public:
 
 	// METHODS
 	static void AddAction(HistoryAction * undo);
+	static void RemoveActions(void * me);
 
 	static void Undo();
 	static void Redo();
 
 	static void Update();
+	static void ClearCache();
 
 	static bool DidUndo();
 	static bool DidRedo();

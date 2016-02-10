@@ -58,6 +58,7 @@ public:
 
 	void Push(T item);
 	T Pop();
+	const T & Peek() const;
 	T & Peek();
 
 private:
@@ -210,6 +211,15 @@ T LStack<T>::Pop()
 *		Throws:	Exception("Stack Underflow!")
 *		Returns:	The item on top of the stack by value
 *************************************************************************/
+template<typename T>
+const T & LStack<T>::Peek() const
+{
+	if (isEmpty())
+		throw Exception("Stack Underflow!");
+
+	return m_list.First();
+}
+
 template<typename T>
 T & LStack<T>::Peek()
 {

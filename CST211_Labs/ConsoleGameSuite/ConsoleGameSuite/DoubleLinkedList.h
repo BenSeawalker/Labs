@@ -66,7 +66,9 @@ public:
 	bool Size() const;
     bool isEmpty() const;
     T & First();
+	const T & First() const;
 	T & Last();
+	const T & Last() const;
     
     void Prepend(const T & item);
     void Append(const T & item);
@@ -184,6 +186,15 @@ T & DoubleLinkedList<T>::First()
     return m_head->Data();
 }
 
+template<typename T>
+const T & DoubleLinkedList<T>::First() const
+{
+	if (m_head == nullptr)
+		throw Exception("Cannot access first element: LIST_IS_EMPTY");
+
+	return m_head->Data();
+}
+
 /************************************************************************
 * Purpose: To access the last data value in the list
 *
@@ -204,6 +215,14 @@ T & DoubleLinkedList<T>::Last()
     return m_tail->Data();
 }
 
+template<typename T>
+const T & DoubleLinkedList<T>::Last() const
+{
+	if (m_head == nullptr)
+		throw Exception("Cannot access last element: LIST_IS_EMPTY");
+
+	return m_tail->Data();
+}
 
 /************************************************************************
 * Purpose: To insert an item into the beginning of the list

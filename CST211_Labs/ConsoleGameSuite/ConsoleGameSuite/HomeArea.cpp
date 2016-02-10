@@ -5,7 +5,7 @@ HomeArea::HomeArea()
 {
 	for (int i = 0; i < m_cards.Length(); ++i)
 	{
-		m_cards[i].Resize(52);
+		m_cards[i].Resize(53);
 		m_cards[i].Push(Card());
 	}
 }
@@ -67,7 +67,7 @@ Card HomeArea::TakeCard(int src)
 	return card;
 }
 
-const Card & HomeArea::SeeCard(int src)
+const Card & HomeArea::SeeCard(int src) const
 {
 	return m_cards[src].Peek();
 }

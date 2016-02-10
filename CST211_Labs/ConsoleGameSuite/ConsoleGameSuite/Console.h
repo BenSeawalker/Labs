@@ -9,7 +9,12 @@
 #define CONSOLE_H
 
 #include <Windows.h>
-#include "Exception.h"
+#include <chrono>
+using std::chrono::high_resolution_clock;
+using std::chrono::duration;
+using std::chrono::duration_cast;
+
+typedef high_resolution_clock::time_point time_point_t;
 
 // TO AVOID NARROWING CONVERSION ERRORS IN VS 2015+
 struct Coord
@@ -47,7 +52,7 @@ struct Color
 		bright_white = 15;
 };
 
-// MACROS FOR CLARITY
+// MACROS FOR COMMON STATIC FUNCTIONS
 #define CMakeColor				Console::MakeColor
 #define CMakeBackground			Console::MakeBackground
 #define CWrite					Console::Write
@@ -55,6 +60,7 @@ struct Color
 #define CClearLine				Console::ClearLine
 #define CClearRect				Console::ClearRect
 #define CInBounds				Console::InBounds
+#define CDeltaTime				Console::DeltaTime
 #define CWait					Console::Wait
 #define CUpdate					Console::Update
 #define CSetCursorVisibility	Console::SetCursorVisibility
@@ -131,6 +137,7 @@ public:
 
 	static bool InBounds(int x, int y);
 
+	static float DeltaTime();
 	static void Wait(double ms);
 
 	static void Update();
@@ -181,6 +188,7 @@ private:
 	int							m_width;
 	int							m_height;
 	bool						m_update;
+	time_point_t				m_lastUpdate;
 };
 
 

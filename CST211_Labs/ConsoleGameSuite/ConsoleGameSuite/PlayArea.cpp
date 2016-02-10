@@ -47,7 +47,7 @@ Card PlayArea::TakeCard(int src)
 	return card;
 }
 
-const Card & PlayArea::SeeCard(int src)
+const Card & PlayArea::SeeCard(int src) const
 {
 	return m_cards[src].Peek();
 }
