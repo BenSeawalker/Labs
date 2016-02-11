@@ -5,6 +5,9 @@ Date Created:	1/12/16
 Modifications:
 		1/27/16 - FIXED NARROWING CONVERSION ERRORS IN VS 2015+
 		2/2/16 - Updated main to use improved console drawing.
+		2/8/16 - Updated to display the Freecell game rather than Minesweeper
+
+		TODO: CREATE GAMESUITE MANAGER FOR PICKING WHICH GAME TO PLAY
 
 Lab/Assignment: L1
 
@@ -32,6 +35,10 @@ using std::endl;
 #include "Freecell.h"
 #include "FreecellMenu.h"
 
+const float FRAMES = 250;
+const float SECOND = std::milli::den;
+const float FPS = (SECOND / FRAMES);
+
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -39,15 +46,19 @@ int main()
 	FreecellMenu menu;
 
 	bool running(true);
+
 	while (running)
 	{
-		Mouse::UpdateMouseState();
-		Keyboard::UpdateKeyboardState();
-		HistoryManager::Update();
+		if (CDeltaTime() >= FPS)
+		{
+			Mouse::UpdateMouseState();
+			Keyboard::UpdateKeyboardState();
+			HistoryManager::Update();
 
-		running = menu.Update();
+			running = menu.Update();
 
-		CUpdate();
+			CUpdate();
+		}
 	}
 
 	/*MineSweeper minesweeper;

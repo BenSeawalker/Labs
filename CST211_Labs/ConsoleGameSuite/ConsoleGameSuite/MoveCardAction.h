@@ -1,9 +1,29 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		MoveCardAction.h
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #ifndef MSACTION_H
 #define MSACTION_H
 
 #include "HistoryAction.h"
 #include "FCBoard.h"
 
+/************************************************************************
+* Class: MoveCardAction
+*
+* Purpose: This class implements Undo and Redo for a movement of cards in an FCBoard model
+*
+* Manager functions:
+*	MoveCardAction();
+*	MoveCardAction(const MoveCardAction & copy);
+*	~MoveCardAction()
+*	MoveCardAction & operator=(const MoveCardAction & rhs);
+*
+* Methods:
+*
+*************************************************************************/
 class MoveCardAction : public HistoryAction
 {
 public:

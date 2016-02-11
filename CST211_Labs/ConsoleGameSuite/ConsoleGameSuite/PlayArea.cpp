@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Console.cpp
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #include "PlayArea.h"
 
 PlayArea::PlayArea()
@@ -24,6 +30,16 @@ PlayArea & PlayArea::operator=(const PlayArea & rhs)
 }
 
 
+/************************************************************************
+* Purpose: To determine if the given card can be placed on top of the destination stack
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the move is valid
+*************************************************************************/
 bool PlayArea::IsValid(const Card & card, int dest)
 {
 	bool valid = ((m_cards[dest].Peek().Rank() == NONE) ||
@@ -33,11 +49,31 @@ bool PlayArea::IsValid(const Card & card, int dest)
 	return valid;
 }
 
+/************************************************************************
+* Purpose: To place a card on top of the destination index
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void PlayArea::AddCard(Card card, int dest)
 {
 	m_cards[dest].Push(card);
 }
 
+/************************************************************************
+* Purpose: To take a card from the top of the destination index
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	Removes the top card from the src stack
+*		Throws:		N/A
+*		Returns:	A copy of the card removed
+*************************************************************************/
 Card PlayArea::TakeCard(int src)
 {
 	Card card;
@@ -47,11 +83,31 @@ Card PlayArea::TakeCard(int src)
 	return card;
 }
 
+/************************************************************************
+* Purpose: To see the card on top of the destination index
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	A const ref to the card on the src stack
+*************************************************************************/
 const Card & PlayArea::SeeCard(int src) const
 {
 	return m_cards[src].Peek();
 }
 
+/************************************************************************
+* Purpose: To quickly grab the number of empty cells
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The number of empty cells
+*************************************************************************/
 int PlayArea::OpenCells(int dest)
 {
 	int open = 0;
@@ -65,6 +121,16 @@ int PlayArea::OpenCells(int dest)
 	return open;
 }
 
+/************************************************************************
+* Purpose: To determine the maximum cards that can be taken from the dest
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	The number of cards that can be taken from the dest stack
+*************************************************************************/
 int PlayArea::ValidDepth(int src)
 {
 	int depth = 1;
@@ -87,6 +153,16 @@ int PlayArea::ValidDepth(int src)
 	return depth;
 }
 
+/************************************************************************
+* Purpose: To get the "color" of a card
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the card is a "red" card
+*************************************************************************/
 bool PlayArea::GetColor(const Card & card)
 {
 	return (card.Suit() <= DIAMONDS);

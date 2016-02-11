@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		PlayArea.h
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #ifndef PLAYAREA_H
 #define PLAYAREA_H
 
@@ -5,6 +11,20 @@
 #include "Array.h"
 #include "LStack.h"
 
+/************************************************************************
+* Class: PlayArea
+*
+* Purpose: This class represents the "Play" area of the Freecell game
+*
+* Manager functions:
+*	PlayArea();
+*	PlayArea(const PlayArea & copy);
+*	virtual ~PlayArea()
+*	PlayArea & operator=(const PlayArea & rhs);
+*
+* Methods:
+*	all inherited
+*************************************************************************/
 class PlayArea : public Area
 {
 public:

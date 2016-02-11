@@ -46,8 +46,6 @@ public:
 		COLOR background = Color::white, COLOR foreground = Color::black,
 		COLOR background_hover = Color::bright_white, COLOR foreground_hover = Color::grey);
 
-	Button(int id, const string & text, int width = -1);
-
 	Button(const Button & copy);
 
 	virtual ~Button();

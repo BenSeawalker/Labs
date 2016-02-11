@@ -152,8 +152,8 @@ public:
 	static void SetCursor(int x, int y);
 	static void MoveCursor(int dx, int dy);
 
-	static UINT Width();
-	static UINT Height();
+	static int Width();
+	static int Height();
 
 	static HANDLE & OutputHandle();
 	static HANDLE & InputHandle();

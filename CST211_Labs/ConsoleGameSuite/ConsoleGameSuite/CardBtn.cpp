@@ -1,9 +1,16 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Console.cpp
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #include "CardBtn.h"
 
 
 CardBtn::CardBtn()
 	: m_rank(NONE), m_suit(""), m_color(Color::grey), m_depth(1), m_row(0), m_selected(false), m_area(FCBoard::PLAY)
 {
+	SetPos(-SIZE, -SIZE, 0, false);
 	Small();
 	SetColors(Color::white, m_color, Color::bright_white, m_color);
 	SetText(m_suit, false);
@@ -12,6 +19,7 @@ CardBtn::CardBtn()
 CardBtn::CardBtn(const Card & card)
 	: m_rank(NONE), m_suit(""), m_color(Color::grey)
 {
+	SetPos(-SIZE, -SIZE, 0, false);
 	Small();
 	SetCard(card);
 }
@@ -48,6 +56,16 @@ CardBtn & CardBtn::operator=(const CardBtn & rhs)
 	return *this;
 }
 
+/************************************************************************
+* Purpose: To change the card this button represents
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	Rank, Suit, Color, and Text
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void CardBtn::SetCard(const Card & card)
 {
 	m_rank = card.Rank();
@@ -60,6 +78,7 @@ void CardBtn::SetCard(const Card & card)
 	else
 		SetText("", false);
 }
+
 
 void CardBtn::SetDepth(int depth)
 {
@@ -91,8 +110,19 @@ FCBoard::AREA CardBtn::Area() const
 	return m_area;
 }
 
+/************************************************************************
+* Purpose: To display this card button to the screen
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	Console screen buffer
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void CardBtn::Draw()
 {	
+	// EMPTY CARD
 	if (m_rank == NONE)
 	{
 		if (m_height == SIZE)
@@ -124,6 +154,7 @@ void CardBtn::Draw()
 			CWrite(m_x, m_y + m_height - 1, char(192), CMakeColor(txt_fore, txt_back));
 		}
 	}
+	// NON-EMPTY CARD
 	else
 	{
 		if (m_selected)
@@ -209,16 +240,46 @@ void CardBtn::Draw()
 	}
 }
 
+/************************************************************************
+* Purpose: To make this a full size card
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	height of card
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void CardBtn::Large(COLOR background)
 {
 	Resize(SIZE, SIZE, background);
 }
 
+/************************************************************************
+* Purpose: To make this a small 2-high card
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	height of card
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void CardBtn::Small(COLOR background)
 {
 	Resize(SIZE, 2, background);
 }
 
+/************************************************************************
+* Purpose: To toggle selection of this card
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void CardBtn::SetSelected(bool selected)
 {
 	m_selected = selected;
@@ -226,6 +287,16 @@ void CardBtn::SetSelected(bool selected)
 	Draw();
 }
 
+/************************************************************************
+* Purpose: To tell if this is an empty cell
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the card's rank is NONE
+*************************************************************************/
 bool CardBtn::IsEmpty() const
 {
 	return (m_rank == NONE);

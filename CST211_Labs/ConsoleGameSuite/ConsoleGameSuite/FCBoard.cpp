@@ -1,10 +1,14 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Console.cpp
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #include "FCBoard.h"
 
 #include "FreeArea.h"
 #include "HomeArea.h"
 #include "PlayArea.h"
-
-#include "Deck.h"
 
 #include "HistoryManager.h"
 #include "MoveCardAction.h"
@@ -19,7 +23,7 @@ FCBoard::FCBoard()
 
 	Deck d;
 	d.Shuffle();
-	for (int i = 0; i < 52; ++i)
+	for (int i = 0; i < DECK_SIZE; ++i)
 		m_areas[PLAY]->AddCard(d.DrawCard(), i % 8);
 }
 
@@ -30,6 +34,16 @@ FCBoard::FCBoard(const FCBoard & copy)
 	DeepCopy(copy);
 }
 
+/************************************************************************
+* Purpose: To initialize the board with custom scenarios (for testing)
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 FCBoard::FCBoard(SCENARIO scenario)
 	: m_areas(3), m_moves(0)
 {
@@ -96,6 +110,25 @@ FCBoard & FCBoard::operator=(const FCBoard & rhs)
 }
 
 
+/************************************************************************
+* Purpose: To move "depth" number of cards "from" one area at the given "src" index
+*			"to" another area at the given "dest" index
+*
+* Precondition:
+*		By default, this function checks the validity of a move
+*		if the move is valid: the cards are moved else they are left alone
+*		a MoveCardAction() is also added to the HistoryManager
+*		
+*		if check_valid is false: the cards are moved regardless of validity
+*		a MoveCardAction() is NOT added to the HistoryManager
+*
+*		TODO: return a value to represent the exact error!
+*
+* Postcondition:
+*		Modifies:	Cards in the specified Areas
+*		Throws:		N/A
+*		Returns:	TRUE if the move was valid
+*************************************************************************/
 bool FCBoard::MoveCards(AREA from, AREA to, int src, int dest, int depth, bool check_valid)
 {
 	int f_dest = (to == FREE ? dest : -1);

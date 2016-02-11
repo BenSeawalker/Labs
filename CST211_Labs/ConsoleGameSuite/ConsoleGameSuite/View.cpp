@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Console.cpp
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #include "View.h"
 #include "Model.h"
 

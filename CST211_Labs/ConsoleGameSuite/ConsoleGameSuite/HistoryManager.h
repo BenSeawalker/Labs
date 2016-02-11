@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		HistoryManager.h
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #ifndef UNDOMANAGER_H
 #define UNDOMANAGER_H
 
@@ -5,6 +11,21 @@
 #include "HistoryAction.h"
 #include "Keyboard.h"
 
+/************************************************************************
+* Class: HistoryManager
+*
+* Purpose: This class represents a Model to be connected with Views
+*			When the model is updated, it Notifies all registered views
+*
+* Manager functions:
+*	HistoryManager();
+*	HistoryManager(const HistoryManager & copy);
+*	~HistoryManager()
+*	HistoryManager & operator=(const HistoryManager & rhs);
+*
+* Methods:
+*
+*************************************************************************/
 class HistoryManager
 {
 public:

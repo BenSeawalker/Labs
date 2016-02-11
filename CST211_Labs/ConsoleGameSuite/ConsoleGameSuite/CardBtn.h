@@ -1,9 +1,30 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		CardBtn.h
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #ifndef CARDBTN_H
 #define CARDBTN_H
 
 #include "Card.h"
 #include "Button.h"
 #include "FCBoard.h"
+
+/************************************************************************
+* Class: CardBtn
+*
+* Purpose: This class draws an interactive playing card on the screen
+*
+* Manager functions:
+*	CardBtn();
+*	CardBtn(const CardBtn & copy);
+*	~CardBtn()
+*	CardBtn & operator=(const CardBtn & rhs);
+*
+* Methods:
+*
+*************************************************************************/
 
 class CardBtn : public Button
 {
@@ -35,8 +56,6 @@ public:
 	void SetSelected(bool selected);
 
 	bool IsEmpty() const;
-
-	bool IsNext(const CardBtn & nxt);
 
 	virtual void Draw();
 

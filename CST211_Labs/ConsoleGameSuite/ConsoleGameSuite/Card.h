@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Card.h
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #ifndef CARD_H
 #define CARD_H
 
@@ -12,6 +18,22 @@
 #define ACE	  1
 #define NONE  0
 
+/************************************************************************
+* Class: Card
+*
+* Purpose: This class represents a standard playing card
+*
+* Manager functions:
+*	Card();
+*	Card(const Card & copy);
+*	~Card()
+*	Card & operator=(const Card & rhs);
+*
+* Methods:
+*	int Rank() const;
+*	char Suit() const;
+*
+*************************************************************************/
 class Card
 {
 public:

@@ -111,9 +111,6 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\Utilities\UI</Filter>
     </ClCompile>
-    <ClCompile Include="ButtonGroup.cpp">
-      <Filter>Source Files\Utilities\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Console.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
@@ -177,6 +174,9 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files\Utilities\UI</Filter>
     </ClCompile>
+    <ClCompile Include="BouncyCard.cpp">
+      <Filter>Source Files\Games\Objects\Freecell\Cards</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="crtdbg_new.h">
@@ -186,9 +186,6 @@
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Header Files\Utilities\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonGroup.h">
       <Filter>Header Files\Utilities\UI</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
@@ -283,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Header Files\Utilities\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BouncyCard.h">
+      <Filter>Header Files\Games\Objects\Freecell\Cards</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

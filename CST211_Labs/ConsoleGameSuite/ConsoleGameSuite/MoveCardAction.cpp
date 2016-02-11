@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Console.cpp
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #include "MoveCardAction.h"
 
 MoveCardAction::MoveCardAction(FCBoard & board, FCBoard::AREA from, FCBoard::AREA to, int src, int dest, int depth)

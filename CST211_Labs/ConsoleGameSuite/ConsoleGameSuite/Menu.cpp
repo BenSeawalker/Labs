@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Console.cpp
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #include "Menu.h"
 
 
@@ -30,6 +36,16 @@ Menu & Menu::operator=(const Menu & rhs)
 	return *this;
 }
 
+/************************************************************************
+* Purpose: Adds the given button to this menu
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Menu::AddButton(Button button)
 {
 	m_buttons.SetLength(m_buttons.Length() + 1);
@@ -39,6 +55,16 @@ void Menu::AddButton(Button button)
 	Draw();
 }
 
+/************************************************************************
+* Purpose: Adds the given button to this menu and links it to the given sub-menu
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Menu::AddSubmenu(Button button, Menu sub)
 {
 	AddButton(button);
@@ -50,6 +76,16 @@ void Menu::AddSubmenu(Button button, Menu sub)
 	m_submenus[m_submenus.Length() - 1] = sub;
 }
 
+/************************************************************************
+* Purpose: Sets the position of this menu on the screen
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Menu::SetPos(int x, int y)
 {
 	for (int i = 0; i < m_buttons.Length(); ++i)
@@ -62,6 +98,17 @@ void Menu::SetPos(int x, int y)
 	m_y = y;
 }
 
+
+/************************************************************************
+* Purpose: To return the button that was clicked in the last update
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	NULL if no button was clicked
+*************************************************************************/
 Button * Menu::Clicked(Mouse::BUTTON btn)
 {
 	Button * clicked = nullptr;
@@ -74,6 +121,16 @@ Button * Menu::Clicked(Mouse::BUTTON btn)
 	return clicked;
 }
 
+/************************************************************************
+* Purpose: Updates the buttons of the current menu or sub-menu
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Menu::Update()
 {
 	if (!m_current)
@@ -115,6 +172,16 @@ void Menu::Update()
 		Draw();
 }
 
+/************************************************************************
+* Purpose: Draws the current menu
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Menu::Draw()
 {
 	CClear(m_current->m_background);
@@ -123,6 +190,17 @@ void Menu::Draw()
 		m_current->m_buttons[i].Draw();
 }
 
+
+/************************************************************************
+* Purpose: Ensures that all buttons are the same width
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Menu::ResizeButtons()
 {
 	int largest = m_buttons[0].Width();

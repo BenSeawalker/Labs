@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BouncyCard.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardBtn.cpp" />
     <ClCompile Include="Deck.cpp" />
@@ -155,7 +156,6 @@
     <ClCompile Include="MoveCardAction.cpp" />
     <ClCompile Include="MSBoard.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="ButtonGroup.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Exception.cpp" />
@@ -171,6 +171,7 @@
     <ClInclude Include="Area.h" />
     <ClInclude Include="Array.h" />
     <ClInclude Include="Array2D.h" />
+    <ClInclude Include="BouncyCard.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardBtn.h" />
     <ClInclude Include="Deck.h" />
@@ -188,7 +189,6 @@
     <ClInclude Include="MoveCardAction.h" />
     <ClInclude Include="MSBoard.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="ButtonGroup.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="crtdbg_new.h" />

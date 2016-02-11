@@ -1,11 +1,32 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		FCBoard.h
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #ifndef FCBOARD_H
 #define FCBOARD_H
 
 #include "Model.h"
 #include "Array.h"
 #include "Area.h"
+#include "Deck.h"
 
-
+/************************************************************************
+* Class: FCBoard
+*
+* Purpose: This class is the model for the Frecell game
+*			it acts as an interface between the game and the three areas
+*
+* Manager functions:
+*	FCBoard();
+*	FCBoard(const FCBoard & copy);
+*	~FCBoard()
+*	FCBoard & operator=(const FCBoard & rhs);
+*
+* Methods:
+*
+*************************************************************************/
 class FCBoard : public Model
 {
 public:

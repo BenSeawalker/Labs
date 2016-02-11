@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Console.cpp
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #include "FreecellMenu.h"
 
 #include "Keyboard.h"
@@ -36,15 +42,27 @@ FreecellMenu & FreecellMenu::operator=(const FreecellMenu & rhs)
 	return *this;
 }
 
+/************************************************************************
+* Purpose: To update the menu, or the game if the user has clicked "Play"
+*			or one of the scenarios
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the game or menu is still running
+*************************************************************************/
 bool FreecellMenu::Update()
 {
 	bool running = true;
 
+	// If there is an active game
 	if (m_game)
 	{
 		if (!m_game->Update())
 		{
-			Keyboard::ClearState();
+			Keyboard::ClearState(); // so the esc key doesn't carry over...
 
 			delete m_game;
 			m_game = nullptr;
@@ -52,10 +70,29 @@ bool FreecellMenu::Update()
 			m_mainMenu.Draw();
 		}
 	}
+	// If we are on the menu
 	else
 	{
 		m_mainMenu.Update();
 
+		// Draw help text
+		int x = 19;
+		int y = CHeight() - 16;
+		CWrite(x, y, "Freecell!", CMakeColor(Color::bright_white, Color::green));
+
+		CWrite(x, y + 2, "Use the mouse to select and move stacks of cards", CMakeColor(Color::bright_white, Color::green));
+		CWrite(x, y + 3, "Use Ctrl + Z to undo moves", CMakeColor(Color::bright_white, Color::green));
+		CWrite(x, y + 4, "Use Ctrl + Y to redo moves", CMakeColor(Color::bright_white, Color::green));
+		CWrite(x, y + 5, "Use Esc to return to menu or exit the program", CMakeColor(Color::bright_white, Color::green));
+
+		CWrite(x, y + 7, "Use \"Victory\" scenario to test winning the game", CMakeColor(Color::bright_white, Color::green));
+		CWrite(x, y + 8, "Use \"Stacks\" scenario to test moving various sized stacks around", CMakeColor(Color::bright_white, Color::green));
+
+		CWrite(x, y + 11, "NOTE: USING THE WINDOW CLOSE BUTTON FALSELY REPORTS MEMORY LEAKS!", CMakeColor(Color::bright_white, Color::green));
+		CWrite(x, y + 12, "(because the process is terminated in the middle of the game loop", CMakeColor(Color::bright_white, Color::green));
+		CWrite(x + 1, y + 13, "and thus, objects do not go out of scope...)", CMakeColor(Color::bright_white, Color::green));
+
+		// Handle which button was clicked by the user
 		Button * b = m_mainMenu.Clicked(Mouse::LEFT);
 		if (b)
 		{
@@ -66,11 +103,7 @@ bool FreecellMenu::Update()
 				break;
 
 			case GAME:
-				
-				break;
-
-			case EXIT:
-				running = false;
+				CWrite(x, y - 5, "TODO: allow the user to input the game number they wish to play", CMakeColor(Color::bright_white, Color::green));
 				break;
 
 			case VICTORY:
@@ -79,6 +112,10 @@ bool FreecellMenu::Update()
 
 			case STACKS:
 				m_game = new Freecell(FCBoard::STACKS);
+				break;
+
+			case EXIT:
+				running = false;
 				break;
 			}
 		}

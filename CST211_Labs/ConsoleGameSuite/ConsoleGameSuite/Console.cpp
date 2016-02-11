@@ -259,7 +259,7 @@ void Console::Wait(double ms)
 {
 	if (ms > 0)
 	{
-		high_resolution_clock::time_point start = high_resolution_clock::now();
+		time_point_t start = high_resolution_clock::now();
 		duration<float, std::milli> diff(0);
 
 		while (diff.count() < ms)
@@ -433,7 +433,7 @@ void Console::MoveCursor(int dx, int dy)
 *		Throws:		N/A
 *		Returns:	The current width of the console
 *************************************************************************/
-UINT Console::Width()
+int Console::Width()
 {
 	return m_instance.m_width;
 }
@@ -448,7 +448,7 @@ UINT Console::Width()
 *		Throws:		N/A
 *		Returns:	The current height of the console
 *************************************************************************/
-UINT Console::Height()
+int Console::Height()
 {
 	return m_instance.m_height;
 }

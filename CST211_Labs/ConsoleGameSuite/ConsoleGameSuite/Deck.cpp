@@ -1,10 +1,16 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Console.cpp
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #include "Deck.h"
 #include <random>
 #include <time.h>
 
 
 Deck::Deck()
-	: m_original(52), m_shuffle(52), m_deck(52)
+	: m_original(DECK_SIZE), m_shuffle(DECK_SIZE), m_deck(DECK_SIZE)
 {
 	BuildDeck();
 }
@@ -28,7 +34,16 @@ Deck & Deck::operator=(const Deck & rhs)
 	return *this;
 }
 
-
+/************************************************************************
+* Purpose: To shuffle the cards in this deck based on a given seed
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	m_shuffle and m_deck
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Deck::Shuffle(unsigned int seed)
 {
 	if (seed == 0)
@@ -40,6 +55,7 @@ void Deck::Shuffle(unsigned int seed)
 	while (!m_deck.isEmpty())
 		m_deck.Pop();
 
+	// shuffle cards around 156 times
 	for (int i = 0; i < 156; ++i)
 	{
 		int c1 = rand() % m_original.Length();
@@ -54,6 +70,16 @@ void Deck::Shuffle(unsigned int seed)
 		m_deck.Push(m_shuffle[i]);
 }
 
+/************************************************************************
+* Purpose: To reset the deck back to an un-shuffled state
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	m_deck
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Deck::Reset()
 {
 	while (!m_deck.isEmpty())
@@ -63,6 +89,16 @@ void Deck::Reset()
 		m_deck.Push(m_original[i]);
 }
 
+/************************************************************************
+* Purpose: To grab a card off the top of the deck
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	the card on top of the deck
+*************************************************************************/
 Card Deck::DrawCard()
 {
 	return m_deck.Pop();
@@ -73,6 +109,16 @@ bool Deck::isEmpty()
 	return m_deck.isEmpty();
 }
 
+/************************************************************************
+* Purpose: To initialize the deck in order
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	m_original, m_deck
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 void Deck::BuildDeck()
 {
 	for (char suit = HEARTS; suit <= SPADES; ++suit)

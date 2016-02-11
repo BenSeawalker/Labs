@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Menu.h
+* Date Created:	2/5/16
+* Modifications: N/A
+*************************************************************************/
 #ifndef MENU_H
 #define MENU_H
 
@@ -8,8 +14,24 @@ using std::string;
 #include "Button.h"
 #include "Console.h"
 
-#define BACK_ID -1
+// Id to be assigned to all "Back" buttons
+#define BACK_ID -999999
 
+/************************************************************************
+* Class: Menu
+*
+* Purpose: This class represents a Menu system with buttons, and buttons that lead to sub-menus.
+*			Currently sub-menus must manually add a "Back" button with id = BACK_ID
+*
+* Manager functions:
+*	Menu();
+*	Menu(const Menu & copy);
+*	~Menu()
+*	Menu & operator=(const Menu & rhs);
+*
+* Methods:
+*
+*************************************************************************/
 class Menu
 {
 public:
