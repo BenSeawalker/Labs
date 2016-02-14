@@ -46,6 +46,8 @@ public:
 	static bool DidRedo();
 	static bool DidChange();
 
+	static void PollEvents(bool poll);
+
 private:
 	// CTORS
 	HistoryManager();
@@ -62,6 +64,8 @@ private:
 	LStack<HistoryAction *> m_redos;
 	bool m_undid;
 	bool m_redid;
+	
+	bool m_pollEvents;
 };
 
 #endif // UNDOMANAGER_H

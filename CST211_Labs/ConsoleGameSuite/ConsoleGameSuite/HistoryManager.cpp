@@ -17,9 +17,12 @@ HistoryManager HistoryManager::m_instance = HistoryManager();
 ///////////////////////////////////////////////////////////////
 
 HistoryManager::HistoryManager()
+	: m_undid(false), m_redid(false), m_pollEvents(true)
 {}
 
+// private passthrough to prevent usage
 HistoryManager::HistoryManager(const HistoryManager & copy)
+	: m_undos(copy.m_undos), m_redos(copy.m_redos), m_undid(copy.m_undid), m_redid(copy.m_redid), m_pollEvents(copy.m_pollEvents)
 {}
 
 HistoryManager::~HistoryManager()
@@ -31,6 +34,7 @@ HistoryManager::~HistoryManager()
 		delete m_redos.Pop();
 }
 
+// private passthrough to prevent usage
 HistoryManager & HistoryManager::operator=(const HistoryManager & rhs)
 {
 	return *this;
@@ -101,12 +105,15 @@ void HistoryManager::Update()
 	m_instance.m_undid = false;
 	m_instance.m_redid = false;
 
-	if (Keyboard::KeyDown(VK_CONTROL))
+	if(m_instance.m_pollEvents)
 	{
-		if (Keyboard::KeyPressed('Z'))
-			Undo();
-		else if (Keyboard::KeyPressed('Y'))
-			Redo();
+		if (Keyboard::KeyDown(VK_CONTROL))
+		{
+			if (Keyboard::KeyPressed('Z'))
+				Undo();
+			else if (Keyboard::KeyPressed('Y'))
+				Redo();
+		}
 	}
 }
 
@@ -132,4 +139,9 @@ bool HistoryManager::DidRedo()
 bool HistoryManager::DidChange()
 {
 	return (DidUndo() || DidChange());
+}
+
+void HistoryManager::PollEvents(bool poll)
+{
+	m_instance.m_pollEvents = poll;
 }

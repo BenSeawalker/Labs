@@ -49,7 +49,7 @@ int main()
 
 	while (running)
 	{
-		if (CDeltaTime() >= FPS)
+		if (CDeltaTime() > FPS)
 		{
 			Mouse::UpdateMouseState();
 			Keyboard::UpdateKeyboardState();

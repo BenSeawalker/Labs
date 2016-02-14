@@ -15,6 +15,7 @@
 
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "HistoryManager.h"
 
 #include <string>
 using std::string;
@@ -41,6 +42,7 @@ Freecell::Freecell(const Freecell & copy)
 
 Freecell::~Freecell()
 {
+	// in case user exits in the middle of bouncing...
 	delete m_bounce;
 	m_bounce = nullptr;
 }
@@ -142,6 +144,8 @@ bool Freecell::Update()
 *************************************************************************/
 void Freecell::ModelUpdated()
 {
+	m_selected = nullptr;
+	DeselectAll();
 	Draw();
 }
 
@@ -386,6 +390,8 @@ void Freecell::CheckVictory()
 
 		if (victory)
 		{
+			// disable undo/redo events
+			HistoryManager::PollEvents(false);
 			m_wonGame = true;
 			srand((unsigned)time(NULL));
 		}
@@ -411,11 +417,13 @@ void Freecell::BounceCards()
 	// if we've bounced all the cards...
 	if (!m_running || cards >= DECK_SIZE)
 	{
+		// re-enable undo/redo events
+		HistoryManager::PollEvents(true);
 		index = 0;
 		cards = 0;
 		pass = 0;
 		m_running = false;
-		CWait(600);
+		CWait(800);
 	}
 	else
 	{
@@ -427,14 +435,13 @@ void Freecell::BounceCards()
 			{
 				delete m_bounce;
 				m_bounce = nullptr;
+				++cards;
 			}
 		}
 		else
 		{
 			if (m_board.GetArea(FCBoard::HOME)->SeeCard(index).Rank() != NONE)
 			{
-				++cards;
-
 				int width = CardBtn::SIZE + 1;
 				float x = float(OFF_X + index * width + FREE_CELLS * width + width / 2);
 				float y = float(OFF_Y);
