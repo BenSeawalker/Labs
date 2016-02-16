@@ -124,14 +124,14 @@ Queue<T> & Queue<T>::operator=(const Queue & rhs)
 //////
 
 /************************************************************************
-* Purpose: To get the current number of items on the queue
+* Purpose: To get the current number of items in the queue
 *
 * Precondition:
 *
 * Postcondition:
 *		Modifies:	N/A
 *		Throws:		N/A
-*		Returns:	The current number of items on the queue
+*		Returns:	The current number of items in the queue
 *************************************************************************/
 template<typename T>
 int Queue<T>::Size() const
