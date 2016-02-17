@@ -15,13 +15,11 @@ public:
 protected:
 	void Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller);
 
-	void LeftBalance(BinaryTreeNode<T> *& root);
-	void RightBalance(BinaryTreeNode<T> *& root);
+	void LeftBalance(BinaryTreeNode<T> *& root, bool & taller);
+	void RightBalance(BinaryTreeNode<T> *& root, bool & taller);
 
-	void BalanceLL(BinaryTreeNode<T> *& root);
-	void BalanceRR(BinaryTreeNode<T> *& root);
-	void BalanceRL(BinaryTreeNode<T> *& root);
-	void BalanceLR(BinaryTreeNode<T> *& root);
+	void RotateRight(BinaryTreeNode<T> *& root);
+	void RotateLeft(BinaryTreeNode<T> *& root);
 };
 
 
@@ -50,13 +48,14 @@ void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller
 	else if (data <= root->Data())
 	{
 		Insert(root->Left(), data, taller);
+
 		if (taller)
 		{
 			AVLTreeNode<T> * _root = dynamic_cast<AVLTreeNode<T> *>(root);
 			switch (_root->Balance())
 			{
 			case LH:
-				LeftBalance(root);
+				LeftBalance(root, taller);
 				break;
 
 			case EH:
@@ -65,6 +64,7 @@ void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller
 
 			case RH:
 				_root->Balance() = EH;
+				taller = false;
 				break;
 			}
 		}
@@ -72,6 +72,7 @@ void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller
 	else
 	{
 		Insert(root->Right(), data, taller);
+
 		if (taller)
 		{
 			AVLTreeNode<T> * _root = dynamic_cast<AVLTreeNode<T> *>(root);
@@ -79,6 +80,7 @@ void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller
 			{
 			case LH:
 				_root->Balance() = EH;
+				taller = false;
 				break;
 
 			case EH:
@@ -86,7 +88,7 @@ void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller
 				break;
 
 			case RH:
-				RightBalance(root);
+				RightBalance(root, taller);
 				break;
 			}
 		}
@@ -94,41 +96,101 @@ void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller
 }
 
 template<typename T>
-void AVLTree<T>::LeftBalance(BinaryTreeNode<T>*& root)
+void AVLTree<T>::LeftBalance(BinaryTreeNode<T> *& root, bool & taller)
 {
-	int balance = (Height(root->Left()) - Height(root->Right()));
-	if (abs(balance) > 1)
+	AVLTreeNode<T> * _root = dynamic_cast<AVLTreeNode<T> *>(root);
+	AVLTreeNode<T> * left = dynamic_cast<AVLTreeNode<T> *>(root->Left());
+	AVLTreeNode<T> * right = dynamic_cast<AVLTreeNode<T> *>(left->Right());
+
+	// LL rotation
+	if (left->Balance() == LH)
 	{
-		if (dynamic_cast<AVLTreeNode<T> *>(root->Left())->Balance() < 0)
+		RotateRight(root);
+
+		_root->Balance() = EH;
+		left->Balance() = EH;
+
+		taller = false;
+	}
+	
+	// LR rotation
+	else
+	{
+		switch (right->Balance())
 		{
-			BalanceLL(root);
+		case LH:
+			_root->Balance() = RH;
+			left->Balance() = EH;
+			break;
+
+		case EH:
+			left->Balance() = EH;
+			break;
+
+		case RH:
+			_root->Balance() = EH;
+			left->Balance() = LH;
+			break;
 		}
-		else
-		{
-			BalanceLR(root);
-		}
+
+		right->Balance() = EH;
+
+		RotateLeft(root->Left());
+		RotateRight(root);
+
+		taller = false;
 	}
 }
 
 template<typename T>
-void AVLTree<T>::RightBalance(BinaryTreeNode<T>*& root)
+void AVLTree<T>::RightBalance(BinaryTreeNode<T> *& root, bool & taller)
 {
-	int balance = ((Height(root->Left()) + root->Left() - Height(root->Right()));
-	if (abs(balance) > 1)
+	AVLTreeNode<T> * _root = dynamic_cast<AVLTreeNode<T> *>(root);
+	AVLTreeNode<T> * right = dynamic_cast<AVLTreeNode<T> *>(root->Right());
+	AVLTreeNode<T> * left = dynamic_cast<AVLTreeNode<T> *>(right->Left());
+
+	// RR rotation
+	if (right->Balance() == RH)
 	{
-		if (dynamic_cast<AVLTreeNode<T> *>(root->Right())->Balance() > 0)
+		RotateLeft(root);
+
+		_root->Balance() = EH;
+		right->Balance() = EH;
+
+		taller = false;
+	}
+
+	// RL rotation
+	else
+	{
+		switch (left->Balance())
 		{
-			BalanceRR(root);
+		case LH:
+			_root->Balance() = EH;
+			right->Balance() = RH;
+			break;
+
+		case EH:
+			right->Balance() = EH;
+			break;
+
+		case RH:
+			_root->Balance() = LH;
+			right->Balance() = EH;
+			break;
 		}
-		else
-		{
-			BalanceRL(root);
-		}
+
+		left->Balance() = EH;
+
+		RotateRight(root->Right());
+		RotateLeft(root);
+
+		taller = false;
 	}
 }
 
 template<typename T>
-void AVLTree<T>::BalanceLL(BinaryTreeNode<T> *& root)
+void AVLTree<T>::RotateRight(BinaryTreeNode<T> *& root)
 {
 	BinaryTreeNode<T> * parent = root;
 	BinaryTreeNode<T> * child = root->Left();
@@ -137,24 +199,10 @@ void AVLTree<T>::BalanceLL(BinaryTreeNode<T> *& root)
 	root = child;
 	child->Right() = parent;
 	parent->Left() = T2;
-
-	int balance = Height(parent->Left()) - Height(parent->Right());
-	dynamic_cast<AVLTreeNode<T> *>(parent)->SetBalance(balance);
-
-	// CHILD
-	balance = Height(child->Left()) - Height(child->Right());
-	dynamic_cast<AVLTreeNode<T> *>(child)->SetBalance(balance);
-
-	// T2
-	if (T2)
-	{
-		balance = Height(T2->Left()) - Height(T2->Right());
-		dynamic_cast<AVLTreeNode<T> *>(T2)->SetBalance(balance);
-	}
 }
 
 template<typename T>
-void AVLTree<T>::BalanceRR(BinaryTreeNode<T> *& root)
+void AVLTree<T>::RotateLeft(BinaryTreeNode<T> *& root)
 {
 	BinaryTreeNode<T> * parent = root;
 	BinaryTreeNode<T> * child = root->Right();
@@ -163,36 +211,6 @@ void AVLTree<T>::BalanceRR(BinaryTreeNode<T> *& root)
 	root = child;
 	child->Left() = parent;
 	parent->Right() = T2;
-
-	// recalculate balances
-	// ROOT
-	int balance = Height(parent->Left()) - Height(parent->Right());
-	dynamic_cast<AVLTreeNode<T> *>(parent)->SetBalance(balance);
-
-	// CHILD
-	balance = Height(child->Left()) - Height(child->Right());
-	dynamic_cast<AVLTreeNode<T> *>(child)->SetBalance(balance);
-
-	// T2
-	if (T2)
-	{
-		balance = Height(T2->Left()) - Height(T2->Right());
-		dynamic_cast<AVLTreeNode<T> *>(T2)->SetBalance(balance);
-	}
-}
-
-template<typename T>
-void AVLTree<T>::BalanceRL(BinaryTreeNode<T>*& root)
-{
-	BalanceLL(root->Right());
-	BalanceRR(root);
-}
-
-template<typename T>
-void AVLTree<T>::BalanceLR(BinaryTreeNode<T>*& root)
-{
-	BalanceRR(root->Left());
-	BalanceLL(root);
 }
 
 
