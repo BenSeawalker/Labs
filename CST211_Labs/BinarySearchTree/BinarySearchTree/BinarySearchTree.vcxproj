@@ -146,6 +146,8 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AVLTree.h" />
+    <ClInclude Include="AVLTreeNode.h" />
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="crtdbg_new.h" />
     <ClInclude Include="DoubleLinkedList.h" />

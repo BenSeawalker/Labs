@@ -38,12 +38,15 @@ class BinaryTreeNode
 	template<typename BT>
 	friend class BinarySearchTree;
 
-private:
+	template<typename AT>
+	friend class AVLTree;
+
+protected:
 	// CTORS & DTOR
 	BinaryTreeNode(const T & data);
 	BinaryTreeNode(const BinaryTreeNode & copy);
 	
-	~BinaryTreeNode();
+	virtual ~BinaryTreeNode();
 
 	// OPERATORS
 	BinaryTreeNode & operator=(const BinaryTreeNode & rhs);
@@ -82,7 +85,10 @@ BinaryTreeNode<T>::BinaryTreeNode(const BinaryTreeNode & copy)
 
 template<typename T>
 BinaryTreeNode<T>::~BinaryTreeNode()
-{}
+{
+	m_left = nullptr;
+	m_right = nullptr;
+}
 
 //////
 //	END C'TORS & D'TOR

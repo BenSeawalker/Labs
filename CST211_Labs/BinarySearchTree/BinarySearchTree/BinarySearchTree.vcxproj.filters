@@ -13,36 +13,57 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Structures">
+      <UniqueIdentifier>{fa33267d-c6e4-4076-a647-1cb05b002ff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Structures\LinkedList">
+      <UniqueIdentifier>{b340cf81-7792-48e4-af6c-8aa84bc67a0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Structures\Binary Trees">
+      <UniqueIdentifier>{27a49fd0-3628-45c6-a014-f6b7d10bc52c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Debug">
+      <UniqueIdentifier>{7d7d864a-0057-41ec-a581-6f0f4e07d728}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Debug">
+      <UniqueIdentifier>{0fc938c1-4772-4b36-9232-7f3b477b6de3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Exception.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="crtdbg_new.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Exception.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DoubleLinkedList.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Queue.h">
+      <Filter>Header Files\Structures</Filter>
     </ClInclude>
     <ClInclude Include="ListNode.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Structures\LinkedList</Filter>
     </ClInclude>
-    <ClInclude Include="Queue.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="DoubleLinkedList.h">
+      <Filter>Header Files\Structures\LinkedList</Filter>
     </ClInclude>
     <ClInclude Include="BinarySearchTree.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Structures\Binary Trees</Filter>
     </ClInclude>
     <ClInclude Include="BinaryTreeNode.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Structures\Binary Trees</Filter>
+    </ClInclude>
+    <ClInclude Include="crtdbg_new.h">
+      <Filter>Header Files\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.h">
+      <Filter>Header Files\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="AVLTree.h">
+      <Filter>Header Files\Structures\Binary Trees</Filter>
+    </ClInclude>
+    <ClInclude Include="AVLTreeNode.h">
+      <Filter>Header Files\Structures\Binary Trees</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

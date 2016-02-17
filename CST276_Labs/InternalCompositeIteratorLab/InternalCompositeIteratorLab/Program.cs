@@ -15,7 +15,7 @@ namespace InternalCompositeIteratorLab
         //{
         //    for (it.First(); !it.IsDone(); it.Next())
         //    {
-        //        it.CurrentItem().Display();
+        //        it.CurrentItem().DisplayEmployee();
         //        Console.WriteLine();
         //    }
         //}
@@ -37,7 +37,6 @@ namespace InternalCompositeIteratorLab
             //Console.WriteLine("\nFat Cats:\n");
             //PrintEmployees(new InternalFatCatsIterator(c));
 
-
             // PART 2
             CompanyComponent valve = new CompanyComposite("Valve", "An entertainment software and technology company founded in 1996");
             CompanyComponent steam = new CompanyComposite("Steam", "The leading software distribution platform");
@@ -45,18 +44,18 @@ namespace InternalCompositeIteratorLab
             CompanyComponent csgo = new CompanyComposite("CS:GO", "FPS game");
             CompanyComponent tf2 = new CompanyComposite("TF2", "TPS game");
 
-            CompanyComponent gaben = new Employee("Gabe Newell",        "123456789", 1000000);
-            CompanyComponent seanj = new Employee("Sean Jenkin",        "916394807", 100000);
-            CompanyComponent emilyk = new Employee("Emily Kent",        "458468765", 100000);
+            CompanyComponent gaben = new Employee("Gabe Newell", "123456789", 1000000);
+            CompanyComponent seanj = new Employee("Sean Jenkin", "916394807", 100000);
+            CompanyComponent emilyk = new Employee("Emily Kent", "458468765", 100000);
 
-            CompanyComponent mattl = new Employee("Matt Logue",         "189631892", 10000);
-            CompanyComponent stevenn = new Employee("Steven Noonan",    "918749128", 10000);
+            CompanyComponent mattl = new Employee("Matt Logue", "189631892", 10000);
+            CompanyComponent stevenn = new Employee("Steven Noonan", "918749128", 10000);
 
-            CompanyComponent jessc = new Employee("Jess Cliffe",        "687698129", 10000);
-            CompanyComponent alfredr = new Employee("Alfred Reynolds",  "576481928", 10000);
+            CompanyComponent jessc = new Employee("Jess Cliffe", "687698129", 10000);
+            CompanyComponent alfredr = new Employee("Alfred Reynolds", "576481928", 10000);
 
-            CompanyComponent jeffb = new Employee("Jeff Ballinger",     "687698129", 10000);
-            CompanyComponent johnc = new Employee("John Cook",          "576481928", 10000);
+            CompanyComponent jeffb = new Employee("Jeff Ballinger", "687698129", 10000);
+            CompanyComponent johnc = new Employee("John Cook", "576481928", 10000);
 
 
             // VALVE

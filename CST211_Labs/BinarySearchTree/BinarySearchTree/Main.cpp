@@ -27,7 +27,7 @@ Height: #
 using std::cout;
 using std::endl;
 
-#include "BinarySearchTree.h"
+#include "AVLTree.h"
 
 void TestTraversals();
 void TestDelete();
@@ -40,8 +40,35 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	TestTraversals();
-	TestDelete();
+	AVLTree<int> tree;
+
+	tree.Insert(8);
+	tree.Insert(9);
+	tree.Insert(10);
+	tree.Insert(2);
+	tree.Insert(1);
+	tree.Insert(5);
+	tree.Insert(3);
+	tree.Insert(6);
+	tree.Insert(4);
+	tree.Insert(7);
+	tree.Insert(11);
+	//tree.Insert(12);
+
+	/*tree.Insert(70);
+	tree.Insert(60);
+	tree.Insert(80);
+	tree.Insert(75);
+	tree.Insert(90);
+	tree.Insert(85);
+	tree.Insert(95);
+	tree.Insert(100);
+	tree.Insert(99);
+	tree.Insert(98);*/
+
+	tree.PreOrderTraversal(&Display);
+	/*TestTraversals();
+	TestDelete();*/
 
 	system("pause");
 

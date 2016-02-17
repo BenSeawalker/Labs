@@ -56,14 +56,14 @@ public:
 	// CTORS AND DTOR
 	BinarySearchTree();
 	BinarySearchTree(const BinarySearchTree & copy);
-	~BinarySearchTree();
+	virtual ~BinarySearchTree();
 
 	// OPERATORS
 	BinarySearchTree & operator=(const BinarySearchTree & rhs);
 
 	// METHODS
-	void Insert(const T & data);
-	void Delete(const T & data);
+	virtual void Insert(const T & data);
+	virtual void Delete(const T & data);
 
 	int Height() const;
 
@@ -78,8 +78,8 @@ public:
 	void PostOrderTraversal(visit_t visit);
 	void PostOrderTraversal(cvisit_t visit) const;
 
-	void BreadthFirstTraversal(visit_t visit);
-	void BreadthFirstTraversal(cvisit_t visit) const;
+	virtual void BreadthFirstTraversal(visit_t visit);
+	virtual void BreadthFirstTraversal(cvisit_t visit) const;
 
 protected:
 	// METHODS

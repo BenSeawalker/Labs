@@ -9,8 +9,6 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "crtdbg_new.h"
-
 #include "DoubleLinkedList.h"
 #include "Exception.h"
 
