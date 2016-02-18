@@ -42,21 +42,93 @@ int main()
 
 	AVLTree<int> tree;
 
+// 	tree.Insert(8);
+// 	tree.Insert(9);
+// 	tree.Insert(10);
+// 	tree.Insert(2);
+// 	tree.Insert(1);
+// 	tree.Insert(5);
+// 	tree.Insert(3);
+// 	tree.Insert(6);
+// 	tree.Insert(4);
+// 	tree.Insert(7);
+// 	tree.Insert(11);
+
+	tree.Insert(5);
+	tree.Insert(4);
+	tree.Insert(7);
 	tree.Insert(8);
-	tree.Insert(9);
- 	tree.Insert(10);
- 	tree.Insert(2);
- 	tree.Insert(1);
- 	tree.Insert(5);
- 	tree.Insert(3);
- 	tree.Insert(6);
- 	tree.Insert(4);
- 	tree.Insert(7);
-	tree.Insert(11);
-	//tree.Insert(12);
+	tree.Insert(5);
+	tree.Insert(6);
+
+	
 
 	tree.PreOrderTraversal(&Display);
-	cout << endl << endl;;
+	cout << endl << endl;
+
+	tree.Delete(5);
+
+
+	// EH
+	// LR - EH
+	// LL - LH
+//    	tree.Delete(10);
+//    	tree.Delete(9);
+//    	tree.Delete(11);
+//    	tree.Delete(6);
+//    	tree.Delete(7);
+//    	tree.Delete(8);
+
+	// EH
+	// RH
+	// LL - EH
+//   	tree.Delete(1);
+//   	tree.Delete(10);
+//   	tree.Delete(9);
+//   	tree.Delete(11);
+//   	tree.Delete(6);
+//   	tree.Delete(7);
+//   	tree.Delete(8);
+
+	// EH
+	// RH
+	// LR - LH
+//  	tree.Delete(1);
+//  	tree.Delete(4);
+//  	tree.Insert(5);
+//  	tree.Insert(4);
+//  	tree.Delete(1);
+//  	tree.Delete(7);
+//  	tree.Delete(9);
+//  	tree.Delete(11);
+//  	tree.Delete(6);
+//  	tree.Delete(10);
+//  	tree.Delete(8);
+
+	// RH
+	// EH
+	// LR - EH
+// 	tree.Delete(1);
+// 	tree.Delete(9);
+// 	tree.Delete(11);
+// 	tree.Delete(10);
+
+
+	// RH
+	// EH
+	// LR - RH
+//  	tree.Insert(5);
+//  	tree.Delete(1);
+//  	tree.Delete(7);
+//  	tree.Delete(9);
+//  	tree.Delete(11);
+//  	tree.Delete(6);
+//  	tree.Delete(10);
+//  	tree.Delete(8);
+
+	tree.PreOrderTraversal(&Display);
+	cout << endl << endl;
+
 	/*TestTraversals();
 	TestDelete();*/
 

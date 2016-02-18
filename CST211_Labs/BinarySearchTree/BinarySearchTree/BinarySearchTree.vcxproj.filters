@@ -28,6 +28,12 @@
     <Filter Include="Source Files\Debug">
       <UniqueIdentifier>{0fc938c1-4772-4b36-9232-7f3b477b6de3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Structures\Binary Trees\Search Tree">
+      <UniqueIdentifier>{c048996b-9972-4baa-a1ca-6b1159e1ddda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Structures\Binary Trees\AVL Tree">
+      <UniqueIdentifier>{15f730ab-d093-4694-bcba-140e1eeb9c8d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -47,23 +53,23 @@
     <ClInclude Include="DoubleLinkedList.h">
       <Filter>Header Files\Structures\LinkedList</Filter>
     </ClInclude>
-    <ClInclude Include="BinarySearchTree.h">
-      <Filter>Header Files\Structures\Binary Trees</Filter>
-    </ClInclude>
-    <ClInclude Include="BinaryTreeNode.h">
-      <Filter>Header Files\Structures\Binary Trees</Filter>
-    </ClInclude>
     <ClInclude Include="crtdbg_new.h">
       <Filter>Header Files\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Exception.h">
       <Filter>Header Files\Debug</Filter>
     </ClInclude>
+    <ClInclude Include="BinarySearchTree.h">
+      <Filter>Header Files\Structures\Binary Trees\Search Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryTreeNode.h">
+      <Filter>Header Files\Structures\Binary Trees\Search Tree</Filter>
+    </ClInclude>
     <ClInclude Include="AVLTree.h">
-      <Filter>Header Files\Structures\Binary Trees</Filter>
+      <Filter>Header Files\Structures\Binary Trees\AVL Tree</Filter>
     </ClInclude>
     <ClInclude Include="AVLTreeNode.h">
-      <Filter>Header Files\Structures\Binary Trees</Filter>
+      <Filter>Header Files\Structures\Binary Trees\AVL Tree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
