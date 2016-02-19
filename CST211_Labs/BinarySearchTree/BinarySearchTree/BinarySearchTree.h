@@ -20,7 +20,7 @@
 * Purpose: This class provides data storage in an efficient to search tree
 *
 * Manager functions:
-* 	BinarySearchTree(data : const T &)
+* 	BinarySearchTree()
 *
 *	BinarySearchTree(copy : const BinarySearchTree &)
 *	operator = (rhs : const BinarySearchTree &)
@@ -88,7 +88,7 @@ protected:
 
 	int Height(const BinaryTreeNode<T> * root) const;
 
-	void DeepCopy(BinaryTreeNode<T> *& root, const BinaryTreeNode<T> * copy);
+	virtual void DeepCopy(BinaryTreeNode<T> *& root, const BinaryTreeNode<T> * copy);
 
 	void Purge(BinaryTreeNode<T> *& root);
 

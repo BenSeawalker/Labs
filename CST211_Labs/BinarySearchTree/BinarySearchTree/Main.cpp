@@ -1,19 +1,22 @@
 /*****************************************************************************************
 Author:			Garrett Fleischer
 Filename:		Main.cpp
-Date Created:	2/12/16
+Date Created:	2/15/16
 Modifications:
 
-Lab/Assignment: A10
+Lab/Assignment: L4
 
-Overview: Test of Binary Search Tree ADT
+Overview: Test of (AVL) Balanced Binary Search Tree ADT
 
 Input: Input is hardcoded directly into Main.cpp and consists of debug testing statements
 
 Output: The output for this program is to the console window and consists of debugging
 text and data stored in the tree. The output will have the following form:
 
+----------------Test <function>----------------
+
 Inserting: #, ...
+Deleting: #, ...
 
 Height: #
 
@@ -40,97 +43,8 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	AVLTree<int> tree;
-
-// 	tree.Insert(8);
-// 	tree.Insert(9);
-// 	tree.Insert(10);
-// 	tree.Insert(2);
-// 	tree.Insert(1);
-// 	tree.Insert(5);
-// 	tree.Insert(3);
-// 	tree.Insert(6);
-// 	tree.Insert(4);
-// 	tree.Insert(7);
-// 	tree.Insert(11);
-
-	tree.Insert(5);
-	tree.Insert(4);
-	tree.Insert(7);
-	tree.Insert(8);
-	tree.Insert(5);
-	tree.Insert(6);
-
-	
-
-	tree.PreOrderTraversal(&Display);
-	cout << endl << endl;
-
-	tree.Delete(5);
-
-
-	// EH
-	// LR - EH
-	// LL - LH
-//    	tree.Delete(10);
-//    	tree.Delete(9);
-//    	tree.Delete(11);
-//    	tree.Delete(6);
-//    	tree.Delete(7);
-//    	tree.Delete(8);
-
-	// EH
-	// RH
-	// LL - EH
-//   	tree.Delete(1);
-//   	tree.Delete(10);
-//   	tree.Delete(9);
-//   	tree.Delete(11);
-//   	tree.Delete(6);
-//   	tree.Delete(7);
-//   	tree.Delete(8);
-
-	// EH
-	// RH
-	// LR - LH
-//  	tree.Delete(1);
-//  	tree.Delete(4);
-//  	tree.Insert(5);
-//  	tree.Insert(4);
-//  	tree.Delete(1);
-//  	tree.Delete(7);
-//  	tree.Delete(9);
-//  	tree.Delete(11);
-//  	tree.Delete(6);
-//  	tree.Delete(10);
-//  	tree.Delete(8);
-
-	// RH
-	// EH
-	// LR - EH
-// 	tree.Delete(1);
-// 	tree.Delete(9);
-// 	tree.Delete(11);
-// 	tree.Delete(10);
-
-
-	// RH
-	// EH
-	// LR - RH
-//  	tree.Insert(5);
-//  	tree.Delete(1);
-//  	tree.Delete(7);
-//  	tree.Delete(9);
-//  	tree.Delete(11);
-//  	tree.Delete(6);
-//  	tree.Delete(10);
-//  	tree.Delete(8);
-
-	tree.PreOrderTraversal(&Display);
-	cout << endl << endl;
-
-	/*TestTraversals();
-	TestDelete();*/
+	TestTraversals();
+	TestDelete();
 
 	system("pause");
 
@@ -139,38 +53,43 @@ int main()
 
 void TestTraversals()
 {
-	BinarySearchTree<int> bst;
+	cout << "\n----------------Test Traversals----------------\n" << endl;
+	AVLTree<int> tree;
 
-	cout << "Inserting: 20, 12, 25, 11, 18, 22, 26\n" << endl;
+	cout << "Inserting: 8, 9, 10, 2, 1, 5, 3, 6, 4, 7, 11\n" << endl;
 
-	bst.Insert(20);
-	bst.Insert(12);
-	bst.Insert(25);
-	bst.Insert(11);
-	bst.Insert(18);
-	bst.Insert(22);
-	bst.Insert(26);
+	tree.Insert(8);
+	tree.Insert(9);
+	tree.Insert(10);
+	tree.Insert(2);
+	tree.Insert(1);
+	tree.Insert(5);
+	tree.Insert(3);
+	tree.Insert(6);
+	tree.Insert(4);
+	tree.Insert(7);
+	tree.Insert(11);
 
-	cout << "Height: " << bst.Height() << endl << endl;
+	cout << "Height: " << tree.Height() << endl << endl;
 
 	cout << "Pre:       ";
-	bst.PreOrderTraversal(&Display);
+	tree.PreOrderTraversal(&Display);
 	cout << endl << endl;
 
 	cout << "In:        ";
-	bst.InOrderTraversal(&Display);
+	tree.InOrderTraversal(&Display);
 	cout << endl << endl;
 
 	cout << "Post:      ";
-	bst.PostOrderTraversal(&Display);
+	tree.PostOrderTraversal(&Display);
 	cout << endl << endl;
 
 	cout << "Breadth:   ";
-	bst.BreadthFirstTraversal(&Display);
+	tree.BreadthFirstTraversal(&Display);
 	cout << endl << endl;
 
 	cout << "\nUsing constant BinarySearchTree\n" << endl;
-	const BinarySearchTree<int> cp(bst);
+	const AVLTree<int> cp(tree);
 
 	cout << "Height: " << cp.Height() << endl << endl;
 
@@ -195,45 +114,119 @@ void TestTraversals()
 
 void TestDelete()
 {
-	BinarySearchTree<int> bst;
+	cout << "----------------Test Delete----------------\n" << endl;
+	AVLTree<int> tree;
 
-	cout << "Inserting: 20, 15, 25, 12, 18, 30, 11, 13\n";
+	cout << "Inserting: 8, 9, 10, 2, 1, 5, 3, 6, 4, 7, 11\n" << endl;
 
-	bst.Insert(20);
-	bst.Insert(15);
-	bst.Insert(25);
-	bst.Insert(12);
-	bst.Insert(18);
-	bst.Insert(30);
-	bst.Insert(11);
-	bst.Insert(13);
+	 	tree.Insert(8);
+	 	tree.Insert(9);
+	 	tree.Insert(10);
+	 	tree.Insert(2);
+	 	tree.Insert(1);
+	 	tree.Insert(5);
+	 	tree.Insert(3);
+	 	tree.Insert(6);
+	 	tree.Insert(4);
+	 	tree.Insert(7);
+	 	tree.Insert(11);
 
-	const BinarySearchTree<int> cp(bst);
+	const AVLTree<int> cp(tree);
 
-	cout << "\nHeight: " << bst.Height() << endl << endl;
+	cp.BreadthFirstTraversal(&Display);
 
-	cout << "\nData displayed breadth-first\n" << endl;
+	cout << "\n\nHeight: " << tree.Height() << endl;
 
-	cout << "\nCase 1 (11): ";
-	bst.Delete(11);
-	bst.BreadthFirstTraversal(&Display);
-	bst = cp;
+	cout << "\n\nData displayed breadth-first\n" << endl;
 
-	cout << "\nCase 2 (25): ";
-	bst.Delete(25);
-	bst.BreadthFirstTraversal(&Display);
-	bst = cp;
 
-	cout << "\nCase 3 (12): ";
-	bst.Delete(12);
-	bst.BreadthFirstTraversal(&Display);
-	bst = cp;
+	cout << "\n\nDeleting: 10, 9, 11, 6, 7, 8\n" << endl;
+	// EH
+	// LR - EH
+	// LL - LH
+	tree.Delete(10);
+	tree.Delete(9);
+	tree.Delete(11);
+	tree.Delete(6);
+	tree.Delete(7);
+	tree.Delete(8);
+	
+	tree.BreadthFirstTraversal(&Display);
+	cout << "\n\nHeight: " << tree.Height() << endl;
+	tree = cp;
 
-	cout << "\nCase 4 (15): ";
-	bst.Delete(15);
-	bst.BreadthFirstTraversal(&Display);
 
-	cout << "\n\n\nHeight: " << bst.Height() << endl << endl;
+	cout << "\n\nDeleting: 1, 10, 9, 11, 6, 7, 8\n" << endl;
+	// EH
+	// RH
+	// LL - EH
+	tree.Delete(1);
+	tree.Delete(10);
+	tree.Delete(9);
+	tree.Delete(11);
+	tree.Delete(6);
+	tree.Delete(7);
+	tree.Delete(8);
+
+	tree.BreadthFirstTraversal(&Display);
+	cout << "\n\nHeight: " << tree.Height() << endl;
+	tree = cp;
+
+
+	cout << "\n\nDeleting: 1, 4\n";
+	cout << "Inserting: 5, 4\n";
+	cout << "Deleting: 7, 9, 11, 6, 10, 8, 5\n" << endl;
+	// EH
+	// RH
+	// LR - LH
+	tree.Delete(1);
+	tree.Delete(4);
+	tree.Insert(5);
+	tree.Insert(4);
+	tree.Delete(7);
+	tree.Delete(9);
+	tree.Delete(11);
+	tree.Delete(6);
+	tree.Delete(10);
+	tree.Delete(8);
+	tree.Delete(5);
+
+	tree.BreadthFirstTraversal(&Display);
+	cout << "\n\nHeight: " << tree.Height() << endl;
+	tree = cp;
+
+	cout << "\n\nDeleting: 1, 9, 11, 10\n" << endl;
+	// RH
+	// EH
+	// LR - EH
+	tree.Delete(1);
+	tree.Delete(9);
+	tree.Delete(11);
+	tree.Delete(10);
+
+	tree.BreadthFirstTraversal(&Display);
+	cout << "\n\nHeight: " << tree.Height() << endl;
+	tree = cp;
+
+
+	cout << "\n\nInserting: 5\n";
+	cout << "Deleting: 1, 7, 9, 11, 6, 10, 8, 5\n" << endl;
+	// RH
+	// EH
+	// LR - RH
+	tree.Insert(5);
+	tree.Delete(1);
+	tree.Delete(7);
+	tree.Delete(9);
+	tree.Delete(11);
+	tree.Delete(6);
+	tree.Delete(10);
+	tree.Delete(8);
+	tree.Delete(5);
+
+	tree.BreadthFirstTraversal(&Display);
+	cout << "\n\nHeight: " << tree.Height() << endl;
+	tree = cp;
 
 	cout << endl << endl << endl;
 }

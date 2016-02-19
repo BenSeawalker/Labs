@@ -1,3 +1,10 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		AVLTree.h
+* Date Created:	2/15/16
+* Modifications:
+*	N/A
+*************************************************************************/
 #ifndef AVLTREE_H
 #define AVLTREE_H
 
@@ -5,10 +12,53 @@
 #include "BinarySearchTree.h"
 #include "AVLTreeNode.h"
 
+
+/************************************************************************
+* Class: AVLTree
+*
+* Purpose: This class provides data storage in a balanced BinarySearchTree
+*
+* Manager functions:
+* 	AVLTree()
+*
+*	AVLTree(copy : const AVLTree &)
+*	operator = (rhs : const AVLTree &)
+*
+*	~AVLTree()
+*
+* Methods:
+*
+*	Insert(data : const T &) : void
+*
+*	Delete(data : const T &) : void
+*
+* Inherited from BinarySearchTree :
+*
+*		Height() : int
+*
+*		Purge() : void
+*
+*		PreOrderTraversal(visit : visit_t) : void
+*
+*		InOrderTraversal(visit : visit_t) : void
+*
+*		PostOrderTraversal(visit : visit_t) : void
+*
+*		BreadthFirstTraversal(visit : visit_t) : void
+*
+*************************************************************************/
 template<typename T>
 class AVLTree : public BinarySearchTree<T>
 {
 public:
+	AVLTree();
+	AVLTree(const AVLTree<T> & copy);
+
+	virtual ~AVLTree();
+
+	AVLTree<T> & operator=(const AVLTree<T> & rhs);
+
+
 	virtual void Insert(const T & data);
 	virtual void Delete(const T & data);
 
@@ -25,10 +75,68 @@ protected:
 
 	void RotateRight(BinaryTreeNode<T> *& root);
 	void RotateLeft(BinaryTreeNode<T> *& root);
+
+	virtual void DeepCopy(BinaryTreeNode<T> *& root, const BinaryTreeNode<T> * copy);
 };
 
 
+///////////////////////////////////////////////////////////////
+//	C'TORS & D'TOR
+//////
 
+template<typename T>
+AVLTree<T>::AVLTree()
+{}
+
+template<typename T>
+AVLTree<T>::AVLTree(const AVLTree<T>& copy)
+{
+	DeepCopy(m_root, copy.m_root);
+}
+
+template<typename T>
+AVLTree<T>::~AVLTree()
+{
+	Purge(m_root);
+}
+
+//////
+//	END C'TORS & D'TOR
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	OPERATORS
+//////
+
+template<typename T>
+AVLTree<T>& AVLTree<T>::operator=(const AVLTree<T>& rhs)
+{
+	if (this != &rhs)
+	{
+		BinarySearchTree<T>::operator=(rhs);
+	}
+
+	return *this;
+}
+
+//////
+//	END OPERATORS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PUBLIC METHODS
+//////
+
+/************************************************************************
+* Purpose: Public wrapper around recursive Insert()
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void AVLTree<T>::Insert(const T & data)
 {
@@ -36,15 +144,43 @@ void AVLTree<T>::Insert(const T & data)
 	Insert(m_root, data, taller);
 }
 
+
+/************************************************************************
+* Purpose: Public wrapper around recursive Delete()
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:	Exception("Node to delete not found!")
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void AVLTree<T>::Delete(const T & data)
 {
 	bool shorter = false;
 	if (!Delete(m_root, data, shorter))
-		shorter = true;
-		//throw Exception("Node to delete not found!");
+		throw Exception("Node to delete not found!");
 }
 
+//////
+//	END PUBLIC METHODS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PROTECTED METHODS
+//////
+
+/************************************************************************
+* Purpose: Recursively find and insert the given data into the tree
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	root, taller
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller)
 {
@@ -103,15 +239,28 @@ void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller
 	}
 }
 
+
+/************************************************************************
+* Purpose: Recursively find and remove the given data from the tree
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	root, shorter
+*		Throws:		N/A
+*		Returns:	TRUE if a matching node was found
+*************************************************************************/
 template<typename T>
 bool AVLTree<T>::Delete(BinaryTreeNode<T>*& root, const T & data, bool & shorter)
 {
 	bool success = false;
 
+	// not found
 	if (root == nullptr)
 	{
 		shorter = false;
 	}
+	// left
 	else if (data < root->Data())
 	{
 		success = Delete(root->Left(), data, shorter);
@@ -119,6 +268,7 @@ bool AVLTree<T>::Delete(BinaryTreeNode<T>*& root, const T & data, bool & shorter
 		if (shorter)
 			DeleteRightBalance(root, shorter);
 	}
+	// right
 	else if (data > root->Data())
 	{
 		success = Delete(root->Right(), data, shorter);
@@ -126,8 +276,12 @@ bool AVLTree<T>::Delete(BinaryTreeNode<T>*& root, const T & data, bool & shorter
 		if (shorter)
 			DeleteLeftBalance(root, shorter);
 	}
+	// found
 	else
 	{
+		// We found a matching node!
+		success = true;
+
 		// Case 4
 		if (root->Left() && root->Right())
 		{
@@ -182,6 +336,17 @@ bool AVLTree<T>::Delete(BinaryTreeNode<T>*& root, const T & data, bool & shorter
 	return success;
 }
 
+
+/************************************************************************
+* Purpose: Update balances and rotate the tree after a node has been inserted
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	root, taller
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void AVLTree<T>::LeftBalance(BinaryTreeNode<T> *& root, bool & taller)
 {
@@ -229,6 +394,17 @@ void AVLTree<T>::LeftBalance(BinaryTreeNode<T> *& root, bool & taller)
 	}
 }
 
+
+/************************************************************************
+* Purpose: Update balances and rotate the tree after a node has been inserted
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	root, taller
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void AVLTree<T>::RightBalance(BinaryTreeNode<T> *& root, bool & taller)
 {
@@ -276,6 +452,17 @@ void AVLTree<T>::RightBalance(BinaryTreeNode<T> *& root, bool & taller)
 	}
 }
 
+
+/************************************************************************
+* Purpose: Update balances and rotate the tree after a node has been deleted
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	root, shorter
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void AVLTree<T>::DeleteRightBalance(BinaryTreeNode<T>*& root, bool & shorter)
 {
@@ -348,12 +535,23 @@ void AVLTree<T>::DeleteRightBalance(BinaryTreeNode<T>*& root, bool & shorter)
 	}
 }
 
+
+/************************************************************************
+* Purpose: Update balances and rotate the tree after a node has been deleted
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	root, shorter
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void AVLTree<T>::DeleteLeftBalance(BinaryTreeNode<T>*& root, bool & shorter)
 {
 	AVLTreeNode<T> * _root = dynamic_cast<AVLTreeNode<T> *>(root);
-	AVLTreeNode<T> * left;// = dynamic_cast<AVLTreeNode<T> *>(root->Left());
-	AVLTreeNode<T> * right;// = dynamic_cast<AVLTreeNode<T> *>(left->Right());
+	AVLTreeNode<T> * left;
+	AVLTreeNode<T> * right;
 
 	switch (_root->Balance())
 	{
@@ -378,7 +576,7 @@ void AVLTree<T>::DeleteLeftBalance(BinaryTreeNode<T>*& root, bool & shorter)
 
 			case RH:
 				_root->Balance() = EH;
-				left->Balance() = RH;
+				left->Balance() = LH;
 				break;
 			}
 
@@ -420,6 +618,16 @@ void AVLTree<T>::DeleteLeftBalance(BinaryTreeNode<T>*& root, bool & shorter)
 	}
 }
 
+/************************************************************************
+* Purpose: Rotate nodes right from the given root
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	root
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void AVLTree<T>::RotateRight(BinaryTreeNode<T> *& root)
 {
@@ -432,6 +640,17 @@ void AVLTree<T>::RotateRight(BinaryTreeNode<T> *& root)
 	parent->Left() = T2;
 }
 
+
+/************************************************************************
+* Purpose: Rotate nodes left from the given root
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	root
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void AVLTree<T>::RotateLeft(BinaryTreeNode<T> *& root)
 {
@@ -444,5 +663,34 @@ void AVLTree<T>::RotateLeft(BinaryTreeNode<T> *& root)
 	parent->Right() = T2;
 }
 
+
+/************************************************************************
+* Purpose: Recursive method of copying all data from another tree
+*
+* Precondition:
+*
+* Postcondition:
+*		Modifies:	m_root
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
+template<typename T>
+void AVLTree<T>::DeepCopy(BinaryTreeNode<T> *& root, const BinaryTreeNode<T> * copy)
+{
+	if (copy)
+	{
+		const AVLTreeNode<T> * _copy = dynamic_cast<const AVLTreeNode<T> *>(copy);
+		root = new AVLTreeNode<T>(*_copy);
+		root->Left() = nullptr;
+		root->Right() = nullptr;
+
+		DeepCopy(root->Left(), copy->Left());
+		DeepCopy(root->Right(), copy->Right());
+	}
+}
+
+//////
+//	END PROTECTED METHODS
+///////////////////////////////////////////////////////////////
 
 #endif // AVLTREE_H

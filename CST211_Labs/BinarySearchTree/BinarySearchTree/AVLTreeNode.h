@@ -1,10 +1,45 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		AVLTreeNode.h
+* Date Created:	2/15/16
+* Modifications:
+*	N/A
+*************************************************************************/
 #ifndef AVLTREENODE_H
 #define AVLTREENODE_H
 
 #include "BinaryTreeNode.h"
 
-enum BALANCE { LH, EH, RH };
+enum BALANCE { RH = -1, EH, LH };
 
+
+/************************************************************************
+* Class: AVLTreeNode
+*
+* Purpose: This class provides data storage and convenience methods for
+*			nodes in a balanced binary tree structure ADT
+*
+* Manager functions:
+* 	AVLTreeNode(data : const T &)
+*
+*	AVLTreeNode(copy : const AVLTreeNode &)
+*	operator = (rhs : const AVLTreeNode &)
+*
+*	~AVLTreeNode()
+*
+* Methods:
+*
+*	Balance() : BALANCE &
+*	
+* Inherited from BinaryTreeNode :
+*
+*		Data()	: T &
+*
+*		Left()	: BinaryTreeNode *&
+*
+*		Right()	: BinaryTreeNode *&
+*
+*************************************************************************/
 template<typename T>
 class AVLTreeNode : public BinaryTreeNode<T>
 {
@@ -22,16 +57,17 @@ protected:
 	AVLTreeNode & operator=(const AVLTreeNode & rhs);
 
 	// METHODS
-	void SetBalance(int balance);
-
 	BALANCE & Balance();
 	const BALANCE & Balance() const;
 
+	// MEMBERS
 	BALANCE m_balance;
 };
 
 
-
+///////////////////////////////////////////////////////////////
+//	C'TORS & D'TOR
+//////
 
 template<typename T>
 AVLTreeNode<T>::AVLTreeNode(const T & data)
@@ -47,6 +83,15 @@ template<typename T>
 AVLTreeNode<T>::~AVLTreeNode()
 {}
 
+//////
+//	END C'TORS & D'TOR
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	OPERATORS
+//////
+
+
 template<typename T>
 AVLTreeNode<T> & AVLTreeNode<T>::operator=(const AVLTreeNode & rhs)
 {
@@ -59,16 +104,13 @@ AVLTreeNode<T> & AVLTreeNode<T>::operator=(const AVLTreeNode & rhs)
 	return *this;
 }
 
-template<typename T>
-void AVLTreeNode<T>::SetBalance(int balance)
-{
-	if (balance == 0)
-		m_balance = EH;
-	else if (balance < 0)
-		m_balance = RH;
-	else
-		m_balance = LH;
-}
+//////
+//	END OPERATORS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PROTECTED METHODS
+//////
 
 template<typename T>
 BALANCE & AVLTreeNode<T>::Balance()
@@ -81,5 +123,9 @@ const BALANCE & AVLTreeNode<T>::Balance() const
 {
 	return m_balance;
 }
+
+//////
+//	END PROTECTED METHODS
+///////////////////////////////////////////////////////////////
 
 #endif // AVLTREENODE_H

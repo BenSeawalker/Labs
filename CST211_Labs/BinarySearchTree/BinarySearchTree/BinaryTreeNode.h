@@ -5,8 +5,8 @@
 * Modifications:
 *	N/A
 *************************************************************************/
-#ifndef TREENODE_H
-#define TREENODE_H
+#ifndef BINARYTREENODE_H
+#define BINARYTREENODE_H
 
 
 /************************************************************************
@@ -27,9 +27,9 @@
 *
 *	Data()	: T &
 *
-*	Left()	: BinaryTreeNode *
+*	Left()	: BinaryTreeNode *&
 *
-*	Right()	: BinaryTreeNode *
+*	Right()	: BinaryTreeNode *&
 *
 *************************************************************************/
 template<typename T>
@@ -116,7 +116,7 @@ BinaryTreeNode<T> & BinaryTreeNode<T>::operator=(const BinaryTreeNode & rhs)
 ///////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////
-//	PRIVATE METHODS
+//	PROTECTED METHODS
 //////
 
 template<typename T>
@@ -158,8 +158,8 @@ const BinaryTreeNode<T> * BinaryTreeNode<T>::Right() const
 }
 
 //////
-//	END PRIVATE METHODS
+//	END PROTECTED METHODS
 ///////////////////////////////////////////////////////////////
 
 
-#endif // TREENODE_H
+#endif // BINARYTREENODE_H

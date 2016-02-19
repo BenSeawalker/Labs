@@ -32,7 +32,7 @@
 *
 *	Enqueue(T item)	: void
 *
-*	Dequeue()			: T
+*	Dequeue()		: T
 *
 *	Front()			: T
 *
