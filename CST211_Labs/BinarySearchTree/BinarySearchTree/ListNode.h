@@ -3,7 +3,7 @@
 * Filename:		listnode.h
 * Date Created:	1/6/16
 * Modifications:
-*	N/A
+*	2/20/16 Fixed constness of getters and setters
 *************************************************************************/
 
 #ifndef LISTNODE_H
@@ -39,15 +39,21 @@
 *************************************************************************/
 template<typename T>
 class ListNode
-{ 
-    template<typename DT>
-    friend class DoubleLinkedList;
+{
+	template<typename DT>
+	friend class DoubleLinkedList;
 
 public:
     // METHODS
     T & Data();
-	void SetData(const T & data);
+	const T & Data() const;
     
+	ListNode<T> *& Prev();
+	const ListNode<T> * Prev() const;
+
+	ListNode<T> *& Next();
+	const ListNode<T> * Next() const;
+
 private:
     // C'TORS & D'TOR
     ListNode();
@@ -58,11 +64,7 @@ private:
     
     // OPERATORS
     ListNode<T> & operator=(const ListNode & rhs);
-    
-    // METHODS
-	ListNode<T> *& Prev();
-	ListNode<T> *& Next();
-    
+
     // MEMBERS
     T m_data;
     ListNode<T> * m_prev;
@@ -127,21 +129,19 @@ T & ListNode<T>::Data()
 }
 
 template<typename T>
-void ListNode<T>::SetData(const T & data)
+const T & ListNode<T>::Data() const
 {
-	m_data = data;
+	return m_data;
 }
-
-//////
-// END PUBLIC METHODS
-///////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////
-// PRIVATE METHODS
-//////
 
 template<typename T>
 ListNode<T> *& ListNode<T>::Prev()
+{
+	return m_prev;
+}
+
+template<typename T>
+const ListNode<T>* ListNode<T>::Prev() const
 {
 	return m_prev;
 }
@@ -152,8 +152,14 @@ ListNode<T> *& ListNode<T>::Next()
 	return m_next;
 }
 
+template<typename T>
+const ListNode<T>* ListNode<T>::Next() const
+{
+	return m_next;
+}
+
 //////
-// END PRIVATE METHODS
+// END PUBLIC METHODS
 ///////////////////////////////////////////////////////////////
 
 #endif // LISTNODE_H

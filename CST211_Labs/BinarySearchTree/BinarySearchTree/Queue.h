@@ -63,6 +63,8 @@ public:
 	T & Front();
 	const T & Front() const;
 
+	void Purge();
+
 private:
 	// MEMBERS
 	DoubleLinkedList<T> m_list;
@@ -229,6 +231,13 @@ const T & Queue<T>::Front() const
 		throw Exception("Queue Underflow!");
 
 	return m_list.First();
+}
+
+template<typename T>
+void Queue<T>::Purge()
+{
+	m_list.Purge();
+	m_size = 0;
 }
 
 //////

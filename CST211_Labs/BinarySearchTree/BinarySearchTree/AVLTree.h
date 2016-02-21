@@ -67,8 +67,8 @@ protected:
 
 	bool Delete(BinaryTreeNode<T> *& root, const T & data, bool & shorter);
 
-	void LeftBalance(BinaryTreeNode<T> *& root, bool & taller);
-	void RightBalance(BinaryTreeNode<T> *& root, bool & taller);
+	void InsertLeftBalance(BinaryTreeNode<T> *& root, bool & taller);
+	void InsertRightBalance(BinaryTreeNode<T> *& root, bool & taller);
 
 	void DeleteRightBalance(BinaryTreeNode<T> *& root, bool & shorter);
 	void DeleteLeftBalance(BinaryTreeNode<T> *& root, bool & shorter);
@@ -199,7 +199,7 @@ void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller
 			switch (_root->Balance())
 			{
 			case LH:
-				LeftBalance(root, taller);
+				InsertLeftBalance(root, taller);
 				break;
 
 			case EH:
@@ -232,7 +232,7 @@ void AVLTree<T>::Insert(BinaryTreeNode<T> *& root, const T & data, bool & taller
 				break;
 
 			case RH:
-				RightBalance(root, taller);
+				InsertRightBalance(root, taller);
 				break;
 			}
 		}
@@ -348,7 +348,7 @@ bool AVLTree<T>::Delete(BinaryTreeNode<T>*& root, const T & data, bool & shorter
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void AVLTree<T>::LeftBalance(BinaryTreeNode<T> *& root, bool & taller)
+void AVLTree<T>::InsertLeftBalance(BinaryTreeNode<T> *& root, bool & taller)
 {
 	AVLTreeNode<T> * _root = dynamic_cast<AVLTreeNode<T> *>(root);
 	AVLTreeNode<T> * left = dynamic_cast<AVLTreeNode<T> *>(root->Left());
@@ -406,7 +406,7 @@ void AVLTree<T>::LeftBalance(BinaryTreeNode<T> *& root, bool & taller)
 *		Returns:	N/A
 *************************************************************************/
 template<typename T>
-void AVLTree<T>::RightBalance(BinaryTreeNode<T> *& root, bool & taller)
+void AVLTree<T>::InsertRightBalance(BinaryTreeNode<T> *& root, bool & taller)
 {
 	AVLTreeNode<T> * _root = dynamic_cast<AVLTreeNode<T> *>(root);
 	AVLTreeNode<T> * right = dynamic_cast<AVLTreeNode<T> *>(root->Right());

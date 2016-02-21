@@ -10,6 +10,7 @@
 #define DOUBLELINKEDLIST_H
 
 #include "ListNode.h"
+#include "Exception.h"
 
 /************************************************************************
 * Class: DoubleLinkedList
@@ -48,6 +49,12 @@
 template<typename T>
 class DoubleLinkedList
 {
+	template<typename IST, typename IRT, typename IT>
+	friend class ListIterator;
+
+	template<typename BST, typename BRT, typename BT>
+	friend class BackwardIterator;
+
 public:
     // C'TORS & D'TOR
     DoubleLinkedList();
@@ -59,8 +66,11 @@ public:
     DoubleLinkedList<T> & operator=(const DoubleLinkedList & rhs);
     
     // METHODS
+	bool Size() const;
     bool isEmpty() const;
-    const T & First() const;
+    T & First();
+	const T & First() const;
+	T & Last();
 	const T & Last() const;
     
     void Prepend(const T & item);
@@ -80,6 +90,7 @@ private:
     // MEMBERS
     ListNode<T> * m_head;
     ListNode<T> * m_tail;
+	int m_size;
 };
 
 
@@ -90,12 +101,12 @@ private:
 
 template<typename T>
 DoubleLinkedList<T>::DoubleLinkedList()
-    : m_head(nullptr), m_tail(nullptr)
+	: m_head(nullptr), m_tail(nullptr), m_size(0)
 {}
 
 template<typename T>
 DoubleLinkedList<T>::DoubleLinkedList(const DoubleLinkedList & copy)
-    : m_head(nullptr), m_tail(nullptr)
+    : m_head(nullptr), m_tail(nullptr), m_size(copy.m_size)
 {
     DeepCopyNodes(this, &copy);
 }
@@ -128,6 +139,8 @@ DoubleLinkedList<T>::~DoubleLinkedList()
 template<typename T>
 DoubleLinkedList<T> & DoubleLinkedList<T>::operator=(const DoubleLinkedList & rhs)
 {
+	m_size = rhs.m_size;
+
     if(this != &rhs)
         DeepCopyNodes(this, &rhs);
 
@@ -142,10 +155,17 @@ DoubleLinkedList<T> & DoubleLinkedList<T>::operator=(const DoubleLinkedList & rh
 // PUBLIC METHODS
 //////
 
+
+template<typename T>
+bool DoubleLinkedList<T>::Size() const
+{
+	return m_size;
+}
+
 template<typename T>
 bool DoubleLinkedList<T>::isEmpty() const
 {
-    return (m_head == nullptr);
+    return (m_size == 0);
 }
 
 
@@ -161,12 +181,21 @@ bool DoubleLinkedList<T>::isEmpty() const
 *		Returns:	A const reference to the first data value
 *************************************************************************/
 template<typename T>
-const T & DoubleLinkedList<T>::First() const
+T & DoubleLinkedList<T>::First()
 {
     if(m_head == nullptr)
         throw Exception("Cannot access first element: LIST_IS_EMPTY");
     
     return m_head->Data();
+}
+
+template<typename T>
+const T & DoubleLinkedList<T>::First() const
+{
+	if (m_head == nullptr)
+		throw Exception("Cannot access first element: LIST_IS_EMPTY");
+
+	return m_head->Data();
 }
 
 /************************************************************************
@@ -181,7 +210,7 @@ const T & DoubleLinkedList<T>::First() const
 *		Returns:	A const reference to the last data value
 *************************************************************************/
 template<typename T>
-const T & DoubleLinkedList<T>::Last() const
+T & DoubleLinkedList<T>::Last()
 {
     if(m_head == nullptr)
         throw Exception("Cannot access last element: LIST_IS_EMPTY");
@@ -189,6 +218,14 @@ const T & DoubleLinkedList<T>::Last() const
     return m_tail->Data();
 }
 
+template<typename T>
+const T & DoubleLinkedList<T>::Last() const
+{
+	if (m_head == nullptr)
+		throw Exception("Cannot access last element: LIST_IS_EMPTY");
+
+	return m_tail->Data();
+}
 
 /************************************************************************
 * Purpose: To insert an item into the beginning of the list
@@ -217,6 +254,8 @@ void DoubleLinkedList<T>::Prepend(const T & item)
 		m_head->Prev() = node;
 		m_head = node;
 	}
+
+	m_size++;
 }
 
 /************************************************************************
@@ -247,6 +286,7 @@ void DoubleLinkedList<T>::Append(const T & item)
         m_tail = node;
     }
     
+	m_size++;
 }
 
 
@@ -282,6 +322,8 @@ void DoubleLinkedList<T>::InsertBefore(const T & item, const T & before)
         node->Prev() = found_node->Prev();
         node->Next() = found_node;
         found_node->Prev() = node;
+
+		m_size++;
     }
 }
 
@@ -317,6 +359,8 @@ void DoubleLinkedList<T>::InsertAfter(const T & item, const T & after)
         node->Prev() = found_node;
         node->Next() = found_node->Next();
         found_node->Next() = node;
+
+		m_size++;
     }
 }
 
@@ -348,6 +392,7 @@ void DoubleLinkedList<T>::Purge()
 
 	m_head = nullptr;
 	m_tail = nullptr;
+	m_size = 0;
 }
 
 /************************************************************************
@@ -372,7 +417,12 @@ void DoubleLinkedList<T>::Extract(const T & item)
     }
     else
     {
-        if(found_node == m_head)
+		if (m_head == m_tail)
+		{
+			m_head = nullptr;
+			m_tail = nullptr;
+		}
+        else if(found_node == m_head)
         {
             m_head = m_head->Next();
 			if (m_head)
@@ -391,6 +441,7 @@ void DoubleLinkedList<T>::Extract(const T & item)
         }
         
         delete found_node;
+		m_size--;
     }
 }
 
@@ -422,7 +473,7 @@ ListNode<T> * DoubleLinkedList<T>::FindNode(const T & data)
     
     while(travel && !found)
     {
-        if(travel->Data() == data)            
+        if(travel->Data() == data)
             found = true;
         else
             travel = travel->Next();

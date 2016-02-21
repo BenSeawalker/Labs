@@ -148,11 +148,20 @@
   <ItemGroup>
     <ClInclude Include="AVLTree.h" />
     <ClInclude Include="AVLTreeNode.h" />
+    <ClInclude Include="BackwardIterator.h" />
     <ClInclude Include="BinarySearchTree.h" />
+    <ClInclude Include="BreadthFirstIterator.h" />
+    <ClInclude Include="BSTIterator.h" />
     <ClInclude Include="crtdbg_new.h" />
     <ClInclude Include="DoubleLinkedList.h" />
     <ClInclude Include="Exception.h" />
+    <ClInclude Include="ForwardIterator.h" />
+    <ClInclude Include="AbstractIterator.h" />
+    <ClInclude Include="InOrderIterator.h" />
+    <ClInclude Include="ListIterator.h" />
     <ClInclude Include="ListNode.h" />
+    <ClInclude Include="PostOrderIterator.h" />
+    <ClInclude Include="PreOrderIterator.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="BinaryTreeNode.h" />
   </ItemGroup>

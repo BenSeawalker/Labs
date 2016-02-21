@@ -49,6 +49,9 @@
 template<typename T>
 class BinarySearchTree
 {
+	template<typename SIT>//, typename IT>
+	friend class BSTIterator;
+
 public:
 	typedef void(*visit_t)(T &);
 	typedef void(*cvisit_t)(const T &);

@@ -6,7 +6,7 @@ Modifications:
 
 Lab/Assignment: L4
 
-Overview: Test of (AVL) Balanced Binary Search Tree ADT
+Overview: Test of List and Tree Iterators
 
 Input: Input is hardcoded directly into Main.cpp and consists of debug testing statements
 
@@ -32,6 +32,14 @@ using std::endl;
 
 #include "AVLTree.h"
 
+#include "ForwardIterator.h"
+#include "BackwardIterator.h"
+
+#include "PreOrderIterator.h"
+#include "InOrderIterator.h"
+#include "PostOrderIterator.h"
+#include "BreadthFirstIterator.h"
+
 void TestTraversals();
 void TestDelete();
 
@@ -43,8 +51,29 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	TestTraversals();
-	TestDelete();
+	DoubleLinkedList<int> list;
+	list.Append(1);
+	list.Append(2);
+	list.Append(3);
+	list.Append(4);
+	list.Append(5);
+
+	const DoubleLinkedList<int> cp(list);
+
+	ForwardIterator<const DoubleLinkedList<int>, const int, int> fi(&cp);
+	for (fi.Reset(); !fi.IsDone(); fi.MoveNext())
+		Display(fi.GetCurrent());
+
+	cout << endl << endl;
+
+	/*BackwardIterator<int> bi(&list);
+	for (bi.Reset(); !bi.IsDone(); bi.MoveNext())
+		Display(bi.GetCurrent());*/
+
+	cout << endl << endl;
+
+	//TestTraversals();
+	//TestDelete();
 
 	system("pause");
 
@@ -70,46 +99,65 @@ void TestTraversals()
 	tree.Insert(7);
 	tree.Insert(11);
 
-	cout << "Height: " << tree.Height() << endl << endl;
-
-	cout << "Pre:       ";
-	tree.PreOrderTraversal(&Display);
-	cout << endl << endl;
-
-	cout << "In:        ";
-	tree.InOrderTraversal(&Display);
-	cout << endl << endl;
-
-	cout << "Post:      ";
-	tree.PostOrderTraversal(&Display);
-	cout << endl << endl;
-
-	cout << "Breadth:   ";
-	tree.BreadthFirstTraversal(&Display);
-	cout << endl << endl;
-
-	cout << "\nUsing constant BinarySearchTree\n" << endl;
-	const AVLTree<int> cp(tree);
-
-	cout << "Height: " << cp.Height() << endl << endl;
-
-	cout << "Pre:       ";
-	cp.PreOrderTraversal(&Display);
-	cout << endl << endl;
-
-	cout << "In:        ";
-	cp.InOrderTraversal(&Display);
-	cout << endl << endl;
-
-	cout << "Post:      ";
-	cp.PostOrderTraversal(&Display);
-	cout << endl << endl;
-
-	cout << "Breadth:   ";
-	cp.BreadthFirstTraversal(&Display);
-	cout << endl << endl;
-
-	cout << endl << endl << endl;
+// 	PreOrderIterator<int> pre(&tree);
+// 	InOrderIterator<int> in(&tree);
+// 	PostOrderIterator<int> post(&tree);
+// 	BreadthFirstIterator<int> breadth(&tree);
+// 
+// 	cout << "Height: " << tree.Height() << endl << endl;
+// 
+// 	cout << "Pre:       ";
+// 	tree.PreOrderTraversal(&Display);
+// 	cout << endl << "Pre:       ";
+// 	for (pre.Reset(); !pre.IsDone(); pre.MoveNext())
+// 		Display(pre.GetCurrent());
+// 	cout << endl << endl;
+// 
+// 	cout << "In:        ";
+// 	tree.InOrderTraversal(&Display);
+// 	cout << endl << "In:        ";
+// 	for (in.Reset(); !in.IsDone(); in.MoveNext())
+// 		Display(in.GetCurrent());
+// 	cout << endl << endl;
+// 
+// 	cout << "Post:      ";
+// 	tree.PostOrderTraversal(&Display);
+// 	cout << endl << "Post:      ";
+// 	for (post.Reset(); !post.IsDone(); post.MoveNext())
+// 		Display(post.GetCurrent());
+// 	cout << endl << endl;
+// 
+// 	cout << "Breadth:   ";
+// 	tree.BreadthFirstTraversal(&Display);
+// 	cout << endl << "Breadth:   ";
+// 	for (breadth.Reset(); !breadth.IsDone(); breadth.MoveNext())
+// 		Display(breadth.GetCurrent());
+// 	cout << endl << endl;
+// 
+// 	cout << "\nUsing constant BinarySearchTree\n" << endl;
+// 	const AVLTree<int> cp(tree);
+// 
+// 	PreOrderIterator<int> cp_pre(&cp);
+// 
+// 	cout << "Height: " << cp.Height() << endl << endl;
+// 
+// 	cout << "Pre:       ";
+// 	cp.PreOrderTraversal(&Display);
+// 	cout << endl << endl;
+// 
+// 	cout << "In:        ";
+// 	cp.InOrderTraversal(&Display);
+// 	cout << endl << endl;
+// 
+// 	cout << "Post:      ";
+// 	cp.PostOrderTraversal(&Display);
+// 	cout << endl << endl;
+// 
+// 	cout << "Breadth:   ";
+// 	cp.BreadthFirstTraversal(&Display);
+// 	cout << endl << endl;
+// 
+// 	cout << endl << endl << endl;
 }
 
 void TestDelete()
@@ -227,6 +275,17 @@ void TestDelete()
 	tree.BreadthFirstTraversal(&Display);
 	cout << "\n\nHeight: " << tree.Height() << endl;
 	tree = cp;
+
+
+	cout << "\n\nDeleting: 156\n" << endl;
+	try
+	{
+		tree.Delete(156);
+	}
+	catch (const Exception & exc)
+	{
+		cout << exc << endl;
+	}
 
 	cout << endl << endl << endl;
 }

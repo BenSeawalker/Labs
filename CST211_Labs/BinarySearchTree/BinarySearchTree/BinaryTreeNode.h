@@ -41,16 +41,7 @@ class BinaryTreeNode
 	template<typename AT>
 	friend class AVLTree;
 
-protected:
-	// CTORS & DTOR
-	BinaryTreeNode(const T & data);
-	BinaryTreeNode(const BinaryTreeNode & copy);
-	
-	virtual ~BinaryTreeNode();
-
-	// OPERATORS
-	BinaryTreeNode & operator=(const BinaryTreeNode & rhs);
-
+public:
 	// METHODS
 	T & Data();
 	const T & Data() const;
@@ -60,6 +51,16 @@ protected:
 
 	BinaryTreeNode *& Right();
 	const BinaryTreeNode * Right() const;
+
+protected:
+	// CTORS & DTOR
+	BinaryTreeNode(const T & data);
+	BinaryTreeNode(const BinaryTreeNode & copy);
+	
+	virtual ~BinaryTreeNode();
+
+	// OPERATORS
+	BinaryTreeNode & operator=(const BinaryTreeNode & rhs);
 
 	// MEMBERS
 	T m_data;

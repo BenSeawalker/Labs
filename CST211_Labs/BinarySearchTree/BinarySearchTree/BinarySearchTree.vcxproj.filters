@@ -16,9 +16,6 @@
     <Filter Include="Header Files\Structures">
       <UniqueIdentifier>{fa33267d-c6e4-4076-a647-1cb05b002ff9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Structures\LinkedList">
-      <UniqueIdentifier>{b340cf81-7792-48e4-af6c-8aa84bc67a0b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Structures\Binary Trees">
       <UniqueIdentifier>{27a49fd0-3628-45c6-a014-f6b7d10bc52c}</UniqueIdentifier>
     </Filter>
@@ -34,6 +31,18 @@
     <Filter Include="Header Files\Structures\Binary Trees\AVL Tree">
       <UniqueIdentifier>{15f730ab-d093-4694-bcba-140e1eeb9c8d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Iterators">
+      <UniqueIdentifier>{a82b668a-3caa-43ba-9593-627ed46414bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Iterators\Binary Tree">
+      <UniqueIdentifier>{024d3631-3dc5-4f40-8f8f-31a57455fe0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Structures\Linked List">
+      <UniqueIdentifier>{b340cf81-7792-48e4-af6c-8aa84bc67a0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Iterators\Linked List">
+      <UniqueIdentifier>{eb6e78c0-0ae4-48f9-a6dc-f7402c6b1581}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -48,10 +57,10 @@
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
     <ClInclude Include="ListNode.h">
-      <Filter>Header Files\Structures\LinkedList</Filter>
+      <Filter>Header Files\Structures\Linked List</Filter>
     </ClInclude>
     <ClInclude Include="DoubleLinkedList.h">
-      <Filter>Header Files\Structures\LinkedList</Filter>
+      <Filter>Header Files\Structures\Linked List</Filter>
     </ClInclude>
     <ClInclude Include="crtdbg_new.h">
       <Filter>Header Files\Debug</Filter>
@@ -70,6 +79,33 @@
     </ClInclude>
     <ClInclude Include="AVLTreeNode.h">
       <Filter>Header Files\Structures\Binary Trees\AVL Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="ListIterator.h">
+      <Filter>Header Files\Iterators\Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardIterator.h">
+      <Filter>Header Files\Iterators\Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractIterator.h">
+      <Filter>Header Files\Iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="BackwardIterator.h">
+      <Filter>Header Files\Iterators\Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="BSTIterator.h">
+      <Filter>Header Files\Iterators\Binary Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="PreOrderIterator.h">
+      <Filter>Header Files\Iterators\Binary Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="InOrderIterator.h">
+      <Filter>Header Files\Iterators\Binary Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="PostOrderIterator.h">
+      <Filter>Header Files\Iterators\Binary Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="BreadthFirstIterator.h">
+      <Filter>Header Files\Iterators\Binary Tree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
