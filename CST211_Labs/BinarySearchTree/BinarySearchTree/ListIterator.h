@@ -1,3 +1,10 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		ListIterator.h
+* Date Created:	2/20/16
+* Modifications:
+*	N/A
+*************************************************************************/
 #ifndef LISTITERATOR_H
 #define LISTITERATOR_H
 
@@ -5,8 +12,29 @@
 #include "DoubleLinkedList.h"
 #include "ListNode.h"
 
-template<typename ST, typename RT, typename T>
-class ListIterator : public AbstractIterator<ST, RT, T>
+/************************************************************************
+* Class: ListIterator
+*
+* Purpose: To provide base functionality for iterating over all elements in a DoubleLinkedList
+*			Default functionality is to start at the beginning and move forward
+*
+* Manager functions:
+* 	ListIterator ( )
+*	ListIterator (const ListIterator & copy)
+*	operator = (const ListIterator & rhs)
+*
+*	~ListIterator()
+*
+* Methods:
+*	PUBLIC
+*		Reset()			: void
+*		MoveNext()		: void
+*		GetCurrent()	: T &
+*		IsDone()		: void
+*
+*************************************************************************/
+template<typename T>
+class ListIterator : public AbstractIterator<T>
 {
 public:
 	// DTOR
@@ -17,43 +45,55 @@ public:
 
 	virtual void MoveNext();
 
-	virtual RT & GetCurrent();
+	virtual T & GetCurrent();
 
 	virtual bool IsDone() const;
 
 protected:
 	// CTORS
-	ListIterator(ST * list);
+	ListIterator(DoubleLinkedList<T> * list);
 	ListIterator(const ListIterator & copy);
 
 	// OPERATORS
 	ListIterator & operator=(const ListIterator & rhs);
 
 	// MEMBERS
-	ST * m_list;
+	DoubleLinkedList<T> * m_list;
 	ListNode<T> * m_current;
 };
 
 
-template<typename ST, typename RT, typename T>
-ListIterator<ST, RT, T>::ListIterator(ST * list)
+///////////////////////////////////////////////////////////////
+// C'TORS & D'TOR
+//////
+
+template<typename T>
+ListIterator<T>::ListIterator(DoubleLinkedList<T> * list)
 	: m_list(list), m_current(list->m_head)
 {}
 
-template<typename ST, typename RT, typename T>
-ListIterator<ST, RT, T>::ListIterator(const ListIterator & copy)
+template<typename T>
+ListIterator<T>::ListIterator(const ListIterator & copy)
 	: m_list(copy.m_list), m_current(copy.m_current)
 {}
 
-template<typename ST, typename RT, typename T>
-ListIterator<ST, RT, T>::~ListIterator()
+template<typename T>
+ListIterator<T>::~ListIterator()
 {
 	m_list = nullptr;
 	m_current = nullptr;
 }
 
-template<typename ST, typename RT, typename T>
-ListIterator<ST, RT, T> & ListIterator<ST, RT, T>::operator=(const ListIterator & rhs)
+//////
+// END C'TORS & D'TOR
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+// OPERATORS
+//////
+
+template<typename T>
+ListIterator<T> & ListIterator<T>::operator=(const ListIterator & rhs)
 {
 	if (this != &rhs)
 	{
@@ -64,8 +104,27 @@ ListIterator<ST, RT, T> & ListIterator<ST, RT, T>::operator=(const ListIterator 
 	return *this;
 }
 
-template<typename ST, typename RT, typename T>
-void ListIterator<ST, RT, T>::Reset()
+//////
+// END OPERATORS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+// PUBLIC METHODS
+//////
+
+/************************************************************************
+* Purpose: To reset @m_current to the head of the list
+*
+* Precondition:
+*		@m_list : cannot be nullptr
+*
+* Postcondition:
+*		Modifies:	@m_current
+*		Throws:		Exception("Error accessing non-existent list!")
+*		Returns:	N/A
+*************************************************************************/
+template<typename T>
+void ListIterator<T>::Reset()
 {
 	if (!m_list)
 		throw Exception("Error accessing non-existent list!");
@@ -73,8 +132,19 @@ void ListIterator<ST, RT, T>::Reset()
 	m_current = m_list->m_head;
 }
 
-template<typename ST, typename RT, typename T>
-void ListIterator<ST, RT, T>::MoveNext()
+/************************************************************************
+* Purpose: To move @m_current to the "next" item in the list
+*
+* Precondition:
+*		IsDone() must return false
+*
+* Postcondition:
+*		Modifies:	@m_current
+*		Throws:		Exception("Cannot access next element! Iterator is done.")
+*		Returns:	N/A
+*************************************************************************/
+template<typename T>
+void ListIterator<T>::MoveNext()
 {
 	if (IsDone())
 		throw Exception("Cannot access next element! Iterator is done.");
@@ -82,8 +152,19 @@ void ListIterator<ST, RT, T>::MoveNext()
 	m_current = m_current->Next();
 }
 
-template<typename ST, typename RT, typename T>
-RT & ListIterator<ST, RT, T>::GetCurrent()
+/************************************************************************
+* Purpose: To get the data stored at the current element
+*
+* Precondition:
+*		IsDone() must return false
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		Exception("Cannot access current element! Iterator is done.")
+*		Returns:	N/A
+*************************************************************************/
+template<typename T>
+T & ListIterator<T>::GetCurrent()
 {
 	if (IsDone())
 		throw Exception("Cannot access current element! Iterator is done.");
@@ -91,11 +172,26 @@ RT & ListIterator<ST, RT, T>::GetCurrent()
 	return m_current->Data();
 }
 
-template<typename ST, typename RT, typename T>
-bool ListIterator<ST, RT, T>::IsDone() const
+/************************************************************************
+* Purpose: To check if all the elements have been iterated over
+*
+* Precondition:
+*		@m_current is equivalent to nullptr
+*
+* Postcondition:
+*		Modifies:	N/A
+*		Throws:		N/A
+*		Returns:	TRUE if the iterator has finished
+*************************************************************************/
+template<typename T>
+bool ListIterator<T>::IsDone() const
 {
 	return m_current == nullptr;
 }
+
+//////
+// END PUBLIC METHODS
+///////////////////////////////////////////////////////////////
 
 #endif // LISTITERATOR_H
 

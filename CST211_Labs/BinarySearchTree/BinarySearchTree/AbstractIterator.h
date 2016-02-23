@@ -1,3 +1,10 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		AbstractIterator.h
+* Date Created:	2/20/16
+* Modifications:
+*	N/A
+*************************************************************************/
 #ifndef ABSTRACTITERATOR_H
 #define ABSTRACTITERATOR_H
 
@@ -6,10 +13,10 @@
 /************************************************************************
 * Class: AbstractIterator<T>
 *
-* Purpose: This class acts as an interface for all types of AbstractIterator
+* Purpose: This class acts as an interface for all types of iterator
 *
 * Manager functions:
-*	N/A
+*	~AbstractIterator : virtual
 *
 * Methods:
 *	Public:
@@ -20,13 +27,15 @@
 *	Private:
 *		N/A
 *************************************************************************/
-template<typename ST, typename RT, typename T>
+template<typename T>
 class AbstractIterator
 {
 public:
+	virtual ~AbstractIterator() {}
+
 	virtual void Reset() = 0;
 	virtual void MoveNext() = 0;
-	virtual RT & GetCurrent() = 0;
+	virtual T & GetCurrent() = 0;
 	virtual bool IsDone() const = 0;
 };
 

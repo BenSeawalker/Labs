@@ -1,9 +1,32 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		PreOrderIterator.h
+* Date Created:	2/20/16
+* Modifications:
+*	N/A
+*************************************************************************/
 #ifndef PREORDERITERATOR_H
 #define PREORDERITERATOR_H
 
 #include "BSTIterator.h"
-#include "Queue.h"
 
+/************************************************************************
+* Class: PreOrderIterator
+*
+* Purpose: 
+*
+* Manager functions:
+* 	PreOrderIterator ( )
+*	PreOrderIterator (const PreOrderIterator & copy)
+*	operator = (const PreOrderIterator & rhs)
+*
+*	~PreOrderIterator()
+*
+* Methods:
+*	PRIVATE
+*		BuildQueue(root : BinaryTreeNode<T> *) : void
+*
+*************************************************************************/
 template<typename T>
 class PreOrderIterator : public BSTIterator<T>
 {
@@ -23,6 +46,10 @@ protected:
 };
 
 
+///////////////////////////////////////////////////////////////
+// C'TORS & D'TOR
+//////
+
 template<typename T>
 PreOrderIterator<T>::PreOrderIterator(BinarySearchTree<T> * tree)
 	: BSTIterator(tree)
@@ -37,6 +64,14 @@ template<typename T>
 PreOrderIterator<T>::~PreOrderIterator()
 {}
 
+//////
+// END C'TORS & D'TOR
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+// OPERATORS
+//////
+
 template<typename T>
 PreOrderIterator<T>& PreOrderIterator<T>::operator=(const PreOrderIterator<T> & rhs)
 {
@@ -48,6 +83,25 @@ PreOrderIterator<T>& PreOrderIterator<T>::operator=(const PreOrderIterator<T> & 
 	return *this;
 }
 
+//////
+// END OPERATORS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+// PRIVATE METHODS
+//////
+
+/************************************************************************
+* Purpose: To recursively build @m_queue with the pre-order algorithm
+*
+* Precondition:
+*		Recursion ends when root == nullptr
+*
+* Postcondition:
+*		Modifies:	@m_queue
+*		Throws:		N/A
+*		Returns:	N/A
+*************************************************************************/
 template<typename T>
 void PreOrderIterator<T>::BuildQueue(BinaryTreeNode<T> * root)
 {
@@ -58,5 +112,9 @@ void PreOrderIterator<T>::BuildQueue(BinaryTreeNode<T> * root)
 		BuildQueue(root->Right());
 	}
 }
+
+//////
+// END PRIVATE METHODS
+///////////////////////////////////////////////////////////////
 
 #endif // PREORDERITERATOR_H

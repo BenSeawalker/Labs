@@ -49,7 +49,7 @@
 template<typename T>
 class BinarySearchTree
 {
-	template<typename SIT>//, typename IT>
+	template<typename IT>
 	friend class BSTIterator;
 
 public:

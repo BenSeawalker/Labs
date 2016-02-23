@@ -49,10 +49,10 @@
 template<typename T>
 class DoubleLinkedList
 {
-	template<typename IST, typename IRT, typename IT>
+	template<typename IT>
 	friend class ListIterator;
 
-	template<typename BST, typename BRT, typename BT>
+	template<typename BT>
 	friend class BackwardIterator;
 
 public:

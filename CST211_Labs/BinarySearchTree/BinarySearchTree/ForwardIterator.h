@@ -1,39 +1,76 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		ForwardIterator.h
+* Date Created:	2/20/16
+* Modifications:
+*	N/A
+*************************************************************************/
 #ifndef FORWARDITERATOR_H
 #define FORWARDITERATOR_H
 
 #include "ListIterator.h"
 
-template<typename ST, typename RT, typename T>
-class ForwardIterator : public ListIterator<ST, RT, T>
+
+/************************************************************************
+* Class: ForwardIterator
+*
+* Purpose: To iterate over all elements in a DoubleLinkedList starting from the beginning
+*			and moving forward
+*
+* Manager functions:
+* 	ForwardIterator ( )
+*	ForwardIterator (const ForwardIterator & copy)
+*	operator = (const ForwardIterator & rhs)
+*
+*	~ForwardIterator()
+*
+* Methods:
+*	(passthrough, as ListIterator moves forward by default)
+*
+*************************************************************************/
+template<typename T>
+class ForwardIterator : public ListIterator<T>
 {
 public:
 	// CTORS & DTOR
-	ForwardIterator(ST * list);
+	ForwardIterator(DoubleLinkedList<T> * list);
 	ForwardIterator(const ForwardIterator & copy);
 
 	virtual ~ForwardIterator();
 
 	// OPERATORS
-	ForwardIterator<ST, RT, T> & operator=(const ForwardIterator & rhs);
+	ForwardIterator<T> & operator=(const ForwardIterator & rhs);
 };
 
 
-template<typename ST, typename RT, typename T>
-ForwardIterator<ST, RT, T>::ForwardIterator(ST * list)
+///////////////////////////////////////////////////////////////
+// C'TORS & D'TOR
+//////
+
+template<typename T>
+ForwardIterator<T>::ForwardIterator(DoubleLinkedList<T> * list)
 	: ListIterator(list)
 {}
 
-template<typename ST, typename RT, typename T>
-ForwardIterator<ST, RT, T>::ForwardIterator(const ForwardIterator<ST, RT, T> & copy)
+template<typename T>
+ForwardIterator<T>::ForwardIterator(const ForwardIterator<T> & copy)
 	: ListIterator(copy)
 {}
 
-template<typename ST, typename RT, typename T>
-ForwardIterator<ST, RT, T>::~ForwardIterator()
+template<typename T>
+ForwardIterator<T>::~ForwardIterator()
 {}
 
-template<typename ST, typename RT, typename T>
-ForwardIterator<ST, RT, T> & ForwardIterator<ST, RT, T>::operator=(const ForwardIterator<ST, RT, T> & rhs)
+//////
+// END C'TORS & D'TOR
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+// OPERATORS
+//////
+
+template<typename T>
+ForwardIterator<T> & ForwardIterator<T>::operator=(const ForwardIterator<T> & rhs)
 {
 	if (this != &rhs)
 	{
@@ -42,5 +79,9 @@ ForwardIterator<ST, RT, T> & ForwardIterator<ST, RT, T>::operator=(const Forward
 
 	return *this;
 }
+
+//////
+// END OPERATORS
+///////////////////////////////////////////////////////////////
 
 #endif // FORWARDITERATOR_H
