@@ -93,7 +93,16 @@ namespace InternalCompositeIteratorLab
             tf2.Add(johnc);
 
 
-            valve.Display();
+            //valve.Display();
+
+            //AbstractIterator iter = new CompositeIterator(valve);
+            //for (iter.First(); !iter.IsDone(); iter.MoveNext())
+            //    iter.GetCurrent().DisplayNode();
+
+            IVisitor comp_visitor = new CompositeVisitor(valve);
+
+            //IVisitor emp_visitor = new EmployeeVisitor(valve);
+
             Console.WriteLine();
         }
     }

@@ -37,5 +37,15 @@ namespace InternalCompositeIteratorLibrary16
         {
             throw new System.NotImplementedException();
         }
+
+        public virtual void DisplayNode()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void Accept(IVisitor visitor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

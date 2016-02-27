@@ -27,5 +27,15 @@ namespace InternalCompositeIteratorLibrary16
         {
             Console.WriteLine("Name: {0,-20} SSN: {1,-15} Salary: {2,20:C}", _name, _ssn, _salary);
         }
+
+        public override void DisplayNode()
+        {
+            Display();
+        }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

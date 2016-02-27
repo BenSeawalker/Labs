@@ -10,11 +10,10 @@ namespace InternalCompositeIteratorLibrary16
     {
         void First();
 
-        void Next();
+        void MoveNext();
 
         bool IsDone();
 
-        CompanyComponent CurrentItem();
-
+        CompanyComponent GetCurrent();
     }
 }

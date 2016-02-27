@@ -50,8 +50,22 @@ namespace InternalCompositeIteratorLibrary16
             Console.WriteLine("\n\nCompany Name:\t{0}\nDescription:\t{1}\n", _name, _description);
 
             AbstractIterator it = CreateIterator();
-            for (it.First(); !it.IsDone(); it.Next())
-                it.CurrentItem().Display();
+            for (it.First(); !it.IsDone(); it.MoveNext())
+                it.GetCurrent().Display();
+        }
+
+        public override void DisplayNode()
+        {
+            Console.WriteLine("\nCompany Name:\t{0}\nDescription:\t{1}\n", _name, _description);
+        }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
+
+            AbstractIterator it = CreateIterator();
+            for (it.First(); !it.IsDone(); it.MoveNext())
+                it.GetCurrent().Accept(visitor);
         }
     }
 }
