@@ -8,8 +8,15 @@
 #define GRAPH_H
 
 #include <list>
+using std::list;
+#include <stack>
+using std::stack;
+#include <queue>
+using std::queue;
+
 #include "Vertex.h"
 #include "Arc.h"
+#include "Exception.h"
 
 
 /************************************************************************
@@ -60,9 +67,9 @@ public:
 	Graph(const Graph<V, E> & copy);
 
 	~Graph();
-	
+
 	// OPERATORS
-	Graph & operator=(const Graph<V, E> & rhs);
+	Graph<V, E> & operator=(const Graph<V, E> & rhs);
 
 	// METHODS
 	void InsertVertex(const V & data);
@@ -79,7 +86,9 @@ public:
 private:
 	// METHODS
 	Vertex<V, E> * FindVertex(const V & data);
-	Arc<V, E> * FindArc(const V & from, const V & to, const E & edge);
+	Arc<V, E> * FindArc(Vertex<V, E> * from, Vertex<V, E> * v_to, const E & data);
+
+	void ProcessVertices(bool processed);
 
 	// MEMBERS
 	list<Vertex<V, E>> m_vertices;
@@ -113,7 +122,7 @@ Graph<V, E>::~Graph()
 //////
 
 template<typename V, typename E>
-Graph & Graph<V, E>::operator=(const Graph<V, E> & rhs)
+Graph<V, E> & Graph<V, E>::operator=(const Graph<V, E> & rhs)
 {
 	if (this != &rhs)
 	{
@@ -144,7 +153,18 @@ bool Graph<V, E>::DeleteVertex(const V & data)
 	Vertex<V, E> * found = FindVertex(data);
 
 	if (found)
+	{
+		// Remove all arcs with found vertex as their destination
+		list<Arc<V, E>>::iterator iter;
+		for (iter = found->Arcs().begin(); iter != found->Arcs().end(); ++iter)
+		{
+			Arc<V, E> * reverse_arc = FindArc(iter->Destination(), found, iter->Data());
+			iter->Destination()->Arcs().remove(*reverse_arc);
+		}
+
+		// Remove found vertex
 		m_vertices.remove(*found);
+	}
 
 	return (found != nullptr);
 }
@@ -156,30 +176,89 @@ void Graph<V, E>::InsertArc(const V & from, const V & to, const E & data, int we
 	Vertex<V, E> * v_from = FindVertex(from);
 	Vertex<V, E> * v_to = FindVertex(to);
 
-	v_from->m_arcs.push_back(Arc<V, E>(data, weight, v_to));
+	if (!v_from || !v_to)
+		throw Exception("Error inserting Arc! Vertex not found.");
+
+	// Add forward and reverse arcs between from and to vertices
+	v_from->Arcs().push_back(Arc<V, E>(data, weight, v_to));
+	v_to->Arcs().push_back(Arc<V, E>(data, weight, v_from));
 }
 
 template<typename V, typename E>
 bool Graph<V, E>::DeleteArc(const V & from, const V & to, const E & data)
 {
 	Vertex<V, E> * v_from = FindVertex(from);
-	Arc<V, E> * found = FindArc(v_from, to, data);
+	Vertex<V, E> * v_to = FindVertex(to);
 
-	if (found)
-		v_from->m_arcs.remove(*found);
+	if (!v_from || !v_to)
+		throw Exception("Error deleting Arc! Vertex not found.");
 
-	return (found != nullptr);
+	// Remove forward and reverse arcs between from and to vertices 
+	Arc<V, E> * arc_from = FindArc(v_from, v_to, data);
+	Arc<V, E> * arc_to = FindArc(v_to, v_from, data);
+	v_from->Arcs().remove(*arc_from);
+	v_to->Arcs().remove(*arc_to);
+
+	return (arc_from && arc_to);
 }
 
 // * SEARCHES * //
 template<typename V, typename E>
 void Graph<V, E>::BreadthFirst(Visit_t visit)
 {
+	queue<Vertex<V, E> *> v_queue;
+	v_queue.push(&m_vertices.front());
+	m_vertices.front().Processed() = true;
+
+	while (v_queue.size() > 0)
+	{
+		Vertex<V, E> * vert = v_queue.front();
+		v_queue.pop();
+		visit(vert->Data());
+
+		// Add connected destinations to queue, and mark them as processed
+		list<Arc<V, E>>::iterator iter;
+		for (iter = vert->Arcs().begin(); iter != vert->Arcs().end(); ++iter)
+		{
+			if (!iter->Destination()->Processed())
+			{
+				v_queue.push(iter->Destination());
+				iter->Destination()->Processed() = true;
+			}
+		}
+	}
+
+	// Mark all vertices as unprocessed
+	ProcessVertices(false);
 }
 
 template<typename V, typename E>
 void Graph<V, E>::DepthFirst(Visit_t visit)
 {
+	stack<Vertex<V, E> *> v_stack;
+	v_stack.push(&m_vertices.front());
+	m_vertices.front().Processed() = true;
+
+	while (v_stack.size() > 0)
+	{
+		Vertex<V, E> * vert = v_stack.top();
+		v_stack.pop();
+		visit(vert->Data());
+
+		// Add connected destinations to stack, and mark them as processed
+		list<Arc<V, E>>::iterator iter;
+		for (iter = vert->Arcs().begin(); iter != vert->Arcs().end(); ++iter)
+		{
+			if (!iter->Destination()->Processed())
+			{
+				v_stack.push(iter->Destination());
+				iter->Destination()->Processed() = true;
+			}
+		}
+	}
+
+	// Mark all vertices as unprocessed
+	ProcessVertices(false);
 }
 
 // * CONDITIONS * //
@@ -198,20 +277,47 @@ bool Graph<V, E>::IsEmpty()
 //////
 
 template<typename V, typename E>
-Vertex<V, E>* Graph<V, E>::FindVertex(const V & data)
+Vertex<V, E> * Graph<V, E>::FindVertex(const V & data)
 {
-	return NULL;
+	Vertex<V, E> * found = nullptr;
+
+	list<Vertex<V, E>>::iterator iter;
+	for (iter = m_vertices.begin(); iter != m_vertices.end() && !found; ++iter)
+	{
+		if (iter->Data() == data)
+			found = &(*iter);
+	}
+
+	return found;
 }
 
 template<typename V, typename E>
-Arc<V, E>* Graph<V, E>::FindArc(const Vertex<V, E> * from, const V & to, const E & edge)
+Arc<V, E> * Graph<V, E>::FindArc(Vertex<V, E> * v_from, Vertex<V, E> * v_to, const E & data)
 {
-	return NULL;
+	Arc<V, E> * found = nullptr;
+
+	list<Arc<V, E>>::iterator iter;
+	for (iter = v_from->Arcs().begin(); iter != v_from->Arcs().end() && !found; ++iter)
+	{
+		if (iter->Destination() == v_to && iter->Data() == data)
+			found = &(*iter);
+	}
+
+	return found;
+}
+
+template<typename V, typename E>
+void Graph<V, E>::ProcessVertices(bool proccessed)
+{
+	list<Vertex<V, E>>::iterator iter;
+	for (iter = m_vertices.begin(); iter != m_vertices.end(); ++iter)
+		iter->Processed() = proccessed;
 }
 
 //////
 //	END PRIVATE METHODS
 ///////////////////////////////////////////////////////////////
+
 
 #endif // GRAPH_H
 
