@@ -1,14 +1,41 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Vertex.h
+* Date Created:	2/27/16
+* Modifications:
+*************************************************************************/
 #ifndef VERTEX_H
 #define VERTEX_H
 
 #include <list>
 using std::list;
 
-// FORWARD CLASS DEFINITION
-template<typename AVT, typename AET>
-class Arc;
+// FORWARD CLASS DECLARATION
+template<typename V, typename E> class Arc;
 
 
+/************************************************************************
+* Class: Vertex
+*
+* Purpose: This class stores data and Arcs for use in a Graph
+*
+* Manager functions:
+* 	Vertex()
+*
+*	Vertex(const Vertex & copy)
+*	operator = (const Vertex & copy)
+*
+*	~Vertex()
+*
+* Methods:
+*
+*	Data() : V &
+*	
+*	Processed() : bool &
+*	
+*	Arcs() : list<Arc<V, E>> &
+*
+*************************************************************************/
 template<typename V, typename E>
 class Vertex
 {
@@ -22,7 +49,6 @@ public:
 	// OPERATORS
 	Vertex<V, E> & operator=(const Vertex<V, E> & rhs);
 	bool operator==(const Vertex<V, E> & rhs) const;
-	bool operator<(const Vertex<V, E> & rhs) const;
 
 	// GETTERS
 	V & Data();
@@ -88,12 +114,6 @@ bool Vertex<V, E>::operator==(const Vertex<V, E> & rhs) const
 	return (m_arcs == rhs.m_arcs && m_data == rhs.m_data && m_processed == rhs.m_processed);
 }
 
-template<typename V, typename E>
-bool Vertex<V, E>::operator<(const Vertex<V, E> & rhs) const
-{
-	return (m_data < rhs.m_data);
-}
-
 //////
 //	END OPERATORS
 ///////////////////////////////////////////////////////////////
@@ -115,17 +135,16 @@ const V & Vertex<V, E>::Data() const
 }
 
 template<typename V, typename E>
-const bool & Vertex<V, E>::Processed() const
-{
-	return m_processed;
-}
-
-template<typename V, typename E>
 bool & Vertex<V, E>::Processed()
 {
 	return m_processed;
 }
 
+template<typename V, typename E>
+const bool & Vertex<V, E>::Processed() const
+{
+	return m_processed;
+}
 
 template<typename V, typename E>
 list<Arc<V, E>> & Vertex<V, E>::Arcs()

@@ -1,11 +1,38 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		Arc.h
+* Date Created:	2/27/16
+* Modifications:
+*************************************************************************/
 #ifndef ARC_H
 #define ARC_H
 
 // FORWARD CLASS DECLARATION
-template<typename VVT, typename VET>
-class Vertex;
+template<typename V, typename E> class Vertex;
 
 
+/************************************************************************
+* Class: Arc
+*
+* Purpose: This class stores data, weight, and a Vertex destination for use in a Graph
+*
+* Manager functions:
+* 	Arc()
+*
+*	Arc(const Arc & copy)
+*	operator = (const Arc & copy)
+*
+*	~Arc()
+*
+* Methods:
+*
+*	Data() : E &
+*
+*	Weight() : int &
+*
+*	Destination() : Vertex<V, E> *&
+*
+*************************************************************************/
 template<typename V, typename E>
 class Arc
 {
@@ -19,7 +46,6 @@ public:
 	// OPERATORS
 	Arc<V, E> & operator=(const Arc<V, E> & rhs);
 	bool operator==(const Arc<V, E> & rhs) const;
-	bool operator<(const Arc<V, E> & rhs) const;
 
 	// GETTERS
 	E & Data();
@@ -83,12 +109,6 @@ template<typename V, typename E>
 bool Arc<V, E>::operator==(const Arc<V, E> & rhs) const
 {
 	return (m_data == rhs.m_data && m_weight == rhs.m_weight && m_dest == rhs.m_dest);
-}
-
-template<typename V, typename E>
-bool Arc<V, E>::operator<(const Arc<V, E> & rhs) const
-{
-	return (m_data < rhs.m_data);
 }
 
 //////
