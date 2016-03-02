@@ -53,36 +53,36 @@ void TestCanonical()
 	cout << "\n-------------------------- Test Canonical --------------------------\n";
 
 	cout << "\n============ DEFAULT CTOR ============\n" << endl;
-	Graph<char, int> graph;
+	Graph<char, char, int> graph;
 
 	cout << "\nInserting: A X G H P E M Y J" << endl;
-	graph.InsertVertex('A');
-	graph.InsertVertex('X');
-	graph.InsertVertex('G');
-	graph.InsertVertex('H');
-	graph.InsertVertex('P');
-	graph.InsertVertex('E');
-	graph.InsertVertex('M');
-	graph.InsertVertex('Y');
-	graph.InsertVertex('J');
+	graph.InsertVertex('A', 'A');
+	graph.InsertVertex('X', 'X');
+	graph.InsertVertex('G', 'G');
+	graph.InsertVertex('H', 'H');
+	graph.InsertVertex('P', 'P');
+	graph.InsertVertex('E', 'E');
+	graph.InsertVertex('M', 'M');
+	graph.InsertVertex('Y', 'Y');
+	graph.InsertVertex('J', 'J');
 
 	cout << "\nConnecting: A->X, X->G, X->H, G->P, H->E, P->H, E->M, E->Y, M->J\n" << endl;
-	graph.InsertArc('A', 'X', 0);
-	graph.InsertArc('X', 'G', 0);
-	graph.InsertArc('X', 'H', 0);
-	graph.InsertArc('G', 'P', 0);
-	graph.InsertArc('H', 'E', 0);
-	graph.InsertArc('P', 'H', 0);
-	graph.InsertArc('E', 'M', 0);
-	graph.InsertArc('E', 'Y', 0);
-	graph.InsertArc('M', 'J', 0);
+	graph.InsertArc('A', 'X', 'a', 0);
+	graph.InsertArc('X', 'G', 'x', 0);
+	graph.InsertArc('X', 'H', 'x', 0);
+	graph.InsertArc('G', 'P', 'g', 0);
+	graph.InsertArc('H', 'E', 'h', 0);
+	graph.InsertArc('P', 'H', 'p', 0);
+	graph.InsertArc('E', 'M', 'e', 0);
+	graph.InsertArc('E', 'Y', 'e', 0);
+	graph.InsertArc('M', 'J', 'm', 0);
 
 	graph.BreadthFirst(&Display);
 	cout << endl << endl;
 
 	// COPY CTOR
 	cout << "\n============ COPY CTOR ============\n" << endl;
-	Graph<char, int> copy(graph);
+	Graph<char, char, int> copy(graph);
 
 	cout << "\nOriginal: ";
 	graph.BreadthFirst(&Display);
@@ -129,29 +129,29 @@ void TestCanonical()
 void TestInsert()
 {
 	cout << "\n-------------------------- Test Insert --------------------------\n";
-	Graph<char, int> graph;
+	Graph<char, char, int> graph;
 
 	cout << "\nInserting: A X G H P E M Y J" << endl;
-	graph.InsertVertex('A');
-	graph.InsertVertex('X');
-	graph.InsertVertex('G');
-	graph.InsertVertex('H');
-	graph.InsertVertex('P');
-	graph.InsertVertex('E');
-	graph.InsertVertex('M');
-	graph.InsertVertex('Y');
-	graph.InsertVertex('J');
+	graph.InsertVertex('A', 'A');
+	graph.InsertVertex('X', 'X');
+	graph.InsertVertex('G', 'G');
+	graph.InsertVertex('H', 'H');
+	graph.InsertVertex('P', 'P');
+	graph.InsertVertex('E', 'E');
+	graph.InsertVertex('M', 'M');
+	graph.InsertVertex('Y', 'Y');
+	graph.InsertVertex('J', 'J');
 
 	cout << "\nConnecting: A->X, X->G, X->H, G->P, H->E, P->H, E->M, E->Y, M->J\n" << endl;
-	graph.InsertArc('A', 'X', 0);
-	graph.InsertArc('X', 'G', 0);
-	graph.InsertArc('X', 'H', 0);
-	graph.InsertArc('G', 'P', 0);
-	graph.InsertArc('H', 'E', 0);
-	graph.InsertArc('P', 'H', 0);
-	graph.InsertArc('E', 'M', 0);
-	graph.InsertArc('E', 'Y', 0);
-	graph.InsertArc('M', 'J', 0);
+	graph.InsertArc('A', 'X', 'a', 0);
+	graph.InsertArc('X', 'G', 'x', 0);
+	graph.InsertArc('X', 'H', 'x', 0);
+	graph.InsertArc('G', 'P', 'g', 0);
+	graph.InsertArc('H', 'E', 'h', 0);
+	graph.InsertArc('P', 'H', 'p', 0);
+	graph.InsertArc('E', 'M', 'e', 0);
+	graph.InsertArc('E', 'Y', 'e', 0);
+	graph.InsertArc('M', 'J', 'm', 0);
 
 	cout << "\nBreadth First: " << endl;
 	graph.BreadthFirst(&Display);
@@ -165,37 +165,37 @@ void TestInsert()
 void TestDelete()
 {
 	cout << "\n-------------------------- Test Delete --------------------------\n";
-	Graph<char, int> graph;
+	Graph<char, char, int> graph;
 	
 
 	cout << "\nInserting: A X G H P E M Y J" << endl;
-	graph.InsertVertex('A');
-	graph.InsertVertex('X');
-	graph.InsertVertex('G');
-	graph.InsertVertex('H');
-	graph.InsertVertex('P');
-	graph.InsertVertex('E');
-	graph.InsertVertex('M');
-	graph.InsertVertex('Y');
-	graph.InsertVertex('J');
+	graph.InsertVertex('A', 'A');
+	graph.InsertVertex('X', 'X');
+	graph.InsertVertex('G', 'G');
+	graph.InsertVertex('H', 'H');
+	graph.InsertVertex('P', 'P');
+	graph.InsertVertex('E', 'E');
+	graph.InsertVertex('M', 'M');
+	graph.InsertVertex('Y', 'Y');
+	graph.InsertVertex('J', 'J');
 
 	cout << "\nConnecting: A->X, X->G, X->H, G->P, H->E, P->H, E->M, E->Y, M->J\n" << endl;
-	graph.InsertArc('A', 'X', 0);
-	graph.InsertArc('X', 'G', 0);
-	graph.InsertArc('X', 'H', 0);
-	graph.InsertArc('G', 'P', 0);
-	graph.InsertArc('H', 'E', 0);
-	graph.InsertArc('P', 'H', 0);
-	graph.InsertArc('E', 'M', 0);
-	graph.InsertArc('E', 'Y', 0);
-	graph.InsertArc('M', 'J', 0);
+	graph.InsertArc('A', 'X', 'a', 0);
+	graph.InsertArc('X', 'G', 'x', 0);
+	graph.InsertArc('X', 'H', 'x', 0);
+	graph.InsertArc('G', 'P', 'g', 0);
+	graph.InsertArc('H', 'E', 'h', 0);
+	graph.InsertArc('P', 'H', 'p', 0);
+	graph.InsertArc('E', 'M', 'e', 0);
+	graph.InsertArc('E', 'Y', 'e', 0);
+	graph.InsertArc('M', 'J', 'm', 0);
 
 
 	cout << "\n============ DELETE ARC ============\n" << endl;
 	cout << "\nDeleting H->X: ";
-	cout << (graph.DeleteArc('H', 'X', 0) ? "success!" : "failure!") << endl;
+	cout << (graph.DeleteArc('H', 'X', 'x') ? "success!" : "failure!") << endl;
 	cout << "\nDeleting X->H: ";
-	cout << (graph.DeleteArc('X', 'H', 0) ? "success!" : "failure!") << endl << endl;
+	cout << (graph.DeleteArc('X', 'H', 'x') ? "success!" : "failure!") << endl << endl;
 	graph.BreadthFirst(&Display);
 	cout << endl << endl;
 

@@ -25,36 +25,36 @@ using std::queue;
 			for use in DeepCopy(). (To update copied Arc destinations)
 *
 * Manager functions:
-* 	VertexCopy(original : const Vertex<V, E> *, copy : Vertex<V, E> *)
+* 	VertexCopy(original : const Vertex<K, V, E> *, copy : Vertex<K, V, E> *)
 *
 * Methods:
 *
-*	Original() : const Vertex<V, E> *
+*	Original() : const Vertex<K, V, E> *
 *
-*	Copy() : Vertex<V, E> *
+*	Copy() : Vertex<K, V, E> *
 *
 *************************************************************************/
-template<typename V, typename E>
+template<typename K, typename V, typename E>
 struct VertexCopy
 {
 public:
-	VertexCopy<V, E>(const Vertex<V, E> * original, Vertex<V, E> * copy)
+	VertexCopy<K, V, E>(const Vertex<K, V, E> * original, Vertex<K, V, E> * copy)
 		: m_original(original), m_copy(copy)
 	{}
 		
-	const Vertex<V, E> * Original() const
+	const Vertex<K, V, E> * Original() const
 	{
 		return m_original;
 	}
 
-	Vertex<V, E> * Copy() const
+	Vertex<K, V, E> * Copy() const
 	{
 		return m_copy;
 	}
 
 private:
-	const Vertex<V, E> * m_original;
-	Vertex<V, E> * m_copy;
+	const Vertex<K, V, E> * m_original;
+	Vertex<K, V, E> * m_copy;
 };
 
 
@@ -87,7 +87,7 @@ private:
 *	Purge() : void
 *
 *************************************************************************/
-template<typename V, typename E>
+template<typename K, typename V, typename E>
 class Graph
 {
 public:
@@ -96,19 +96,19 @@ public:
 
 	// CTORS & DTOR
 	Graph();
-	Graph(const Graph<V, E> & copy);
+	Graph(const Graph<K, V, E> & copy);
 
 	~Graph();
 
 	// OPERATORS
-	Graph<V, E> & operator=(const Graph<V, E> & rhs);
+	Graph<K, V, E> & operator=(const Graph<K, V, E> & rhs);
 
 	// METHODS
-	void InsertVertex(const V & data);
-	bool DeleteVertex(const V & data);
+	void InsertVertex(const K & key, const V & data);
+	bool DeleteVertex(const K & key);
 
-	void InsertArc(const V & from, const V & to, const E & data, int weight = 0);
-	bool DeleteArc(const V & from, const V & to, const E & data);
+	void InsertArc(const K & from, const K & to, const K & key, const E & data, int weight = 0);
+	bool DeleteArc(const K & from, const K & to, const K & key);
 
 	// No const versions as "processed" needs to be toggled
 	void BreadthFirst(Visit_t visit);
@@ -120,16 +120,16 @@ public:
 
 private:
 	// METHODS
-	Vertex<V, E> * FindVertex(const V & data);
-	Arc<V, E> * FindArc(Vertex<V, E> * from, Vertex<V, E> * v_to, const E & data);
+	Vertex<K, V, E> * FindVertex(const K & key);
+	Arc<K, V, E> * FindArc(Vertex<K, V, E> * from, Vertex<K, V, E> * v_to, const K & key);
 
 	void ProcessVertices(bool processed);
 
-	void DeepCopy(const Graph<V, E> & copy);
-	const VertexCopy<V, E> * FindVertexCopy(const list<VertexCopy<V, E>> & copy_list, const Vertex<V, E> * original);
+	void DeepCopy(const Graph<K, V, E> & copy);
+	const VertexCopy<K, V, E> * FindVertexCopy(const list<VertexCopy<K, V, E>> & copy_list, const Vertex<K, V, E> * original);
 
 	// MEMBERS
-	list<Vertex<V, E>> m_vertices;
+	list<Vertex<K, V, E>> m_vertices;
 };
 
 
@@ -137,18 +137,18 @@ private:
 //	C'TORS & D'TOR
 //////
 
-template<typename V, typename E>
-Graph<V, E>::Graph()
+template<typename K, typename V, typename E>
+Graph<K, V, E>::Graph()
 {}
 
-template<typename V, typename E>
-Graph<V, E>::Graph(const Graph<V, E> & copy)
+template<typename K, typename V, typename E>
+Graph<K, V, E>::Graph(const Graph<K, V, E> & copy)
 {
 	DeepCopy(copy);
 }
 
-template<typename V, typename E>
-Graph<V, E>::~Graph()
+template<typename K, typename V, typename E>
+Graph<K, V, E>::~Graph()
 {}
 
 //////
@@ -159,8 +159,8 @@ Graph<V, E>::~Graph()
 //	OPERATORS
 //////
 
-template<typename V, typename E>
-Graph<V, E> & Graph<V, E>::operator=(const Graph<V, E> & rhs)
+template<typename K, typename V, typename E>
+Graph<K, V, E> & Graph<K, V, E>::operator=(const Graph<K, V, E> & rhs)
 {
 	if (this != &rhs)
 	{
@@ -192,10 +192,10 @@ Graph<V, E> & Graph<V, E>::operator=(const Graph<V, E> & rhs)
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-template<typename V, typename E>
-void Graph<V, E>::InsertVertex(const V & data)
+template<typename K, typename V, typename E>
+void Graph<K, V, E>::InsertVertex(const K & key, const V & data)
 {
-	m_vertices.push_back(Vertex<V, E>(data));
+	m_vertices.push_back(Vertex<K, V, E>(key, data));
 }
 
 
@@ -203,25 +203,25 @@ void Graph<V, E>::InsertVertex(const V & data)
 * Purpose: Allow the consumer to delete a matching vertex
 *
 * Precondition:
-*	@data : data that matching vertex must contain
+*	@key : key that matching vertex must contain
 *
 * Postcondition:
 *		Modifies:	m_vertices
 *		Throws:		N/A
 *		Returns:	TRUE if matching vertex was found
 *************************************************************************/
-template<typename V, typename E>
-bool Graph<V, E>::DeleteVertex(const V & data)
+template<typename K, typename V, typename E>
+bool Graph<K, V, E>::DeleteVertex(const K & key)
 {
-	Vertex<V, E> * found = FindVertex(data);
+	Vertex<K, V, E> * found = FindVertex(key);
 
 	if (found)
 	{
 		// Remove all arcs with found vertex as their destination
-		list<Arc<V, E>>::iterator iter;
+		list<Arc<K, V, E>>::iterator iter;
 		for (iter = found->Arcs().begin(); iter != found->Arcs().end(); ++iter)
 		{
-			Arc<V, E> * reverse_arc = FindArc(iter->Destination(), found, iter->Data());
+			Arc<K, V, E> * reverse_arc = FindArc(iter->Destination(), found, iter->Key());
 			iter->Destination()->Arcs().remove(*reverse_arc);
 		}
 
@@ -248,18 +248,18 @@ bool Graph<V, E>::DeleteVertex(const V & data)
 *		Throws:		Exception("Error inserting Arc! Vertex not found.")
 *		Returns:	N/A
 *************************************************************************/
-template<typename V, typename E>
-void Graph<V, E>::InsertArc(const V & from, const V & to, const E & data, int weight)
+template<typename K, typename V, typename E>
+void Graph<K, V, E>::InsertArc(const K & from, const K & to, const K & key, const E & data, int weight)
 {
-	Vertex<V, E> * v_from = FindVertex(from);
-	Vertex<V, E> * v_to = FindVertex(to);
+	Vertex<K, V, E> * v_from = FindVertex(from);
+	Vertex<K, V, E> * v_to = FindVertex(to);
 
 	if (!v_from || !v_to)
 		throw Exception("Error inserting Arc! Vertex not found.");
 
 	// Arc must be bi-directional...
-	v_from->Arcs().push_back(Arc<V, E>(data, weight, v_to));
-	v_to->Arcs().push_back(Arc<V, E>(data, weight, v_from));
+	v_from->Arcs().push_back(Arc<K, V, E>(key, data, weight, v_to));
+	v_to->Arcs().push_back(Arc<K, V, E>(key, data, weight, v_from));
 }
 
 
@@ -269,25 +269,25 @@ void Graph<V, E>::InsertArc(const V & from, const V & to, const E & data, int we
 * Precondition:
 *	@from : matching vertex to start at - matching vertex must exist
 *	@to : matching vertex for destination - matching vertex must exist
-*	@data : data that matching arcs must contain
+*	@key : key that matching arcs must contain
 *
 * Postcondition:
 *		Modifies:	from->m_arcs, to->m_arcs
 *		Throws:		Exception("Error deleting Arc! Vertex not found.")
 *		Returns:	TRUE if matching arcs are found
 *************************************************************************/
-template<typename V, typename E>
-bool Graph<V, E>::DeleteArc(const V & from, const V & to, const E & data)
+template<typename K, typename V, typename E>
+bool Graph<K, V, E>::DeleteArc(const K & from, const K & to, const K & key)
 {
-	Vertex<V, E> * v_from = FindVertex(from);
-	Vertex<V, E> * v_to = FindVertex(to);
+	Vertex<K, V, E> * v_from = FindVertex(from);
+	Vertex<K, V, E> * v_to = FindVertex(to);
 
 	if (!v_from || !v_to)
 		throw Exception("Error deleting Arc! Vertex not found.");
 
 	// Remove bi-directional arc between from and to vertices 
-	Arc<V, E> * arc_from = FindArc(v_from, v_to, data);
-	Arc<V, E> * arc_to = FindArc(v_to, v_from, data);
+	Arc<K, V, E> * arc_from = FindArc(v_from, v_to, key);
+	Arc<K, V, E> * arc_to = FindArc(v_to, v_from, key);
 	if (arc_from && arc_to)
 	{
 		v_from->Arcs().remove(*arc_from);
@@ -312,21 +312,21 @@ bool Graph<V, E>::DeleteArc(const V & from, const V & to, const E & data)
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-template<typename V, typename E>
-void Graph<V, E>::BreadthFirst(Visit_t visit)
+template<typename K, typename V, typename E>
+void Graph<K, V, E>::BreadthFirst(Visit_t visit)
 {
-	queue<Vertex<V, E> *> v_queue;
+	queue<Vertex<K, V, E> *> v_queue;
 	v_queue.push(&m_vertices.front());
 	m_vertices.front().Processed() = true;
 
 	while (v_queue.size() > 0)
 	{
-		Vertex<V, E> * vertex = v_queue.front();
+		Vertex<K, V, E> * vertex = v_queue.front();
 		v_queue.pop();
 		visit(vertex->Data());
 
 		// Add connected destinations to queue, and mark them as processed
-		list<Arc<V, E>>::iterator arc;
+		list<Arc<K, V, E>>::iterator arc;
 		for (arc = vertex->Arcs().begin(); arc != vertex->Arcs().end(); ++arc)
 		{
 			if (!arc->Destination()->Processed())
@@ -353,21 +353,21 @@ void Graph<V, E>::BreadthFirst(Visit_t visit)
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-template<typename V, typename E>
-void Graph<V, E>::DepthFirst(Visit_t visit)
+template<typename K, typename V, typename E>
+void Graph<K, V, E>::DepthFirst(Visit_t visit)
 {
-	stack<Vertex<V, E> *> v_stack;
+	stack<Vertex<K, V, E> *> v_stack;
 	v_stack.push(&m_vertices.front());
 	m_vertices.front().Processed() = true;
 
 	while (v_stack.size() > 0)
 	{
-		Vertex<V, E> * vertex = v_stack.top();
+		Vertex<K, V, E> * vertex = v_stack.top();
 		v_stack.pop();
 		visit(vertex->Data());
 
 		// Add connected destinations to stack, and mark them as processed
-		list<Arc<V, E>>::iterator arc;
+		list<Arc<K, V, E>>::iterator arc;
 		for (arc = vertex->Arcs().begin(); arc != vertex->Arcs().end(); ++arc)
 		{
 			if (!arc->Destination()->Processed())
@@ -384,14 +384,14 @@ void Graph<V, E>::DepthFirst(Visit_t visit)
 
 // * MISC * //
 
-template<typename V, typename E>
-bool Graph<V, E>::IsEmpty() const
+template<typename K, typename V, typename E>
+bool Graph<K, V, E>::IsEmpty() const
 {
 	return (m_vertices.size() == 0);
 }
 
-template<typename V, typename E>
-void Graph<V, E>::Purge()
+template<typename K, typename V, typename E>
+void Graph<K, V, E>::Purge()
 {
 	m_vertices.clear();
 }
@@ -405,25 +405,25 @@ void Graph<V, E>::Purge()
 //////
 
 /************************************************************************
-* Purpose: Find and return a vertex containing matching data
+* Purpose: Find and return a vertex containing matching key
 *
 * Precondition:
-*	@data : data that matching vertex must contain
+*	@key : key that matching vertex must contain
 *
 * Postcondition:
 *		Modifies:	N/A
 *		Throws:		N/A
 *		Returns:	Pointer to found Vertex or nullptr
 *************************************************************************/
-template<typename V, typename E>
-Vertex<V, E> * Graph<V, E>::FindVertex(const V & data)
+template<typename K, typename V, typename E>
+Vertex<K, V, E> * Graph<K, V, E>::FindVertex(const K & key)
 {
-	Vertex<V, E> * found = nullptr;
+	Vertex<K, V, E> * found = nullptr;
 
-	list<Vertex<V, E>>::iterator vertex;
+	list<Vertex<K, V, E>>::iterator vertex;
 	for (vertex = m_vertices.begin(); vertex != m_vertices.end() && !found; ++vertex)
 	{
-		if (vertex->Data() == data)
+		if (vertex->Key() == key)
 			found = &(*vertex);
 	}
 
@@ -431,27 +431,27 @@ Vertex<V, E> * Graph<V, E>::FindVertex(const V & data)
 }
 
 /************************************************************************
-* Purpose: Find and return an arc containing matching data
+* Purpose: Find and return an arc containing matching key
 *
 * Precondition:
 *	@v_from : source vertex
 *	@v_to : destination vertex
-*	@data : data that matching arc must contain
+*	@key : key that matching arc must contain
 *
 * Postcondition:
 *		Modifies:	N/A
 *		Throws:		N/A
 *		Returns:	Pointer to found Arc or nullptr
 *************************************************************************/
-template<typename V, typename E>
-Arc<V, E> * Graph<V, E>::FindArc(Vertex<V, E> * v_from, Vertex<V, E> * v_to, const E & data)
+template<typename K, typename V, typename E>
+Arc<K, V, E> * Graph<K, V, E>::FindArc(Vertex<K, V, E> * v_from, Vertex<K, V, E> * v_to, const K & key)
 {
-	Arc<V, E> * found = nullptr;
+	Arc<K, V, E> * found = nullptr;
 
-	list<Arc<V, E>>::iterator arc;
+	list<Arc<K, V, E>>::iterator arc;
 	for (arc = v_from->Arcs().begin(); arc != v_from->Arcs().end() && !found; ++arc)
 	{
-		if (arc->Destination() == v_to && arc->Data() == data)
+		if (arc->Destination() == v_to && arc->Key() == key)
 			found = &(*arc);
 	}
 
@@ -469,10 +469,10 @@ Arc<V, E> * Graph<V, E>::FindArc(Vertex<V, E> * v_from, Vertex<V, E> * v_to, con
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-template<typename V, typename E>
-void Graph<V, E>::ProcessVertices(bool processed)
+template<typename K, typename V, typename E>
+void Graph<K, V, E>::ProcessVertices(bool processed)
 {
-	list<Vertex<V, E>>::iterator vertex;
+	list<Vertex<K, V, E>>::iterator vertex;
 	for (vertex = m_vertices.begin(); vertex != m_vertices.end(); ++vertex)
 		vertex->Processed() = processed;
 }
@@ -488,28 +488,28 @@ void Graph<V, E>::ProcessVertices(bool processed)
 *		Throws:		N/A
 *		Returns:	N/A
 *************************************************************************/
-template<typename V, typename E>
-void Graph<V, E>::DeepCopy(const Graph<V, E> & copy)
+template<typename K, typename V, typename E>
+void Graph<K, V, E>::DeepCopy(const Graph<K, V, E> & copy)
 {
-	list<VertexCopy<V, E>> copy_list;
+	list<VertexCopy<K, V, E>> copy_list;
 
 	// COPY ALL VERTICES INTO THIS LIST
 	// PUSH POINTERS TO ORIGINAL AND COPIED VERTEX'S INTO @copy_list
-	list<Vertex<V, E>>::const_iterator copy_vertex;
+	list<Vertex<K, V, E>>::const_iterator copy_vertex;
 	for (copy_vertex = copy.m_vertices.begin(); copy_vertex != copy.m_vertices.end(); ++copy_vertex)
 	{
-		m_vertices.push_back(Vertex<V, E>(*copy_vertex));
-		copy_list.push_back(VertexCopy<V, E>(&(*copy_vertex), &(m_vertices.back())));
+		m_vertices.push_back(Vertex<K, V, E>(*copy_vertex));
+		copy_list.push_back(VertexCopy<K, V, E>(&(*copy_vertex), &(m_vertices.back())));
 	}
 
 	// UPDATE ALL COPIED ARC'S DESTINATIONS WITH THE CORRESPONDING COPIED VERTEX
-	list<Vertex<V, E>>::iterator vertex;
+	list<Vertex<K, V, E>>::iterator vertex;
 	for (vertex = m_vertices.begin(); vertex != m_vertices.end(); ++vertex)
 	{
-		list<Arc<V, E>>::iterator arc;
+		list<Arc<K, V, E>>::iterator arc;
 		for (arc = vertex->Arcs().begin(); arc != vertex->Arcs().end(); ++arc)
 		{
-			const VertexCopy<V, E> * found = FindVertexCopy(copy_list, arc->Destination());
+			const VertexCopy<K, V, E> * found = FindVertexCopy(copy_list, arc->Destination());
 			arc->Destination() = found->Copy();
 		}
 	}
@@ -528,12 +528,12 @@ void Graph<V, E>::DeepCopy(const Graph<V, E> & copy)
 *		Throws:		N/A
 *		Returns:	Pointer to found VertexCopy or nullptr
 *************************************************************************/
-template<typename V, typename E>
-const VertexCopy<V, E> * Graph<V, E>::FindVertexCopy(const list<VertexCopy<V, E>> & copy_list, const Vertex<V, E> * original)
+template<typename K, typename V, typename E>
+const VertexCopy<K, V, E> * Graph<K, V, E>::FindVertexCopy(const list<VertexCopy<K, V, E>> & copy_list, const Vertex<K, V, E> * original)
 {
-	const VertexCopy<V, E> * found = nullptr;
+	const VertexCopy<K, V, E> * found = nullptr;
 
-	list<VertexCopy<V, E>>::const_iterator vertex_copy;
+	list<VertexCopy<K, V, E>>::const_iterator vertex_copy;
 	for (vertex_copy = copy_list.begin(); vertex_copy != copy_list.end() && !found; ++vertex_copy)
 	{
 		if (vertex_copy->Original() == original)
