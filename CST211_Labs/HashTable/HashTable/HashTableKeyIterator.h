@@ -1,4 +1,4 @@
-#ifndef HASHTABLEKEYITERATOR_H;
+#ifndef HASHTABLEKEYITERATOR_H
 #define HASHTABLEKEYITERATOR_H
 
 #include "AbstractIterator.h"

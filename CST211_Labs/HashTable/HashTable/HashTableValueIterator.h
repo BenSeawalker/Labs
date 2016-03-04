@@ -1,4 +1,4 @@
-#ifndef HASHTABLEVALUEITERATOR_H;
+#ifndef HASHTABLEVALUEITERATOR_H
 #define HASHTABLEVALUEITERATOR_H
 
 #include "AbstractIterator.h"

@@ -34,8 +34,6 @@ using std::string;
 #include "HashTableValueIterator.h"
 #include "HashTableKeyIterator.h"
 
-int AsciiHash(string key);
-
 struct Book
 {
 	string m_title;
@@ -43,11 +41,19 @@ struct Book
 	int m_pages;
 };
 
+
+int AsciiHash(const string & key);
+int BetterAsciiHash(const string & key);
+
+void Display(Book & book);
+
+
+
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	HashTable<string, Book> table(&AsciiHash, 10);
+	HashTable<string, Book> table(&BetterAsciiHash, 10);
 
 	Book temp = { "C++: An Active Learning Approach", "Randal Albert", 635 };
 	table.Insert("0763757233", temp);
@@ -59,6 +65,8 @@ int main()
 	table.Insert("7063757234", temp3);
 
 	table.Resize(100);
+
+	table.Resize(5);
 
 	cout << table["0763757233"].m_title << endl;
 	cout << table["7063757233"].m_title << endl;
@@ -76,14 +84,32 @@ int main()
 
 	cout << endl;
 
+	table.Traverse(&Display);
+
+	cout << endl;
+
 	return 0;
 }
 
-int AsciiHash(string key)
+int AsciiHash(const string & key)
 {
 	int hash = 0;
-	for (int i = 0; i < key.length(); ++i)
-		hash += key[i];
+	for (size_t i = 0; i < key.length(); ++i)
+		hash += (key[i] * (i + 1));
 
 	return hash;
+}
+
+int BetterAsciiHash(const string & key)
+{
+	int hash = 5381;
+	for (size_t i = 0; i < key.length(); ++i)
+		hash += ((hash << 5) + key[i]);
+
+	return hash;
+}
+
+void Display(Book & book)
+{
+	cout << book.m_pages << endl;
 }

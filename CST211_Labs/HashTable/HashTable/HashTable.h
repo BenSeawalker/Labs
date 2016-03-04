@@ -18,12 +18,14 @@ class HashTable
 
 public:
 	// TYPEDEFS
-	typedef int(*hash_t)(K key);
+	typedef int(*khash_t)(const K & key);
+//	typedef int(*vhash_t)(const V & value);
+	typedef void(*visit_t)(V & value);
 	typedef list<pair<K, V>> list_t;
 	typedef vector<list_t> table_t;
 
 	// CTORS & DTOR
-	HashTable(hash_t hash = nullptr, int size = 0);
+	HashTable(khash_t hash = nullptr, int size = 0);
 	HashTable(const HashTable & copy);
 
 	~HashTable();
@@ -36,27 +38,33 @@ public:
 	// METHODS
 	void Insert(K key, V value);
 
-	void SetHash(hash_t hash);
+	void SetHash(khash_t hash);
 
 	void Resize(int size);
 
+	// unnecessary traverse...
+	void Traverse(visit_t Visit);
+
 private:
 	// METHODS
-	void Rehash(table_t & copy);
+	void Rehash();
 
 	// MEMBERS
 	table_t m_table;
-	hash_t Hash;
+	int m_size;
+	khash_t Hash;
 };
 
+// Placed down here to avoid circular dependencies
+#include "HashTableValueIterator.h"
 
 ///////////////////////////////////////////////////////////////
 //	CTORS & DTOR
 //////
 
 template<typename K, typename V>
-HashTable<K, V>::HashTable(hash_t hash, int size)
-	: Hash(hash), m_table(size)
+HashTable<K, V>::HashTable(khash_t hash, int size)
+	: Hash(hash), m_table(size), m_size(size)
 {}
 
 template<typename K, typename V>
@@ -82,6 +90,7 @@ HashTable<K, V> & HashTable<K, V>::operator=(const HashTable<K, V> & rhs)
 	if (this != &rhs)
 	{
 		m_table = rhs.m_table;
+		m_size = rhs.m_size;
 		Hash = rhs.Hash;
 	}
 
@@ -91,11 +100,11 @@ HashTable<K, V> & HashTable<K, V>::operator=(const HashTable<K, V> & rhs)
 template<typename K, typename V>
 V & HashTable<K, V>::operator[](const K & key)
 {
-	if (m_table.size() == 0)
+	if (m_size == 0)
 		throw Exception("Error! Cannot access element in table of size zero!");
 
 	V * found = nullptr;
-	int i = (Hash(key) % m_table.size());
+	int i = abs(Hash(key) % m_size);
 
 	list_t::iterator iter;
 	for (iter = m_table[i].begin(); !found && iter != m_table[i].end(); ++iter)
@@ -113,11 +122,11 @@ V & HashTable<K, V>::operator[](const K & key)
 template<typename K, typename V>
 const V & HashTable<K, V>::operator[](const K & key) const
 {
-	if (m_table.size() == 0)
+	if (m_size == 0)
 		throw Exception("Error! Cannot access element in table of size zero!");
 
 	V * found = nullptr;
-	int i = (Hash(key) % m_table.size());
+	int i = abs(Hash(key) % m_size);
 
 	list_t::iterator iter;
 	for (iter = m_table[i].begin(); !found && iter != m_table[i].end(); ++iter)
@@ -146,23 +155,18 @@ void HashTable<K, V>::Insert(K key, V value)
 	if (Hash == nullptr)
 		throw Exception("Error! Hash function cannot be NULL!");
 
-	if (m_table.size() == 0)
+	if (m_size == 0)
 		throw Exception("Error! Cannot insert into table of size zero!");
 
-	int index = (Hash(key) % m_table.size());
+	int index = abs(Hash(key) % m_size);
 	m_table[index].push_back(pair<K, V>(key, value));
 }
 
 template<typename K, typename V>
-void HashTable<K, V>::SetHash(hash_t hash)
+void HashTable<K, V>::SetHash(khash_t hash)
 {
 	Hash = hash;
-
-	table_t copy = m_table;
-	m_table.clear();
-	m_table.resize(copy.size());
-
-	Rehash(copy);
+	Rehash();
 }
 
 template<typename K, typename V>
@@ -171,11 +175,16 @@ void HashTable<K, V>::Resize(int size)
 	if (size < 0)
 		throw Exception("Error! Size cannot be negative!");
 
-	table_t copy = m_table;
-	m_table.clear();
-	m_table.resize(size);
+	m_size = size;
+	Rehash();
+}
 
-	Rehash(copy);
+template<typename K, typename V>
+void HashTable<K, V>::Traverse(visit_t Visit)
+{
+	HashTableValueIterator<K, V> vi(*this);
+	for (vi.Reset(); !vi.IsDone(); vi.MoveNext())
+		Visit(vi.GetCurrent());
 }
 
 //////
@@ -187,9 +196,17 @@ void HashTable<K, V>::Resize(int size)
 //////
 
 template<typename K, typename V>
-void HashTable<K, V>::Rehash(table_t & copy)
+void HashTable<K, V>::Rehash()
 {
-	table_t::iterator ilist;
+	HashTable<K, V> copy(*this);
+	m_table.clear();
+	m_table.resize(m_size);
+
+	HashTablePairIterator<K, V> pi(copy);
+	for (pi.Reset(); !pi.IsDone(); pi.MoveNext())
+		Insert(pi.GetCurrent().first, pi.GetCurrent().second);
+
+	/*table_t::iterator ilist;
 	for (ilist = copy.begin(); ilist != copy.end(); ++ilist)
 	{
 		list_t::iterator ipair;
@@ -197,7 +214,7 @@ void HashTable<K, V>::Rehash(table_t & copy)
 		{
 			Insert(ipair->first, ipair->second);
 		}
-	}
+	}*/
 }
 
 //////
