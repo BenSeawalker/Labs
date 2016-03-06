@@ -8,7 +8,7 @@
 #define ARC_H
 
 // FORWARD CLASS DECLARATION
-template<typename K, typename V, typename E> class Vertex;
+template<typename V, typename E> class Vertex;
 
 
 /************************************************************************
@@ -30,41 +30,37 @@ template<typename K, typename V, typename E> class Vertex;
 *
 *	Weight() : int &
 *
-*	Destination() : Vertex<K, V, E> *&
+*	Destination() : Vertex<V, E> *&
 *
 *************************************************************************/
-template<typename K, typename V, typename E>
+template<typename V, typename E>
 class Arc
 {
 public:
 	// CTORS & DTOR
-	Arc(const K & key, const E & data, int weight, Vertex<K, V, E> * dest);
-	Arc(const Arc<K, V, E> & copy);
+	Arc(const E & data, int weight, Vertex<V, E> * dest);
+	Arc(const Arc<V, E> & copy);
 
 	~Arc();
 
 	// OPERATORS
-	Arc<K, V, E> & operator=(const Arc<K, V, E> & rhs);
-	bool operator==(const Arc<K, V, E> & rhs) const;
+	Arc<V, E> & operator=(const Arc<V, E> & rhs);
+	bool operator==(const Arc<V, E> & rhs) const;
 
 	// GETTERS
-	K & Key();
-	const K & Key() const;
-
 	E & Data();
 	const E & Data() const;
 	
 	int & Weight();
 	const int & Weight() const;
 
-	Vertex<K, V, E> *& Destination();
-	const Vertex<K, V, E> * Destination() const;
+	Vertex<V, E> *& Destination();
+	const Vertex<V, E> * Destination() const;
 
 private:
-	K m_key;
 	E m_data;
 	int m_weight;
-	Vertex<K, V, E> * m_dest;
+	Vertex<V, E> * m_dest;
 };
 
 
@@ -72,18 +68,18 @@ private:
 //	C'TORS & D'TOR
 //////
 
-template<typename K, typename V, typename E>
-Arc<K, V, E>::Arc(const K & key, const E & data, int weight, Vertex<K, V, E> * dest)
-	: m_key(key), m_data(data), m_weight(weight), m_dest(dest)
+template<typename V, typename E>
+Arc<V, E>::Arc(const E & data, int weight, Vertex<V, E> * dest)
+	: m_data(data), m_weight(weight), m_dest(dest)
 {}
 
-template<typename K, typename V, typename E>
-Arc<K, V, E>::Arc(const Arc<K, V, E> & copy)
-	: m_key(copy.m_key), m_data(copy.m_data), m_weight(copy.m_weight), m_dest(copy.m_dest)
+template<typename V, typename E>
+Arc<V, E>::Arc(const Arc<V, E> & copy)
+	: m_data(copy.m_data), m_weight(copy.m_weight), m_dest(copy.m_dest)
 {}
 
-template<typename K, typename V, typename E>
-Arc<K, V, E>::~Arc()
+template<typename V, typename E>
+Arc<V, E>::~Arc()
 {
 	m_dest = nullptr;
 }
@@ -96,12 +92,11 @@ Arc<K, V, E>::~Arc()
 //	OPERATORS
 //////
 
-template<typename K, typename V, typename E>
-Arc<K, V, E> & Arc<K, V, E>::operator=(const Arc<K, V, E> & rhs)
+template<typename V, typename E>
+Arc<V, E> & Arc<V, E>::operator=(const Arc<V, E> & rhs)
 {
 	if (this != &rhs)
 	{
-		m_key = rhs.m_key;
 		m_data = rhs.m_data;
 		m_weight = rhs.m_weight;
 		m_dest = rhs.m_dest;
@@ -110,22 +105,10 @@ Arc<K, V, E> & Arc<K, V, E>::operator=(const Arc<K, V, E> & rhs)
 	return *this;
 }
 
-template<typename K, typename V, typename E>
-bool Arc<K, V, E>::operator==(const Arc<K, V, E> & rhs) const
+template<typename V, typename E>
+bool Arc<V, E>::operator==(const Arc<V, E> & rhs) const
 {
-	return (m_key == rhs.m_key && m_dest == rhs.m_dest && m_weight == rhs.m_weight && m_data == rhs.m_data);
-}
-
-template<typename K, typename V, typename E>
-K & Arc<K, V, E>::Key()
-{
-	return m_key;
-}
-
-template<typename K, typename V, typename E>
-const K & Arc<K, V, E>::Key() const
-{
-	return m_key;
+	return (m_data == rhs.m_data && m_weight == rhs.m_weight && m_dest == rhs.m_dest);
 }
 
 //////
@@ -136,38 +119,38 @@ const K & Arc<K, V, E>::Key() const
 //	GETTERS
 //////
 
-template<typename K, typename V, typename E>
-E & Arc<K, V, E>::Data()
+template<typename V, typename E>
+E & Arc<V, E>::Data()
 {
 	return m_data;
 }
 
-template<typename K, typename V, typename E>
-const E & Arc<K, V, E>::Data() const
+template<typename V, typename E>
+const E & Arc<V, E>::Data() const
 {
 	return m_data;
 }
 
-template<typename K, typename V, typename E>
-int & Arc<K, V, E>::Weight()
+template<typename V, typename E>
+int & Arc<V, E>::Weight()
 {
 	return m_weight;
 }
 
-template<typename K, typename V, typename E>
-const int & Arc<K, V, E>::Weight() const
+template<typename V, typename E>
+const int & Arc<V, E>::Weight() const
 {
 	return m_weight;
 }
 
-template<typename K, typename V, typename E>
-Vertex<K, V, E>*& Arc<K, V, E>::Destination()
+template<typename V, typename E>
+Vertex<V, E>*& Arc<V, E>::Destination()
 {
 	return m_dest;
 }
 
-template<typename K, typename V, typename E>
-const Vertex<K, V, E>* Arc<K, V, E>::Destination() const
+template<typename V, typename E>
+const Vertex<V, E>* Arc<V, E>::Destination() const
 {
 	return m_dest;
 }

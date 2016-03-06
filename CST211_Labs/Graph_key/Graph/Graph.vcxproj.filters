@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Graph">
-      <UniqueIdentifier>{8dd82857-755c-4d62-a41f-77a56ce487c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Iterators">
-      <UniqueIdentifier>{16096a7f-57e4-4456-994a-82bb8b85c098}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -29,37 +23,20 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Arc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="crtdbg_new.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Exception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graph.h">
-      <Filter>Header Files\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="Arc.h">
-      <Filter>Header Files\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Header Files\Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="AbstractIterator.h">
-      <Filter>Header Files\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphVertexIterator.h">
-      <Filter>Header Files\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="BreadthFirstIterator.h">
-      <Filter>Header Files\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphIterator.h">
-      <Filter>Header Files\Iterators</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Oregon.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
   </ItemGroup>
 </Project>

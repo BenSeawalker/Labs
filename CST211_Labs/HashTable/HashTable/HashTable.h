@@ -56,6 +56,7 @@ private:
 };
 
 // Placed down here to avoid circular dependencies
+#include "HashTablePairIterator.h"
 #include "HashTableValueIterator.h"
 
 ///////////////////////////////////////////////////////////////
@@ -205,16 +206,6 @@ void HashTable<K, V>::Rehash()
 	HashTablePairIterator<K, V> pi(copy);
 	for (pi.Reset(); !pi.IsDone(); pi.MoveNext())
 		Insert(pi.GetCurrent().first, pi.GetCurrent().second);
-
-	/*table_t::iterator ilist;
-	for (ilist = copy.begin(); ilist != copy.end(); ++ilist)
-	{
-		list_t::iterator ipair;
-		for (ipair = ilist->begin(); ipair != ilist->end(); ++ipair)
-		{
-			Insert(ipair->first, ipair->second);
-		}
-	}*/
 }
 
 //////

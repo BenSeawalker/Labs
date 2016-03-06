@@ -24,212 +24,206 @@ Deleting: *, ...
 
 #include "crtdbg_new.h"
 
+#include <climits>
+#include <string>
+using std::string;
+#include <fstream>
+using std::ifstream;
 #include <iostream>
+using std::cin;
 using std::cout;
 using std::endl;
+#include <list>
+using std::list;
+#include <vector>
+using std::vector;
 
 #include "Graph.h"
+#include "Vertex.h"
+#include "GraphVertexIterator.h"
 
-void TestCanonical();
-void TestInsert();
-void TestDelete();
+#define BUFFER_SIZE 1024
 
-void Display(char & data);
+void LoadFile(const string & filename, Graph<string, string> & graph);
+void BuildMatrix(const Graph<string, string> & graph, vector<const Vertex<string, string> *> & vertices, vector<int> & distance, vector<float> & time, vector<int> & previous, const string & from);
+void FindPath(const Graph<string, string> & graph, vector<string> & path, int & miles, float & hours, const string & from, const string & to);
+int FindIndex(const vector<const Vertex<string, string> *> & vertices, const string & data);
+int FindLowestIndex(const vector<const Vertex<string, string> *> & vertices, const vector<int> & distance);
+
+void DisplayPath(const vector<string> & path, int miles, float hours);
 
 
 int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	TestCanonical();
-	TestInsert();
-	TestDelete();
+	Graph<string, string> oregon;
+
+	LoadFile("Oregon.txt", oregon);
+
+	vector<string> path;
+	int miles;
+	float hours;
+
+	FindPath(oregon, path, miles, hours, "Klamath Falls", "Reedsport");
+	DisplayPath(path, miles, hours);
+	path.clear();
+
+	FindPath(oregon, path, miles, hours, "Bend", "Ashland");
+	DisplayPath(path, miles, hours);
+	path.clear();
 
 	return 0;
 }
 
-void TestCanonical()
+
+void LoadFile(const string & filename, Graph<string, string> & graph)
 {
-	cout << "\n-------------------------- Test Canonical --------------------------\n";
+	ifstream file(filename);
 
-	cout << "\n============ DEFAULT CTOR ============\n" << endl;
-	Graph<char, char, int> graph;
+	if (file.is_open())
+	{
+		char line[BUFFER_SIZE] = { '\0' };
+		file.getline(line, BUFFER_SIZE);
+		while (!file.eof())
+		{
+			string from = strtok(line, ",");
+			string to = strtok(nullptr, ",");
+			string path = strtok(nullptr, ",");
+			string miles = strtok(nullptr, "");
 
-	cout << "\nInserting: A X G H P E M Y J" << endl;
-	graph.InsertVertex('A', 'A');
-	graph.InsertVertex('X', 'X');
-	graph.InsertVertex('G', 'G');
-	graph.InsertVertex('H', 'H');
-	graph.InsertVertex('P', 'P');
-	graph.InsertVertex('E', 'E');
-	graph.InsertVertex('M', 'M');
-	graph.InsertVertex('Y', 'Y');
-	graph.InsertVertex('J', 'J');
+			if (!graph.Contains(from))
+				graph.InsertVertex(from);
+			if (!graph.Contains(to))
+				graph.InsertVertex(to);
 
-	cout << "\nConnecting: A->X, X->G, X->H, G->P, H->E, P->H, E->M, E->Y, M->J\n" << endl;
-	graph.InsertArc('A', 'X', 'a', 0);
-	graph.InsertArc('X', 'G', 'x', 0);
-	graph.InsertArc('X', 'H', 'x', 0);
-	graph.InsertArc('G', 'P', 'g', 0);
-	graph.InsertArc('H', 'E', 'h', 0);
-	graph.InsertArc('P', 'H', 'p', 0);
-	graph.InsertArc('E', 'M', 'e', 0);
-	graph.InsertArc('E', 'Y', 'e', 0);
-	graph.InsertArc('M', 'J', 'm', 0);
+			graph.InsertArc(from, to, path, atoi(miles.c_str()));
 
-	graph.BreadthFirst(&Display);
-	cout << endl << endl;
+			file.getline(line, BUFFER_SIZE);
+		}
+	}
 
-	// COPY CTOR
-	cout << "\n============ COPY CTOR ============\n" << endl;
-	Graph<char, char, int> copy(graph);
-
-	cout << "\nOriginal: ";
-	graph.BreadthFirst(&Display);
-	cout << endl;
-	cout << "\nCopy:     ";
-	copy.BreadthFirst(&Display);
-	cout << endl << endl;
-
-	cout << "\nDeleting 'H' from copy:" << endl;
-	copy.DeleteVertex('H');
-	
-	cout << "\nOriginal: ";
-	graph.BreadthFirst(&Display);
-	cout << endl;
-	cout << "\nCopy:     ";
-	copy.BreadthFirst(&Display);
-	cout << endl << endl;
-	
-	
-	// OPERATOR =
-	cout << "\n============ OPERATOR EQ ============\n" << endl;
-	copy = graph;
-
-	cout << "\nOriginal: ";
-	graph.BreadthFirst(&Display);
-	cout << endl;
-	cout << "\nCopy:     ";
-	copy.BreadthFirst(&Display);
-	cout << endl << endl;
-
-	cout << "\nDeleting 'H' from copy:" << endl;
-	copy.DeleteVertex('H');
-
-	cout << "\nOriginal: ";
-	graph.BreadthFirst(&Display);
-	cout << endl;
-	cout << "\nCopy:     ";
-	copy.BreadthFirst(&Display);
-	cout << endl << endl;
-
-	cout << endl << endl << endl;
 }
 
-void TestInsert()
+void BuildMatrix(const Graph<string, string> & graph, vector<const Vertex<string, string> *> & vertices, vector<int> & distance, vector<float> & time, vector<int> & previous, const string & from)
 {
-	cout << "\n-------------------------- Test Insert --------------------------\n";
-	Graph<char, char, int> graph;
+	distance.resize(graph.Vertices().size(), -1);
+	time.resize(graph.Vertices().size(), -1);
+	previous.resize(graph.Vertices().size(), -1);
 
-	cout << "\nInserting: A X G H P E M Y J" << endl;
-	graph.InsertVertex('A', 'A');
-	graph.InsertVertex('X', 'X');
-	graph.InsertVertex('G', 'G');
-	graph.InsertVertex('H', 'H');
-	graph.InsertVertex('P', 'P');
-	graph.InsertVertex('E', 'E');
-	graph.InsertVertex('M', 'M');
-	graph.InsertVertex('Y', 'Y');
-	graph.InsertVertex('J', 'J');
+	list<Vertex<string, string>>::const_iterator vertex;
+	for (vertex = graph.Vertices().begin(); vertex != graph.Vertices().end(); ++vertex)
+		vertices.push_back(&(*vertex));
 
-	cout << "\nConnecting: A->X, X->G, X->H, G->P, H->E, P->H, E->M, E->Y, M->J\n" << endl;
-	graph.InsertArc('A', 'X', 'a', 0);
-	graph.InsertArc('X', 'G', 'x', 0);
-	graph.InsertArc('X', 'H', 'x', 0);
-	graph.InsertArc('G', 'P', 'g', 0);
-	graph.InsertArc('H', 'E', 'h', 0);
-	graph.InsertArc('P', 'H', 'p', 0);
-	graph.InsertArc('E', 'M', 'e', 0);
-	graph.InsertArc('E', 'Y', 'e', 0);
-	graph.InsertArc('M', 'J', 'm', 0);
+	int start = FindIndex(vertices, from);
+	distance[start] = 0;
+	time[start] = 0;
 
-	cout << "\nBreadth First: " << endl;
-	graph.BreadthFirst(&Display);
-	cout << "\nDepth First:   " << endl;
-	graph.DepthFirst(&Display);
-	cout << endl << endl;
+	int current = start;
+	for (int i = 0; i < vertices.size() - 1; ++i)
+	{
+		list<Arc<string, string>>::const_iterator arc;
+		for (arc = vertices[current]->Arcs().begin(); arc != vertices[current]->Arcs().end(); ++arc)
+		{
+			if (!arc->Destination()->Processed())
+			{
+				int dest = FindIndex(vertices, arc->Destination()->Data());
+				int dist = (distance[current] + arc->Weight());
 
-	cout << endl << endl << endl;
+				if (distance[dest] < 0 || dist < distance[dest])
+				{
+					distance[dest] = dist;
+					previous[dest] = current;
+					time[dest] = (float(arc->Weight()) / ((arc->Data() == "I-5") ? 65.0f : 55.0f));
+				}
+			}
+		}
+
+		const_cast<Vertex<string, string> *>(vertices[current])->Processed() = true;
+		current = FindLowestIndex(vertices, distance);
+	}
+
+	// reset processed values...
+	for (int i = 0; i < vertices.size(); ++i)
+		const_cast<Vertex<string, string> *>(vertices[i])->Processed() = false;
 }
 
-void TestDelete()
+void FindPath(const Graph<string, string> & graph, vector<string> & path, int & miles, float & hours, const string & from, const string & to)
 {
-	cout << "\n-------------------------- Test Delete --------------------------\n";
-	Graph<char, char, int> graph;
+	vector<const Vertex<string, string> *> vertices;
+	vector<int> distance;
+	vector<float> time;
+	vector<int> previous;
+
+	// Calculate times and distances
+	BuildMatrix(graph, vertices, distance, time, previous, from);
 	
+	// Build path
+	int start = FindIndex(vertices, from);
+	int destination = FindIndex(vertices, to);
 
-	cout << "\nInserting: A X G H P E M Y J" << endl;
-	graph.InsertVertex('A', 'A');
-	graph.InsertVertex('X', 'X');
-	graph.InsertVertex('G', 'G');
-	graph.InsertVertex('H', 'H');
-	graph.InsertVertex('P', 'P');
-	graph.InsertVertex('E', 'E');
-	graph.InsertVertex('M', 'M');
-	graph.InsertVertex('Y', 'Y');
-	graph.InsertVertex('J', 'J');
+	miles = distance[destination];
+	hours = 0;
+	while (destination != start)
+	{
+		string prev = vertices[previous[destination]]->Data();
+		string dest = vertices[destination]->Data();
+		const Arc<string, string> * road = graph.FindArc(prev, dest);
 
-	cout << "\nConnecting: A->X, X->G, X->H, G->P, H->E, P->H, E->M, E->Y, M->J\n" << endl;
-	graph.InsertArc('A', 'X', 'a', 0);
-	graph.InsertArc('X', 'G', 'x', 0);
-	graph.InsertArc('X', 'H', 'x', 0);
-	graph.InsertArc('G', 'P', 'g', 0);
-	graph.InsertArc('H', 'E', 'h', 0);
-	graph.InsertArc('P', 'H', 'p', 0);
-	graph.InsertArc('E', 'M', 'e', 0);
-	graph.InsertArc('E', 'Y', 'e', 0);
-	graph.InsertArc('M', 'J', 'm', 0);
-
-
-	cout << "\n============ DELETE ARC ============\n" << endl;
-	cout << "\nDeleting H->X: ";
-	cout << (graph.DeleteArc('H', 'X', 'x') ? "success!" : "failure!") << endl;
-	cout << "\nDeleting X->H: ";
-	cout << (graph.DeleteArc('X', 'H', 'x') ? "success!" : "failure!") << endl << endl;
-	graph.BreadthFirst(&Display);
-	cout << endl << endl;
-
-
-	cout << "\n============ DELETE HEAD ============\n" << endl;
-	cout << "\nDeleting 'A': " << endl;
-	graph.DeleteVertex('A');
-	graph.BreadthFirst(&Display);
-	cout << endl << endl;
-
-	cout << "\n============ DELETE TAIL ============\n" << endl;
-	cout << "\nDeleting 'J': " << endl;
-	graph.DeleteVertex('J');
-	graph.BreadthFirst(&Display);
-	cout << endl << endl;
-
-
-	cout << "\n============ DELETE MIDDLE ============\n" << endl;
-	cout << "\nDeleting 'P': " << endl;
-	graph.DeleteVertex('P');
-	graph.BreadthFirst(&Display);
-	cout << endl << endl;
-
-
-	cout << "\n============ PURGE() ============\n" << endl;
-	cout << "\nEmpty before?: " << (graph.IsEmpty() ? "true" : "false") << endl;
-	graph.Purge();
-	cout << "\nEmpty after?:  " << (graph.IsEmpty() ? "true" : "false") << endl;
-	cout << endl << endl;
-
-	cout << endl << endl << endl;
+		hours += time[destination];
+		path.push_back(dest);
+		path.push_back(road->Data());
+		destination = previous[destination];
+	}
+	path.push_back(vertices[start]->Data());
 }
 
-void Display(char & data)
+int FindIndex(const vector<const Vertex<string, string>*>& vertices, const string & data)
 {
-	cout << data << " ";
+	int index = -1;
+
+	for (int i = 0; index < 0 && i < vertices.size(); ++i)
+	{
+		if (vertices[i]->Data() == data)
+			index = i;
+	}
+
+	return index;
+}
+
+int FindLowestIndex(const vector<const Vertex<string, string> *> & vertices, const vector<int>& distance)
+{
+	int index = -1;
+	int lowest = INT_MAX;
+
+	for (int i = 0; i < distance.size(); ++i)
+	{
+		if (distance[i] > 0 && !vertices[i]->Processed() && distance[i] < lowest)
+		{
+			index = i;
+			lowest = distance[i];
+		}
+	}
+
+	return index;
+}
+
+void DisplayPath(const vector<string>& path, int miles, float hours)
+{
+	int minutes = int(hours * 60.0f) % 60;
+
+	cout << "Directions from " << path.back() << " to " << path.front() << " " << miles << " miles " << endl;
+	cout << "Travel time: " << int(hours) << ((int(hours) == 1) ? " hour " : " hours ")
+		<< minutes << ((minutes == 1) ? " minute " : " minutes ") << endl << endl;
+
+	for (int i = path.size() - 1; i >= 0; --i)
+	{
+		cout << "    " << path[i];
+		if (i > 0)
+			cout << " -> " << path[--i];
+
+		cout << endl << endl;
+	}
+
+	cout << endl;
 }
