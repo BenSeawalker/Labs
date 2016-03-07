@@ -16,9 +16,6 @@
     <Filter Include="Header Files\Graph">
       <UniqueIdentifier>{8dd82857-755c-4d62-a41f-77a56ce487c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Iterators">
-      <UniqueIdentifier>{16096a7f-57e4-4456-994a-82bb8b85c098}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -41,19 +38,7 @@
     <ClInclude Include="Vertex.h">
       <Filter>Header Files\Graph</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractIterator.h">
-      <Filter>Header Files\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphVertexIterator.h">
-      <Filter>Header Files\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="BreadthFirstIterator.h">
-      <Filter>Header Files\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphIterator.h">
-      <Filter>Header Files\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="Edge.h">
+    <ClInclude Include="Arc.h">
       <Filter>Header Files\Graph</Filter>
     </ClInclude>
   </ItemGroup>

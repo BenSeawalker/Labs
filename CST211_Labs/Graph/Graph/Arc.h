@@ -1,71 +1,68 @@
 /************************************************************************
 * Author:		Garrett Fleischer
-* Filename:		Vertex.h
+* Filename:		Arc.h
 * Date Created:	2/27/16
 * Modifications:
 *************************************************************************/
-#ifndef VERTEX_H
-#define VERTEX_H
-
-#include <list>
-using std::list;
+#ifndef ARC_H
+#define ARC_H
 
 namespace NSGraph
 {
 	// FORWARD CLASS DECLARATION
-	template<typename V, typename E> class Arc;
+	template<typename V, typename E> class Vertex;
 
 
 	/************************************************************************
-	* Class: Vertex
+	* Class: Arc
 	*
-	* Purpose: This class stores data and Arcs for use in a Graph
+	* Purpose: This class stores data, weight, and a Vertex destination for use in a Graph
 	*
 	* Manager functions:
-	* 	Vertex()
+	* 	Arc()
 	*
-	*	Vertex(const Vertex & copy)
-	*	operator = (const Vertex & copy)
+	*	Arc(const Arc & copy)
+	*	operator = (const Arc & copy)
 	*
-	*	~Vertex()
+	*	~Arc()
 	*
 	* Methods:
 	*
-	*	Data() : V &
+	*	Data() : E &
 	*
-	*	Processed() : bool &
+	*	Weight() : int &
 	*
-	*	Arcs() : list<Arc<V, E>> &
+	*	Destination() : Vertex<V, E> *&
 	*
 	*************************************************************************/
 	template<typename V, typename E>
-	class Vertex
+	class Arc
 	{
 	public:
 		// CTORS & DTOR
-		Vertex(const V & data);
-		Vertex(const Vertex<V, E> & copy);
+		Arc(const E & data, int weight, Vertex<V, E> * dest);
+		Arc(const Arc<V, E> & copy);
 
-		~Vertex();
+		~Arc();
 
 		// OPERATORS
-		Vertex<V, E> & operator=(const Vertex<V, E> & rhs);
-		bool operator==(const Vertex<V, E> & rhs) const;
+		Arc<V, E> & operator=(const Arc<V, E> & rhs);
+		bool operator==(const Arc<V, E> & rhs) const;
 
 		// GETTERS
-		V & Data();
-		const V & Data() const;
+		E & Data();
+		const E & Data() const;
 
-		bool & Processed();
-		const bool & Processed() const;
+		int & Weight();
+		const int & Weight() const;
 
-		list<Arc<V, E>> & Arcs();
-		const list<Arc<V, E>> & Arcs() const;
+		Vertex<V, E> *& Destination();
+		const Vertex<V, E> * Destination() const;
 
 	private:
-		list<Arc<V, E>> m_arcs;
-		V m_data;
-		bool m_processed;
+		E m_data;
+		int m_weight;
+		Vertex<V, E> * m_dest;
 	};
 
 
@@ -74,19 +71,19 @@ namespace NSGraph
 	//////
 
 	template<typename V, typename E>
-	Vertex<V, E>::Vertex(const V & data)
-		: m_data(data), m_processed(false)
+	Arc<V, E>::Arc(const E & data, int weight, Vertex<V, E> * dest)
+		: m_data(data), m_weight(weight), m_dest(dest)
 	{}
 
 	template<typename V, typename E>
-	Vertex<V, E>::Vertex(const Vertex<V, E> & copy)
-		: m_arcs(copy.m_arcs), m_data(copy.m_data), m_processed(copy.m_processed)
+	Arc<V, E>::Arc(const Arc<V, E> & copy)
+		: m_data(copy.m_data), m_weight(copy.m_weight), m_dest(copy.m_dest)
 	{}
 
 	template<typename V, typename E>
-	Vertex<V, E>::~Vertex()
+	Arc<V, E>::~Arc()
 	{
-		m_processed = false;
+		m_dest = nullptr;
 	}
 
 	//////
@@ -98,22 +95,22 @@ namespace NSGraph
 	//////
 
 	template<typename V, typename E>
-	Vertex<V, E> & Vertex<V, E>::operator=(const Vertex<V, E> & rhs)
+	Arc<V, E> & Arc<V, E>::operator=(const Arc<V, E> & rhs)
 	{
 		if (this != &rhs)
 		{
-			m_arcs = rhs.m_arcs;
 			m_data = rhs.m_data;
-			m_processed = rhs.m_processed;
+			m_weight = rhs.m_weight;
+			m_dest = rhs.m_dest;
 		}
 
 		return *this;
 	}
 
 	template<typename V, typename E>
-	bool Vertex<V, E>::operator==(const Vertex<V, E> & rhs) const
+	bool Arc<V, E>::operator==(const Arc<V, E> & rhs) const
 	{
-		return (m_arcs == rhs.m_arcs && m_data == rhs.m_data && m_processed == rhs.m_processed);
+		return (m_data == rhs.m_data && m_weight == rhs.m_weight && m_dest == rhs.m_dest);
 	}
 
 	//////
@@ -125,44 +122,47 @@ namespace NSGraph
 	//////
 
 	template<typename V, typename E>
-	V & Vertex<V, E>::Data()
+	E & Arc<V, E>::Data()
 	{
 		return m_data;
 	}
 
 	template<typename V, typename E>
-	const V & Vertex<V, E>::Data() const
+	const E & Arc<V, E>::Data() const
 	{
 		return m_data;
 	}
 
 	template<typename V, typename E>
-	bool & Vertex<V, E>::Processed()
+	int & Arc<V, E>::Weight()
 	{
-		return m_processed;
+		return m_weight;
 	}
 
 	template<typename V, typename E>
-	const bool & Vertex<V, E>::Processed() const
+	const int & Arc<V, E>::Weight() const
 	{
-		return m_processed;
+		return m_weight;
 	}
 
 	template<typename V, typename E>
-	list<Arc<V, E>> & Vertex<V, E>::Arcs()
+	Vertex<V, E>*& Arc<V, E>::Destination()
 	{
-		return m_arcs;
+		return m_dest;
 	}
 
 	template<typename V, typename E>
-	const list<Arc<V, E>> & Vertex<V, E>::Arcs() const
+	const Vertex<V, E>* Arc<V, E>::Destination() const
 	{
-		return m_arcs;
+		return m_dest;
 	}
 
 	//////
 	//	END GETTERS
 	///////////////////////////////////////////////////////////////
+
 }
 
-#endif // VERTEX_H
+#endif // ARC_H
+
+

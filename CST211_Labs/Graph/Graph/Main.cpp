@@ -46,9 +46,13 @@ using std::list;
 #include <vector>
 using std::vector;
 
+#include "Exception.h"
+
 #include "Graph.h"
 #include "Vertex.h"
-#include "GraphVertexIterator.h"
+#include "Arc.h"
+using namespace NSGraph;
+#define Arc NSGraph::Arc // To avoid collision with windows.h::Arc
 
 #define BUFFER_SIZE 1024
 #define CITY_SIZE 256
@@ -255,7 +259,7 @@ void BuildMatrix(const Graph<string, string> & graph, vector<const Vertex<string
 	for (size_t i = 0; i < vertices.size() - 1; ++i)
 	{
 		// Loop through all the Arcs of the "current" vertex  
-		list<Edge<string, string>>::const_iterator arc;
+		list<Arc<string, string>>::const_iterator arc;
 		for (arc = vertices[current]->Arcs().begin(); arc != vertices[current]->Arcs().end(); ++arc)
 		{
 			// If we haven't already processed the vertex, update its distance
@@ -334,7 +338,7 @@ void FindPath(const Graph<string, string> & graph, vector<string> & path, vector
 		// get the road between prev and dest
 		string prev = vertices[previous[destination]]->Data();
 		string dest = vertices[destination]->Data();
-		const Edge<string, string> * road = graph.FindArc(prev, dest);
+		const Arc<string, string> * road = graph.FindArc(prev, dest);
 		
 		// add the current destination
 		path.push_back(dest);

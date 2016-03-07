@@ -146,14 +146,10 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractIterator.h" />
-    <ClInclude Include="Edge.h" />
-    <ClInclude Include="BreadthFirstIterator.h" />
-    <ClInclude Include="GraphIterator.h" />
+    <ClInclude Include="Arc.h" />
     <ClInclude Include="crtdbg_new.h" />
     <ClInclude Include="Exception.h" />
     <ClInclude Include="Graph.h" />
-    <ClInclude Include="GraphVertexIterator.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
