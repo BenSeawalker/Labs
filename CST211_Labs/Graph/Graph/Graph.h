@@ -15,7 +15,7 @@ using std::stack;
 using std::queue;
 
 #include "Vertex.h"
-#include "Arc.h"
+#include "Edge.h"
 #include "Exception.h"
 
 template<typename V, typename E> class GraphIterator;
@@ -98,7 +98,7 @@ public:
 	// TYPEDEFS
 	typedef void(*Visit_t)(V & data);
 	//typedef list<Vertex<V, E>> vertices_t;
-	typedef list<Arc<V, E>> arcs_t;
+	typedef list<Edge<V, E>> arcs_t;
 
 	// CTORS & DTOR
 	Graph();
@@ -122,7 +122,7 @@ public:
 
 	const list<Vertex<V, E>> & Vertices() const;
 	const Vertex<V, E> * FindVertex(const V & data) const;
-	const Arc<V, E> * FindArc(const V & from, const V & to) const;
+	const Edge<V, E> * FindArc(const V & from, const V & to) const;
 
 	bool Contains(const V & data);
 
@@ -133,7 +133,7 @@ public:
 private:
 	// METHODS
 	Vertex<V, E> * FindVertex(const V & data);
-	Arc<V, E> * FindArc(Vertex<V, E> * v_from, Vertex<V, E> * v_to, const E & data);
+	Edge<V, E> * FindArc(Vertex<V, E> * v_from, Vertex<V, E> * v_to, const E & data);
 
 	void ProcessVertices(bool processed);
 
@@ -233,7 +233,7 @@ bool Graph<V, E>::DeleteVertex(const V & data)
 		arcs_t::iterator iter;
 		for (iter = found->Arcs().begin(); iter != found->Arcs().end(); ++iter)
 		{
-			Arc<V, E> * reverse_arc = FindArc(iter->Destination(), found, iter->Data());
+			Edge<V, E> * reverse_arc = FindArc(iter->Destination(), found, iter->Data());
 			iter->Destination()->Arcs().remove(*reverse_arc);
 		}
 
@@ -269,9 +269,9 @@ void Graph<V, E>::InsertArc(const V & from, const V & to, const E & data, int we
 	if (!v_from || !v_to)
 		throw Exception("Error inserting Arc! Vertex not found.");
 
-	// Arc must be bi-directional...
-	v_from->Arcs().push_back(Arc<V, E>(data, weight, v_to));
-	v_to->Arcs().push_back(Arc<V, E>(data, weight, v_from));
+	// Edge must be bi-directional...
+	v_from->Arcs().push_back(Edge<V, E>(data, weight, v_to));
+	v_to->Arcs().push_back(Edge<V, E>(data, weight, v_from));
 }
 
 
@@ -285,7 +285,7 @@ void Graph<V, E>::InsertArc(const V & from, const V & to, const E & data, int we
 *
 * Postcondition:
 *		Modifies:	from->m_arcs, to->m_arcs
-*		Throws:		Exception("Error deleting Arc! Vertex not found.")
+*		Throws:		Exception("Error deleting Edge! Vertex not found.")
 *		Returns:	TRUE if matching arcs are found
 *************************************************************************/
 template<typename V, typename E>
@@ -295,11 +295,11 @@ bool Graph<V, E>::DeleteArc(const V & from, const V & to, const E & data)
 	Vertex<V, E> * v_to = FindVertex(to);
 
 	if (!v_from || !v_to)
-		throw Exception("Error deleting Arc! Vertex not found.");
+		throw Exception("Error deleting Edge! Vertex not found.");
 
 	// Remove bi-directional arc between from and to vertices 
-	Arc<V, E> * arc_from = FindArc(v_from, v_to, data);
-	Arc<V, E> * arc_to = FindArc(v_to, v_from, data);
+	Edge<V, E> * arc_from = FindArc(v_from, v_to, data);
+	Edge<V, E> * arc_to = FindArc(v_to, v_from, data);
 	if (arc_from && arc_to)
 	{
 		v_from->Arcs().remove(*arc_from);
@@ -416,9 +416,9 @@ const Vertex<V, E> * Graph<V, E>::FindVertex(const V & data) const
 }
 
 template<typename V, typename E>
-const Arc<V, E>* Graph<V, E>::FindArc(const V & from, const V & to) const
+const Edge<V, E>* Graph<V, E>::FindArc(const V & from, const V & to) const
 {
-	const Arc<V, E> * found = nullptr;
+	const Edge<V, E> * found = nullptr;
 	const Vertex<V, E> * v_from = FindVertex(from);
 	const Vertex<V, E> * v_to = FindVertex(to);
 
@@ -504,12 +504,12 @@ Vertex<V, E> * Graph<V, E>::FindVertex(const V & data)
 * Postcondition:
 *		Modifies:	N/A
 *		Throws:		N/A
-*		Returns:	Pointer to found Arc or nullptr
+*		Returns:	Pointer to found Edge or nullptr
 *************************************************************************/
 template<typename V, typename E>
-Arc<V, E> * Graph<V, E>::FindArc(Vertex<V, E> * v_from, Vertex<V, E> * v_to, const E & data)
+Edge<V, E> * Graph<V, E>::FindArc(Vertex<V, E> * v_from, Vertex<V, E> * v_to, const E & data)
 {
-	Arc<V, E> * found = nullptr;
+	Edge<V, E> * found = nullptr;
 
 	arcs_t::iterator arc;
 	for (arc = v_from->Arcs().begin(); arc != v_from->Arcs().end() && !found; ++arc)

@@ -34,18 +34,18 @@ template<typename V, typename E> class Vertex;
 *
 *************************************************************************/
 template<typename V, typename E>
-class Arc
+class Edge
 {
 public:
 	// CTORS & DTOR
-	Arc(const E & data, int weight, Vertex<V, E> * dest);
-	Arc(const Arc<V, E> & copy);
+	Edge(const E & data, int weight, Vertex<V, E> * dest);
+	Edge(const Edge<V, E> & copy);
 
-	~Arc();
+	~Edge();
 
 	// OPERATORS
-	Arc<V, E> & operator=(const Arc<V, E> & rhs);
-	bool operator==(const Arc<V, E> & rhs) const;
+	Edge<V, E> & operator=(const Edge<V, E> & rhs);
+	bool operator==(const Edge<V, E> & rhs) const;
 
 	// GETTERS
 	E & Data();
@@ -69,17 +69,17 @@ private:
 //////
 
 template<typename V, typename E>
-Arc<V, E>::Arc(const E & data, int weight, Vertex<V, E> * dest)
+Edge<V, E>::Edge(const E & data, int weight, Vertex<V, E> * dest)
 	: m_data(data), m_weight(weight), m_dest(dest)
 {}
 
 template<typename V, typename E>
-Arc<V, E>::Arc(const Arc<V, E> & copy)
+Edge<V, E>::Edge(const Edge<V, E> & copy)
 	: m_data(copy.m_data), m_weight(copy.m_weight), m_dest(copy.m_dest)
 {}
 
 template<typename V, typename E>
-Arc<V, E>::~Arc()
+Edge<V, E>::~Edge()
 {
 	m_dest = nullptr;
 }
@@ -93,7 +93,7 @@ Arc<V, E>::~Arc()
 //////
 
 template<typename V, typename E>
-Arc<V, E> & Arc<V, E>::operator=(const Arc<V, E> & rhs)
+Edge<V, E> & Edge<V, E>::operator=(const Edge<V, E> & rhs)
 {
 	if (this != &rhs)
 	{
@@ -106,7 +106,7 @@ Arc<V, E> & Arc<V, E>::operator=(const Arc<V, E> & rhs)
 }
 
 template<typename V, typename E>
-bool Arc<V, E>::operator==(const Arc<V, E> & rhs) const
+bool Edge<V, E>::operator==(const Edge<V, E> & rhs) const
 {
 	return (m_data == rhs.m_data && m_weight == rhs.m_weight && m_dest == rhs.m_dest);
 }
@@ -120,37 +120,37 @@ bool Arc<V, E>::operator==(const Arc<V, E> & rhs) const
 //////
 
 template<typename V, typename E>
-E & Arc<V, E>::Data()
+E & Edge<V, E>::Data()
 {
 	return m_data;
 }
 
 template<typename V, typename E>
-const E & Arc<V, E>::Data() const
+const E & Edge<V, E>::Data() const
 {
 	return m_data;
 }
 
 template<typename V, typename E>
-int & Arc<V, E>::Weight()
+int & Edge<V, E>::Weight()
 {
 	return m_weight;
 }
 
 template<typename V, typename E>
-const int & Arc<V, E>::Weight() const
+const int & Edge<V, E>::Weight() const
 {
 	return m_weight;
 }
 
 template<typename V, typename E>
-Vertex<V, E>*& Arc<V, E>::Destination()
+Vertex<V, E>*& Edge<V, E>::Destination()
 {
 	return m_dest;
 }
 
 template<typename V, typename E>
-const Vertex<V, E>* Arc<V, E>::Destination() const
+const Vertex<V, E>* Edge<V, E>::Destination() const
 {
 	return m_dest;
 }

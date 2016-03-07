@@ -11,7 +11,7 @@
 using std::list;
 
 // FORWARD CLASS DECLARATION
-template<typename V, typename E> class Arc;
+template<typename V, typename E> class Edge;
 
 
 /************************************************************************
@@ -57,11 +57,11 @@ public:
 	bool & Processed();
 	const bool & Processed() const;
 
-	list<Arc<V, E>> & Arcs();
-	const list<Arc<V, E>> & Arcs() const;
+	list<Edge<V, E>> & Arcs();
+	const list<Edge<V, E>> & Arcs() const;
 
 private:
-	list<Arc<V, E>> m_arcs;
+	list<Edge<V, E>> m_arcs;
 	V m_data;
 	bool m_processed;
 };
@@ -147,13 +147,13 @@ const bool & Vertex<V, E>::Processed() const
 }
 
 template<typename V, typename E>
-list<Arc<V, E>> & Vertex<V, E>::Arcs()
+list<Edge<V, E>> & Vertex<V, E>::Arcs()
 {
 	return m_arcs;
 }
 
 template<typename V, typename E>
-const list<Arc<V, E>> & Vertex<V, E>::Arcs() const
+const list<Edge<V, E>> & Vertex<V, E>::Arcs() const
 {
 	return m_arcs;
 }
