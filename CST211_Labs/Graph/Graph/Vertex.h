@@ -57,7 +57,7 @@ namespace NSGraph
 		const V & Data() const;
 
 		bool & Processed();
-		const bool & Processed() const;
+		bool & Processed() const; // m_processed is mutable
 
 		list<Arc<V, E>> & Arcs();
 		const list<Arc<V, E>> & Arcs() const;
@@ -65,7 +65,7 @@ namespace NSGraph
 	private:
 		list<Arc<V, E>> m_arcs;
 		V m_data;
-		bool m_processed;
+		mutable bool m_processed; // Mutable so it can be changed in a const vertex
 	};
 
 
@@ -143,7 +143,7 @@ namespace NSGraph
 	}
 
 	template<typename V, typename E>
-	const bool & Vertex<V, E>::Processed() const
+	bool & Vertex<V, E>::Processed() const
 	{
 		return m_processed;
 	}

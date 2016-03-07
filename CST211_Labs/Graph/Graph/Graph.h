@@ -122,6 +122,8 @@ namespace NSGraph
 		const Vertex<V, E> * FindVertex(const V & data) const;
 		const Arc<V, E> * FindArc(const V & from, const V & to) const;
 
+		void ProcessVertices(bool processed) const;
+
 		bool Contains(const V & data);
 
 		bool IsEmpty() const;
@@ -133,7 +135,7 @@ namespace NSGraph
 		Vertex<V, E> * FindVertex(const V & data);
 		Arc<V, E> * FindArc(Vertex<V, E> * v_from, Vertex<V, E> * v_to, const E & data);
 
-		void ProcessVertices(bool processed);
+		
 
 		void DeepCopy(const Graph<V, E> & copy);
 		const VertexCopy<V, E> * FindVertexCopy(const list<VertexCopy<V, E>> & copy_list, const Vertex<V, E> * original);
@@ -531,9 +533,9 @@ namespace NSGraph
 	*		Returns:	N/A
 	*************************************************************************/
 	template<typename V, typename E>
-	void Graph<V, E>::ProcessVertices(bool processed)
+	void Graph<V, E>::ProcessVertices(bool processed) const
 	{
-		list<Vertex<V, E>>::iterator vertex;
+		list<Vertex<V, E>>::const_iterator vertex;
 		for (vertex = m_vertices.begin(); vertex != m_vertices.end(); ++vertex)
 			vertex->Processed() = processed;
 	}

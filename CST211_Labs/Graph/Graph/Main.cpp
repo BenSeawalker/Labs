@@ -280,17 +280,18 @@ void BuildMatrix(const Graph<string, string> & graph, vector<const Vertex<string
 			}
 		}
 
-		// Set the processed state to true for this vertex (requires hideous const cast...)
+		// Set the processed state to true for this vertex
 		// And set "current" to the next lowest vertex
-		const_cast<Vertex<string, string> *>(vertices[current])->Processed() = true;
+		vertices[current]->Processed() = true;
 		current = FindLowestIndex(vertices, distance, time);
 		if(current == -1)
 			throw Exception("Error! Destination unreachable...");
 	}
 
 	// reset processed values...
-	for (size_t i = 0; i < vertices.size(); ++i)
-		const_cast<Vertex<string, string> *>(vertices[i])->Processed() = false;
+	graph.ProcessVertices(false);
+	/*for (size_t i = 0; i < vertices.size(); ++i)
+		vertices[i]->Processed() = false;*/
 }
 
 
