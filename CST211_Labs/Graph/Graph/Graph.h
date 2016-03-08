@@ -95,7 +95,8 @@ namespace NSGraph
 	public:
 		// TYPEDEFS
 		typedef void(*Visit_t)(V & data);
-		//typedef list<Vertex<V, E>> vertices_t;
+		typedef void(*CVisit_t)(const V & data);
+		typedef list<Vertex<V, E>> vertices_t;
 		typedef list<Arc<V, E>> arcs_t;
 
 		// CTORS & DTOR
@@ -114,11 +115,12 @@ namespace NSGraph
 		void InsertArc(const V & from, const V & to, const E & data, int weight = 0);
 		bool DeleteArc(const V & from, const V & to, const E & data);
 
-		// No const versions as "processed" needs to be toggled
 		void BreadthFirst(Visit_t visit);
+		void BreadthFirst(CVisit_t visit) const;
 		void DepthFirst(Visit_t visit);
+		void DepthFirst(CVisit_t visit) const;
 
-		const list<Vertex<V, E>> & Vertices() const;
+		const vertices_t & Vertices() const;
 		const Vertex<V, E> * FindVertex(const V & data) const;
 		const Arc<V, E> * FindArc(const V & from, const V & to) const;
 
@@ -135,13 +137,11 @@ namespace NSGraph
 		Vertex<V, E> * FindVertex(const V & data);
 		Arc<V, E> * FindArc(Vertex<V, E> * v_from, Vertex<V, E> * v_to, const E & data);
 
-		
-
 		void DeepCopy(const Graph<V, E> & copy);
 		const VertexCopy<V, E> * FindVertexCopy(const list<VertexCopy<V, E>> & copy_list, const Vertex<V, E> * original);
 
 		// MEMBERS
-		list<Vertex<V, E>> m_vertices;
+		vertices_t m_vertices;
 	};
 
 
@@ -353,6 +353,35 @@ namespace NSGraph
 		ProcessVertices(false);
 	}
 
+	template<typename V, typename E>
+	void Graph<V, E>::BreadthFirst(CVisit_t visit) const
+	{
+		queue<Vertex<V, E> *> v_queue;
+		v_queue.push(&m_vertices.front());
+		m_vertices.front().Processed() = true;
+
+		while (v_queue.size() > 0)
+		{
+			Vertex<V, E> * vertex = v_queue.front();
+			v_queue.pop();
+			visit(vertex->Data());
+
+			// Add connected destinations to queue, and mark them as processed
+			arcs_t::iterator arc;
+			for (arc = vertex->Arcs().begin(); arc != vertex->Arcs().end(); ++arc)
+			{
+				if (!arc->Destination()->Processed())
+				{
+					v_queue.push(arc->Destination());
+					arc->Destination()->Processed() = true;
+				}
+			}
+		}
+
+		// Mark all vertices as unprocessed
+		ProcessVertices(false);
+	}
+
 	/************************************************************************
 	* Purpose: Allow the consumer to iterate over the graph in a depth-first manner
 	*
@@ -395,7 +424,38 @@ namespace NSGraph
 	}
 
 	template<typename V, typename E>
-	const list<Vertex<V, E>> & Graph<V, E>::Vertices() const
+	void Graph<V, E>::DepthFirst(CVisit_t visit) const
+	{
+		stack<Vertex<V, E> *> v_stack;
+		v_stack.push(&m_vertices.front());
+		m_vertices.front().Processed() = true;
+
+		while (v_stack.size() > 0)
+		{
+			Vertex<V, E> * vertex = v_stack.top();
+			v_stack.pop();
+			visit(vertex->Data());
+
+			// Add connected destinations to stack, and mark them as processed
+			arcs_t::iterator arc;
+			for (arc = vertex->Arcs().begin(); arc != vertex->Arcs().end(); ++arc)
+			{
+				if (!arc->Destination()->Processed())
+				{
+					v_stack.push(arc->Destination());
+					arc->Destination()->Processed() = true;
+				}
+			}
+		}
+
+		// Mark all vertices as unprocessed
+		ProcessVertices(false);
+	}
+
+	// * MISC * //
+
+	template<typename V, typename E>
+	const typename Graph<V, E>::vertices_t & Graph<V, E>::Vertices() const
 	{
 		return m_vertices;
 	}
@@ -405,7 +465,7 @@ namespace NSGraph
 	{
 		const Vertex<V, E> * found = nullptr;
 
-		list<Vertex<V, E>>::const_iterator vertex;
+		vertices_t::const_iterator vertex;
 		for (vertex = m_vertices.begin(); !found && vertex != m_vertices.end(); ++vertex)
 		{
 			if (vertex->Data() == data)
@@ -432,15 +492,12 @@ namespace NSGraph
 		return found;
 	}
 
-
-	// * MISC * //
-
 	template<typename V, typename E>
 	bool Graph<V, E>::Contains(const V & data)
 	{
 		bool found = false;
 
-		list<Vertex<V, E>>::iterator vertex;
+		vertices_t::iterator vertex;
 		for (vertex = m_vertices.begin(); !found && vertex != m_vertices.end(); ++vertex)
 			found = (vertex->Data() == data);
 
@@ -483,7 +540,7 @@ namespace NSGraph
 	{
 		Vertex<V, E> * found = nullptr;
 
-		list<Vertex<V, E>>::iterator vertex;
+		vertices_t::iterator vertex;
 		for (vertex = m_vertices.begin(); vertex != m_vertices.end() && !found; ++vertex)
 		{
 			if (vertex->Data() == data)
@@ -535,9 +592,9 @@ namespace NSGraph
 	template<typename V, typename E>
 	void Graph<V, E>::ProcessVertices(bool processed) const
 	{
-		list<Vertex<V, E>>::const_iterator vertex;
+		vertices_t::const_iterator vertex;
 		for (vertex = m_vertices.begin(); vertex != m_vertices.end(); ++vertex)
-			vertex->Processed() = processed;
+			vertex->Processed() = processed; // Vertex::m_processed is mutable, so safe in a const function
 	}
 
 	/************************************************************************
@@ -558,7 +615,7 @@ namespace NSGraph
 
 		// COPY ALL VERTICES INTO THIS LIST
 		// PUSH POINTERS TO ORIGINAL AND COPIED VERTEX'S INTO @copy_list
-		list<Vertex<V, E>>::const_iterator copy_vertex;
+		vertices_t::const_iterator copy_vertex;
 		for (copy_vertex = copy.m_vertices.begin(); copy_vertex != copy.m_vertices.end(); ++copy_vertex)
 		{
 			m_vertices.push_back(Vertex<V, E>(*copy_vertex));
@@ -566,7 +623,7 @@ namespace NSGraph
 		}
 
 		// UPDATE ALL COPIED ARC'S DESTINATIONS WITH THE CORRESPONDING COPIED VERTEX
-		list<Vertex<V, E>>::iterator vertex;
+		vertices_t::iterator vertex;
 		for (vertex = m_vertices.begin(); vertex != m_vertices.end(); ++vertex)
 		{
 			arcs_t::iterator arc;
