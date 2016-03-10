@@ -49,10 +49,15 @@ struct Book
 };
 
 
+void TestCanonical(const HashTable<string, Book> & table);
+void TestHash(HashTable<string, Book> & table);
+void TestIterators(HashTable<string, Book> & table);
+
 int AsciiHash(const string & key);
 int BetterAsciiHash(const string & key);
 
 void Display(Book & book);
+void CDisplay(const Book & book);
 
 
 
@@ -60,45 +65,118 @@ int main()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	HashTable<long, Book> table(10);//, &BetterAsciiHash);
+	cout << "\n-------------------------- TEST INSERT --------------------------\n";
+	cout << "\n========================== HashTable(10, &AsciiHash) ==========================\n";
+	HashTable<string, Book> table(10, &AsciiHash);
 
 	Book temp = { "C++: An Active Learning Approach", "Randal Albert", 635 };
-	table.Insert(0763757233, temp);
+	table.Insert("0763757233", temp);
 
 	Book temp1 = { "Rodeo for Dummies", "Calvin Caldwell", 1 };
-	table.Insert(7063757233, temp1);
+	table.Insert("7063757233", temp1);
 
 	Book temp3 = { "And That n There", "Ralph Carestia", 1 };
-	table.Insert(7063757234, temp3);
+	table.Insert("7063757234", temp3);
 
-	table.Resize(100);
+	TestCanonical(table);
+	TestHash(table);
+	TestIterators(table);
 
-	table.Resize(3);
-	//table.SetHash(&AsciiHash);
+	cout << endl << endl << endl;
 
-	cout << table[0763757233].m_title << endl;
-	cout << table[7063757233].m_title << endl;
-	cout << table[7063757234].m_title << endl << endl;
-
-	table.Delete(0763757233);
-
-	HashTableValueIterator<long, Book> valueIter(table);
-	for (valueIter.Reset(); !valueIter.IsDone(); valueIter.MoveNext())
-		cout << valueIter.GetCurrent().m_author << endl;
-
-	cout << endl;
-
-	HashTableKeyIterator<long, Book> keyIter(table);
-	for (keyIter.Reset(); !keyIter.IsDone(); keyIter.MoveNext())
-		cout << keyIter.GetCurrent() << endl;
-
-	cout << endl;
-
-	table.Traverse(&Display);
-
-	cout << endl;
+	system("pause");
 
 	return 0;
+}
+
+
+
+
+void TestCanonical(const HashTable<string, Book> & table)
+{
+	cout << "\n-------------------------- TEST CANONICAL --------------------------\n";
+	cout << "\n\n========================== Copy ctor ==========================\n";
+	HashTable<string, Book> cp(table);
+	cout << "Original: ";
+	table.Traverse(&CDisplay);
+	cout << "\nCopy:     ";
+	cp.Traverse(&Display);
+
+	cout << "\n\n========================== operator=() ==========================\n";
+	HashTable<string, Book> opeq;
+	opeq = table;
+	cout << "Original: ";
+	table.Traverse(&CDisplay);
+	cout << "\nCopy:     ";
+	opeq.Traverse(&Display);
+
+	cout << "\n\n========================== Modify copies ==========================\n";
+	cout << "cp.Insert(9788460767923, Moby Dick)\n";
+	cp.Insert("9788460767923", { "Moby Dick", "Herman Melville", 927 });
+	cout << "opeq.Delete(7063757234)\n";
+	opeq.Delete("7063757234");
+	cout << "\nOriginal: ";
+	table.Traverse(&CDisplay);
+	cout << "\nCopies:   ";
+	cp.Traverse(&Display);
+	cout << "\n          ";
+	opeq.Traverse(&Display);
+
+	cout << "\n\n========================== operator[] ==========================\n";
+	cout << "\nconst table[7063757233]: " << table["7063757233"].m_title;
+	cout << "\n\ncp[9788460767923]: " << cp["9788460767923"].m_title;
+}
+
+void TestHash(HashTable<string, Book>& table)
+{
+	cout << "\n\n\n-------------------------- TEST HASH MODIFIERS --------------------------\n";
+
+	cout << "\n\n========================== Resize(100) ==========================\n";
+	table.Resize(100);
+	table.Traverse(&Display);
+	cout << "\n\n========================== Resize(2) ==========================\n";
+	table.Resize(2);
+	table.Traverse(&Display);
+
+	cout << "\n\n========================== Resize(10) ==========================\n";
+	table.Resize(10);
+	table.Traverse(&Display);
+
+	cout << "\n\n========================== SetHash(&BetterAsciiHash) ==========================\n";
+	table.SetHash(&BetterAsciiHash);
+	table.Traverse(&Display);
+
+	cout << "\n\n\n========================== Test InternalHash() ==========================\n";
+	cout << "HashTable<int, string>(9)\n";
+	HashTable<int, string> itable(9);
+	cout << "Insert(12345, Hello)\nInsert(54321, World)\nInsert(67890, Goodbye)\nInsert(1054673, Earth)\n\n";
+	itable.Insert(12345, "Hello");
+	itable.Insert(54321, "World");
+	itable.Insert(67890, "Goodbye");
+	itable.Insert(1054673, "Earth");
+	HashTableValueIterator<int, string> value(itable);
+	for (value.Reset(); !value.IsDone(); value.MoveNext())
+		cout << value.GetCurrent() << ", ";
+}
+
+void TestIterators(HashTable<string, Book>& table)
+{
+	cout << "\n\n\n-------------------------- TEST ITERATORS --------------------------\n";
+
+	cout << "\n\n========================== PAIR ==========================\n";
+	HashTablePairIterator<string, Book> pair_iter(table);
+	for (pair_iter.Reset(); !pair_iter.IsDone(); pair_iter.MoveNext())
+		cout << pair_iter.GetCurrent().first << " : " << pair_iter.GetCurrent().second.m_author << ", ";
+
+	cout << "\n\n========================== KEY ==========================\n";
+	HashTableKeyIterator<string, Book> key(table);
+	for (key.Reset(); !key.IsDone(); key.MoveNext())
+		cout << key.GetCurrent() << ", ";
+
+	cout << "\n\n========================== VALUE ==========================\n";
+	HashTableValueIterator<string, Book> value(table);
+	for (value.Reset(); !value.IsDone(); value.MoveNext())
+		cout << value.GetCurrent().m_title << ", ";
 }
 
 int AsciiHash(const string & key)
@@ -114,12 +192,17 @@ int BetterAsciiHash(const string & key)
 {
 	int hash = 5381;
 	for (size_t i = 0; i < key.length(); ++i)
-		hash += ((hash << 5) + key[i]);
+		hash += ((hash << 5) ^ key[i] ^ (i + 1));
 
 	return hash;
 }
 
 void Display(Book & book)
 {
-	cout << book.m_pages << endl;
+	cout << book.m_author << ", ";
+}
+
+void CDisplay(const Book & book)
+{
+	cout << book.m_author << ", ";
 }

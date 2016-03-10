@@ -53,6 +53,7 @@ public:
 	// TYPEDEFS
 	typedef int(*hash_t)(const K & key);
 	typedef void(*visit_t)(V & value);
+	typedef void(*cvisit_t)(const V & value);
 	typedef list<pair<K, V>> list_t;
 	typedef vector<list_t> table_t;
 
@@ -75,8 +76,8 @@ public:
 
 	void Resize(int size);
 
-	// unnecessary traverse since iterators...
 	void Traverse(visit_t Visit);
+	void Traverse(cvisit_t Visit) const;
 
 private:
 	// METHODS
@@ -109,7 +110,7 @@ HashTable<K, V>::HashTable(int size, hash_t hash)
 
 template<typename K, typename V>
 HashTable<K, V>::HashTable(const HashTable & copy)
-	: m_table(copy.m_table), Hash(copy.Hash)
+	: m_table(copy.m_table), m_size(copy.m_size), Hash(copy.Hash)
 {}
 
 template<typename K, typename V>
@@ -168,7 +169,7 @@ const V & HashTable<K, V>::operator[](const K & key) const
 	if (m_size == 0)
 		throw Exception("Error! Cannot access element in table of size zero!");
 
-	pair<K, V> * found = FindPair(key);
+	const pair<K, V> * found = FindPair(key);
 
 	if (!found)
 		throw Exception("Error! Key not found!");
@@ -289,6 +290,17 @@ void HashTable<K, V>::Traverse(visit_t Visit)
 		Visit(vi.GetCurrent());
 }
 
+template<typename K, typename V>
+void HashTable<K, V>::Traverse(cvisit_t Visit) const
+{
+	for (int i = 0; i < m_size; ++i)
+	{
+		list_t::const_iterator iter;
+		for (iter = m_table[i].begin(); iter != m_table[i].end(); ++iter)
+			Visit(iter->second);
+	}
+}
+
 //////
 //	END PUBLIC METHODS
 ///////////////////////////////////////////////////////////////
@@ -391,9 +403,9 @@ int HashTable<K, V>::InternalHash(const K & key)
 	for (i = 0; i < sizeof(K); ++i)
 	{
 		//hash = ((hash << 6) ^ (hash >> 26) ^ data[i]);
-		hash += ((hash << 6) + data[i]);
-		hash ^= (hash >> 8);
-		hash -= ((hash << 3) * (i + 1));
+		hash += ((hash << 4) + data[i]);
+		hash ^= (hash >> 3);
+		hash -= ((hash << 1) * (i + 1));
 	}
 
 	return hash;

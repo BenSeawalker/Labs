@@ -12,6 +12,7 @@
 #include "HashTablePairIterator.h"
 #include "Exception.h"
 
+// NOTE: Cannot simply inherit PairIterator due to return type of GetCurrent()
 template<typename K, typename V>
 class HashTableValueIterator : AbstractIterator<V>
 {
