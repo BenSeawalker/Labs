@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		HashTableKeyIterator.h
+* Date Created:	3/5/16
+* Modifications:
+*************************************************************************/
 #ifndef HASHTABLEKEYITERATOR_H
 #define HASHTABLEKEYITERATOR_H
 
@@ -32,6 +38,10 @@ private:
 };
 
 
+///////////////////////////////////////////////////////////////
+//	CTORS & DTOR
+//////
+
 template<typename K, typename V>
 HashTableKeyIterator<K, V>::HashTableKeyIterator(HashTable<K, V> & table)
 	: m_pairIter(table)
@@ -46,6 +56,14 @@ template<typename K, typename V>
 HashTableKeyIterator<K, V>::~HashTableKeyIterator()
 {}
 
+//////
+//	END CTORS & DTOR
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	OPERATORS
+//////
+
 template<typename K, typename V>
 HashTableKeyIterator<K, V>& HashTableKeyIterator<K, V>::operator=(const HashTableKeyIterator<K, V>& rhs)
 {
@@ -56,6 +74,14 @@ HashTableKeyIterator<K, V>& HashTableKeyIterator<K, V>::operator=(const HashTabl
 
 	return *this;
 }
+
+//////
+//	END OPERATORS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PUBLIC METHODS
+//////
 
 template<typename K, typename V>
 void HashTableKeyIterator<K, V>::Reset()
@@ -80,5 +106,10 @@ bool HashTableKeyIterator<K, V>::IsDone() const
 {
 	return m_pairIter.IsDone();
 }
+
+
+//////
+//	END PUBLIC METHODS
+///////////////////////////////////////////////////////////////
 
 #endif // HASHTABLEKEYITERATOR_H

@@ -1,3 +1,9 @@
+/************************************************************************
+* Author:		Garrett Fleischer
+* Filename:		HashTablePairIterator.h
+* Date Created:	3/5/16
+* Modifications:
+*************************************************************************/
 #ifndef HASHTABLEPAIRITERATOR_H
 #define HASHTABLEPAIRITERATOR_H
 
@@ -34,6 +40,10 @@ private:
 };
 
 
+///////////////////////////////////////////////////////////////
+//	CTORS & DTOR
+//////
+
 template<typename K, typename V>
 HashTablePairIterator<K, V>::HashTablePairIterator(HashTable<K, V> & table)
 	: m_hashTable(&table)
@@ -51,6 +61,14 @@ HashTablePairIterator<K, V>::~HashTablePairIterator()
 	m_hashTable = nullptr;
 }
 
+//////
+//	END CTORS & DTOR
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	OPERATORS
+//////
+
 template<typename K, typename V>
 HashTablePairIterator<K, V> & HashTablePairIterator<K, V>::operator=(const HashTablePairIterator<K, V> & rhs)
 {
@@ -63,6 +81,14 @@ HashTablePairIterator<K, V> & HashTablePairIterator<K, V>::operator=(const HashT
 
 	return *this;
 }
+
+//////
+//	END OPERATORS
+///////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////
+//	PUBLIC METHODS
+//////
 
 template<typename K, typename V>
 void HashTablePairIterator<K, V>::Reset()
@@ -111,6 +137,10 @@ bool HashTablePairIterator<K, V>::IsDone() const
 {
 	return (m_vector == m_hashTable->m_table.end());
 }
+
+//////
+//	END PUBLIC METHODS
+///////////////////////////////////////////////////////////////
 
 #endif // HASHTABLEPAIRITERATOR_H
 
