@@ -146,8 +146,9 @@ HashTable<K, V> & HashTable<K, V>::operator=(const HashTable<K, V> & rhs)
 *
 * Postcondition:
 *		Modifies:	N/A
-*		Throws:		N/A
-*		Returns:	N/A
+*		Throws:		Exception("Error! Cannot access element in table of size zero!")
+*					Exception("Error! Key not found!")
+*		Returns:	Reference to the value associated with the given key
 *************************************************************************/
 template<typename K, typename V>
 V & HashTable<K, V>::operator[](const K & key)
@@ -192,7 +193,8 @@ const V & HashTable<K, V>::operator[](const K & key) const
 *
 * Postcondition:
 *		Modifies:	m_table
-*		Throws:		N/A
+*		Throws:		Exception("Error! Cannot insert into table of size zero!")
+*					Exception("Error! Key already exists!")
 *		Returns:	N/A
 *************************************************************************/
 template<typename K, typename V>
@@ -200,6 +202,9 @@ void HashTable<K, V>::Insert(K key, V value)
 {
 	if (m_size == 0)
 		throw Exception("Error! Cannot insert into table of size zero!");
+
+	if (FindPair(key))
+		throw Exception("Error! Key already exists!");
 
 	int index = Index(key);
 	m_table[index].push_back(pair<K, V>(key, value));
@@ -213,7 +218,8 @@ void HashTable<K, V>::Insert(K key, V value)
 *
 * Postcondition:
 *		Modifies:	m_table[key]
-*		Throws:		N/A
+*		Throws:		Exception("Error! Cannot delete element from a table of size zero!")
+*					Exception("Error! Key not found!")
 *		Returns:	N/A
 *************************************************************************/
 template<typename K, typename V>
@@ -223,7 +229,6 @@ void HashTable<K, V>::Delete(K key)
 		throw Exception("Error! Cannot delete element from a table of size zero!");
 
 	const pair<K, V> * found = FindPair(key);
-
 	if (!found)
 		throw Exception("Error! Key not found!");
 
@@ -257,7 +262,7 @@ void HashTable<K, V>::SetHash(hash_t hash)
 *
 * Postcondition:
 *		Modifies:	m_size, m_table
-*		Throws:		N/A
+*		Throws:		Exception("Error! Cannot set size to a negative value!")
 *		Returns:	N/A
 *************************************************************************/
 template<typename K, typename V>
