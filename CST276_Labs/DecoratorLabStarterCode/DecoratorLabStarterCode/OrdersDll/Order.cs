@@ -29,9 +29,8 @@ namespace OrdersDll
             double total = 0;
             
             foreach (OrderItem item in items)
-            {
                 total += item.Cost;
-            }
+
             return total;
         }
     }
